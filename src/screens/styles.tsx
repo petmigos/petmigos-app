@@ -9,19 +9,6 @@ export default StyleSheet.create({
         justifyContent: 'center',
     },
 
-    logo_img: {
-        marginTop: 100,
-        marginBottom: 10,
-    },
-
-    titleText: {
-        color: '#000000',
-        // fontFamily: 'Ubuntu-Bold',
-        fontWeight: "bold",
-        fontSize: 48,
-
-    },
-
     middle_screen: {
         width: 300,
     },

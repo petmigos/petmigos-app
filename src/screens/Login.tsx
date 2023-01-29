@@ -1,19 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
-import Logo from "../../assets/logo.svg";
 import { Linking } from 'react-native';
 import styles from './styles';
+import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 
 export default function App() {
 
     return (
         <View style={styles.container}>
 
-            <Logo style={styles.logo_img} />
-            <Text style={styles.titleText}>
-                Login
-            </Text>
-
+            <TopInitScreen title="Login"/>
             <View style={styles.middle_screen}>
 
                 <TextInput style={styles.input_box}
