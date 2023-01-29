@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import {TouchableOpacity, Text, TextInput, View} from 'react-native';
-import Logo from "./assets/logo.svg";
+import { TouchableOpacity, Text, TextInput, View } from 'react-native';
+import Logo from "../../assets/logo.svg";
 import { Linking } from 'react-native';
 import styles from './styles';
 
@@ -28,14 +28,19 @@ export default function Cadastro() {
                 </TextInput>
                 <TouchableOpacity style={styles.acessing_button}>
                     <Text style={styles.getin_text}>
-                        CADASTRAR
+                        CADASTRO
                     </Text>
                 </TouchableOpacity>
-                <Text style={styles.privacy_text}>
+                <Text style={styles.bottom_text}>
                     Ao se cadastrar você concorda com nossos
-                    <Text style={styles.privacy_text_link} onPress={() => Linking.openURL('https://google.com')}> termos de uso </Text>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://google.com')}>
+                        <Text style={styles.privacy_text_link} > termos de uso </Text>
+                        
+                    </TouchableOpacity>
                     e
-                    <Text style={styles.privacy_text_link} onPress={() => Linking.openURL('https://youtube.com')}> política de privacidade</Text>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://youtube.com')}>
+                        <Text style={styles.privacy_text_link}> política de privacidade</Text>
+                    </TouchableOpacity>
                 </Text>
             </View>
 

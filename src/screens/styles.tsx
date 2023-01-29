@@ -1,22 +1,18 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 
 export default StyleSheet.create({
-    
+
     container: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
+        flex: 0,
         alignItems: 'center',
         justifyContent: 'center',
-    }
-
-    ,
+    },
 
     logo_img: {
+        marginTop: 100,
         marginBottom: 10,
-    }
-
-    ,
+    },
 
     titleText: {
         color: '#000000',
@@ -24,16 +20,11 @@ export default StyleSheet.create({
         fontWeight: "bold",
         fontSize: 48,
 
-    }
-
-    ,
+    },
 
     middle_screen: {
-        backgroundColor: '#FFFFFF',
         width: 300,
-    }
-
-    ,
+    },
 
     input_box: {
         height: 57,
@@ -45,9 +36,8 @@ export default StyleSheet.create({
         opacity: 0.5,
         fontSize: 18,
         borderColor: '#fff',
-    }
+    },
 
-    ,
     acessing_button: {
         backgroundColor: '#915E36',
         height: 56,
@@ -57,37 +47,72 @@ export default StyleSheet.create({
         textAlign: 'center',
         marginTop: 30,
         borderRadius: 8,
-    }
-
-    ,
-
+    },
 
     getin_text: {
         fontSize: 18,
         fontWeight: "bold",
         top: 15,
         color: '#FFFFFF'
-    }
-
-    ,
+    },
 
     privacy_text_link: {
         color: '#A04D0B',
+        fontSize: 12,
         textDecorationLine: "underline",
-    }
+    },
 
-    ,
-
-    privacy_text: {
+    bottom_text: {
         color: '#000000',
         // fontFamily: 'Ubuntu-Regular',
         fontStyle: 'normal',
         paddingTop: 10,
         textAlign: 'center',
         fontSize: 12,
-    }
+    },
 
-    ,
+    forgot_pass_text: {
+        color: '#000000',
+        // fontFamily: 'Ubuntu_400Regular',
+        fontStyle: 'normal',
+        padding: 10,
+        fontSize: 14,
+        opacity: 0.5,
+        textAlign: 'center'
+    },
+
+    googlebutton: {
+        flex: 0,
+        width: null,
+        resizeMode: 'contain',
+
+    },
+
+    dont_have_account_text: {
+        color: '#000000',
+        // fontFamily: 'Ubuntu_400Regular',
+        fontStyle: 'normal',
+        top: 20.5,
+        fontSize: 14,
+        left: -45,
+    },
+
+    sign_up_button:
+    {
+        border: 'none',
+        style: 'transparent',
+        color: 'white',
+        top: 1,
+        left: 70,
+    },
+
+    sign_up_text:
+    {
+        color: 'black',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+        fontSize: 14,
+    },
 
 
 });
