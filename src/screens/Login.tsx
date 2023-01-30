@@ -5,7 +5,7 @@ import { Linking } from 'react-native';
 import styles from './styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 
-export default function Cadastro() {
+export default function Login() {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
@@ -13,7 +13,7 @@ export default function Cadastro() {
     //Função responsável pelo envio de dados ao backend
     async function signIn() {
         // Envio para o IP local
-        let reqs = await fetch('http://192.168.0.6:3000/acess', {
+        let reqs = await fetch('http://192.168.0.86:19000/acess', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
