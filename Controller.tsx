@@ -18,8 +18,8 @@ app.post('/acess', async (req, res) => {
 // Cadastro Route
 app.post('/register', async(req, res)=>{
     console.log(req.body.nameUser);
-    console.log(req.body.passwordUser);
     console.log(req.body.emailUser);
+    console.log(req.body.passwordUser);
 });
 
 let port=process.env.PORT || 3000;

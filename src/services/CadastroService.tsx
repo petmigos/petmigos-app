@@ -1,7 +1,8 @@
 export default class CadastroService {
-    create(username: string, useremail: string, userpassword: string): void{
 
-        let reqs = fetch('http://192.168.0.6:3000/register', {
+    create(username: string, useremail: string, userpassword: string): void {
+
+        let reqs = fetch('http://192.168.0.86:3333/cadastro', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -12,7 +13,8 @@ export default class CadastroService {
                 emailUser: useremail,
                 passwordUser: userpassword,
             })
-        })
+        }).then(resp => console.log(resp))
+        .catch(error => console.log(error))
 
     }
 

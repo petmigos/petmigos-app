@@ -7,6 +7,7 @@ import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import LoginService from '../services/LoginService';
 import Login from '../use_cases/LoginUC';
 import React from 'react';
+import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 
 var loginServ = new LoginService();
 var login = new Login(loginServ);
@@ -16,10 +17,9 @@ export default function LoginScreen() {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-
+    const [showMessageError, setShowMessageError] = useState(false);
 
     //Função responsável pelo envio de dados ao backend
-
     function SendData() {
          login.execute(username, password)
     }
@@ -38,6 +38,7 @@ export default function LoginScreen() {
                     placeholder="Digite sua senha"
                     onChangeText={(text) => setPassword(text)}>
                 </TextInput>
+                {showMessageError && <ValidationMessage error_text='Erro!'/> }
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
                         ENTRAR

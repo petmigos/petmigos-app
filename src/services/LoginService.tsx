@@ -1,7 +1,7 @@
 export default class LoginService {
     login(user: string, pass: string): void{
 
-        let reqs = fetch('http://192.168.0.6:3000/acess', {
+        let reqs = fetch('http://192.168.0.86:3333/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
