@@ -7,6 +7,7 @@ import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import LoginService from '../services/LoginService';
 import Login from '../use_cases/LoginUC';
 import { useNavigation } from '@react-navigation/native';
+import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 
 var loginServ = new LoginService();
 var login = new Login(loginServ);
@@ -16,11 +17,11 @@ export default function LoginScreen() {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const [showMessageError, setShowMessageError] = useState(false);    
     const navigation = useNavigation();
 
 
     //Função responsável pelo envio de dados ao backend
-
     function SendData() {
          login.execute(username, password)
     }
@@ -28,17 +29,18 @@ export default function LoginScreen() {
     return (
         <View style={styles.container}>
 
-            <TopInitScreen title="Login"/>
+            <TopInitScreen title="Login" />
             <View style={styles.middle_screen}>
 
                 <TextInput style={styles.input_box}
                     placeholder="Email ou Nome de Usuário"
-                    onChangeText={(text)=>setUsername(text)}>
+                    onChangeText={(text) => setUsername(text)}>
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha"
-                    onChangeText={(text)=>setPassword(text)}>
+                    onChangeText={(text) => setPassword(text)}>
                 </TextInput>
+                {showMessageError && <ValidationMessage error_text='Erro!'/> }
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
                         ENTRAR
@@ -50,7 +52,7 @@ export default function LoginScreen() {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={require('../../assets/Google.png')} style={styles.googlebutton}/>
+                    <Image source={require('../../assets/Google.png')} style={styles.googlebutton} />
                 </TouchableOpacity>
                 <View style={styles.bottom_text}>
                     <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
