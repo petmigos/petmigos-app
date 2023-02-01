@@ -10,7 +10,7 @@ export const compSignUpStyle = StyleSheet.create({
 
     container:{
         alignItems: 'center',
-        backgroundColor: background
+        backgroundColor: background,
     },
     img:{
         width: 112,

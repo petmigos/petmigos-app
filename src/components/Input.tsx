@@ -43,7 +43,7 @@ const Input: React.FC<InputProps> =  (
             <TextInput placeholder={message} 
             style={
                 [styles.input, {width: width}, {marginBottom: marginBtm}, {marginLeft: marginLeft},
-                edit? {opacity: 0.9}: {opacity: 0.5}]}
+                edit? {opacity: 1}: {opacity: 0.5}]}
             onChangeText={changeText}
             value={value}
             keyboardType={`${number? "number-pad": null}`}

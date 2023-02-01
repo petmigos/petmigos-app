@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
 import { Linking } from 'react-native';
-import styles from './styles';
+import styles from '../styles/styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import LoginService from '../services/LoginService';
 import Login from '../use_cases/LoginUC';
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 var loginServ = new LoginService();
 var login = new Login(loginServ);
@@ -16,6 +16,7 @@ export default function LoginScreen() {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const navigation = useNavigation();
 
 
     //Função responsável pelo envio de dados ao backend
@@ -53,7 +54,7 @@ export default function LoginScreen() {
                 </TouchableOpacity>
                 <View style={styles.bottom_text}>
                     <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
-                    <TouchableOpacity onPress={() => Linking.openURL('https://youtube.com')}>
+                    <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
                         <Text style={styles.sign_up_text} >
                             Cadastre-se!
                         </Text>

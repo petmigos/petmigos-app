@@ -8,6 +8,7 @@ import BrownButton from '../components/BrownButton';
 import SignatureCard from '../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
 import { Address } from '../services/CompanyService';
+import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 
 const verifyEmail = (email:string) =>{
   const emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -80,8 +81,7 @@ const SignUpCompany: React.FC = () => {
       <ScrollView>
         <View style={compSignUpStyle.container}>
            
-            <Image source={require('../../assets/logo.png')} style={compSignUpStyle.img}/>
-            <Title message={"Cadastro"} fontSize={40}></Title>
+            <TopInitScreen title='Cadastro' marginBottom={25}/>
             <Input message="CNPJ*" 
             changeText={handleCNPJChange}
             value={cnpj.format(currentCNPJ)} 
@@ -92,7 +92,7 @@ const SignUpCompany: React.FC = () => {
              {errorMessage && <Text style={compSignUpStyle.errorMsg}> CNPJ inválido! </Text>}
             <Input message="Nome Fantasia" value={name} changeText={setName}/>
             <Input message="E-mail" value={email} changeText={value => setEmail(value)}/>
-            {verifyEmail(email) && <Text style={compSignUpStyle.errorMsg}> Formato de E-mail inválido! </Text>}
+            {verifyEmail(email) && <Text style={compSignUpStyle.errorMsg}> E-mail inválido! </Text>}
             <Picker
               selectedValue={selectedCategory}
               style={compSignUpStyle.pickCategory}

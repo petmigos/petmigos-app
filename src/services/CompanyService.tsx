@@ -51,5 +51,21 @@ export class CompanyService {
     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     const data = await response.json();
     return data;
-}
+  }
+
+  public create(): void{
+
+    let reqs = fetch('http://192.168.0.6:3000/register', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: this.name,
+            email: this.email,
+            password: this.password,
+        })
+    })
+  }
 }

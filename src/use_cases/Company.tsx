@@ -1,13 +1,9 @@
 import { CompanyService } from "../services/CompanyService"
 
-class SignUp{
+class SignUpCompany{
     private CompanyService: CompanyService;
 
     constructor(service: CompanyService) {
         this.CompanyService = service;
-    }
-
-    signinCompany(){
-        
     }
 }
