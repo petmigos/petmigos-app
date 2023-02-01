@@ -6,8 +6,8 @@ export default function App() {
 
 	return (
 		<View>
-			{/* <Cadastro /> */}
-			<Login />
+			<Cadastro />
+			{/* <Login /> */}
 		</View>
 	);
 }

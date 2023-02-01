@@ -60,7 +60,7 @@ export default function Cadastro() {
                         
                     </TouchableOpacity>
                     e
-                    <TouchableOpacity onPress={() => Linking.openURL('https://youtube.com')}>
+                    <TouchableOpacity onPress={() => Linking.openURL('https://youtube.com')} >
                         <Text style={styles.privacy_text_link}> política de privacidade</Text>
                     </TouchableOpacity>
                 </Text>

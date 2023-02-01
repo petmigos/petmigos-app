@@ -51,14 +51,14 @@ export default function Login() {
                 <TouchableOpacity>
                     <Image source={require('../../assets/Google.png')} style={styles.googlebutton}/>
                 </TouchableOpacity>
-                <Text style={styles.bottom_text}>
+                <View style={styles.bottom_text}>
                     <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
                     <TouchableOpacity onPress={() => Linking.openURL('https://youtube.com')}>
                         <Text style={styles.sign_up_text} >
                             Cadastre-se!
                         </Text>
                     </TouchableOpacity>
-                </Text>
+                </View>
 
                 <StatusBar style="auto" />
             </View>

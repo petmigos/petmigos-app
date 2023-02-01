@@ -55,7 +55,10 @@ export default StyleSheet.create({
         fontStyle: 'normal',
         paddingTop: 10,
         textAlign: 'center',
+        justifyContent: 'center',
+        alignItems:'center',
         fontSize: 12,
+        
     },
 
     forgot_pass_text: {
@@ -81,7 +84,18 @@ export default StyleSheet.create({
         fontStyle: 'normal',
         top: 20.5,
         fontSize: 14,
-        left: -45,
+        left: -50,
+
+    },
+
+    sign_up_text:
+    {
+        color: '#00000',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+        fontSize: 14,
+        right: -65,
+        top: 2,
     },
 
     sign_up_button:
@@ -93,13 +107,6 @@ export default StyleSheet.create({
         left: 70,
     },
 
-    sign_up_text:
-    {
-        color: 'black',
-        fontWeight: 'bold',
-        textDecorationLine: 'underline',
-        fontSize: 14,
-    },
 
 
 });
