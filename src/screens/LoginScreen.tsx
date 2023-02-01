@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { Linking } from 'react-native';
 import styles from './styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
@@ -18,6 +19,7 @@ export default function LoginScreen() {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [showMessageError, setShowMessageError] = useState(false);
+    const [isSelected, setSelection] = useState(false);
 
     //Função responsável pelo envio de dados ao backend
     function SendData() {
@@ -36,9 +38,19 @@ export default function LoginScreen() {
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha"
-                    onChangeText={(text) => setPassword(text)}>
+                    onChangeText={(text) => setPassword(text)} 
+                    secureTextEntry={!isSelected}>
                 </TextInput>
                 {showMessageError && <ValidationMessage error_text='Erro!'/> }
+                <View style={styles.check_box_container}>
+                        <Checkbox
+                            value={isSelected}
+                            onValueChange={setSelection}
+                            style={styles.checkbox}
+                        color={isSelected ? '#915E36' : undefined}
+                        />
+                        <Text style={styles.label}>Show password</Text>
+                    </View>
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
                         ENTRAR
