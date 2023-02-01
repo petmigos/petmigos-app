@@ -13,7 +13,7 @@ export default function Login() {
     //Função responsável pelo envio de dados ao backend
     async function signIn() {
         // Envio para o IP local
-        let reqs = await fetch('http://192.168.0.6:3000/acess', {
+        let reqs = await fetch('http://192.168.0.86:3000/acess', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
