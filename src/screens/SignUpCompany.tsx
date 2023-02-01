@@ -7,16 +7,12 @@ import { cnpj } from 'cpf-cnpj-validator';
 import BrownButton from '../components/BrownButton';
 import SignatureCard from '../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
-import { Address } from '../services/CompanyService';
+import { Address, CompanySignUpService } from '../services/CompanyService';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
+import { CreateCompany } from '../use_cases/CreateCompany';
 
-const verifyEmail = (email:string) =>{
-  const emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if(emailValidation.test(email) || email.length === 0){
-    return false;
-  }
-  return true;
-}
+let service = new CompanySignUpService();
+let company = new CreateCompany(service);
 
 const SignUpCompany: React.FC = () => {
     const [currentCNPJ, setCNPJ] = useState("");
@@ -66,16 +62,23 @@ const SignUpCompany: React.FC = () => {
         });
       };
 
-      const handleSignUp = () => {
+
+      const signUp =() => {
         if (!email || !cnpj || !password || !name || !address || !signature) {
           Alert.alert('Calma aí!', 
           'Verifique se preencheu todas as informações antes de clicar em cadastrar.');
+          return;
         }
         else if(errorMessage){
           Alert.alert('Ops!', 
           'O CNPJ que você digitou não é válido, por favor verifique novamente.');
+          return;
         }
-      }
+        else{
+          company.execute(String(cnpj), selectedCategory, name, email, password, signature);
+        }
+
+    }
 
   return (
       <ScrollView>
@@ -92,7 +95,7 @@ const SignUpCompany: React.FC = () => {
              {errorMessage && <Text style={compSignUpStyle.errorMsg}> CNPJ inválido! </Text>}
             <Input message="Nome Fantasia" value={name} changeText={setName}/>
             <Input message="E-mail" value={email} changeText={value => setEmail(value)}/>
-            {verifyEmail(email) && <Text style={compSignUpStyle.errorMsg}> E-mail inválido! </Text>}
+            {company.verifyEmail(email) && <Text style={compSignUpStyle.errorMsg}> E-mail inválido! </Text>}
             <Picker
               selectedValue={selectedCategory}
               style={compSignUpStyle.pickCategory}
@@ -142,7 +145,7 @@ const SignUpCompany: React.FC = () => {
                 selected={signature === "PetMigo Ideal"}
               />
             </View>
-            <BrownButton onPress={handleSignUp} 
+            <BrownButton onPress={signUp} 
               title="CADASTRAR"
               margin={40}
             />
