@@ -15,6 +15,13 @@ app.post('/acess', async(req, res)=>{
     console.log(req.body.passwordUser);
 });
 
+// Cadastro Route
+app.post('/register', async(req, res)=>{
+    console.log(req.body.nameUser);
+    console.log(req.body.passwordUser);
+    console.log(req.body.emailUser);
+});
+
 let port=process.env.PORT || 3000;
 app.listen(port,(req, res)=>{
     console.log('Servidor Rodando')
