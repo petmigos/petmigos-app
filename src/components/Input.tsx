@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, TextInput } from "react-native";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import { inputBackground } from "../styles/colors";
+import { Platform } from "react-native";
 
 interface InputProps {
     message: string;
@@ -16,14 +17,12 @@ interface InputProps {
 
   const styles = StyleSheet.create({
     input:{
-        height: 57,
-        borderWidth: 1,
+        height: 57,        
         padding: 10,
-        backgroundColor: inputBackground,
         borderRadius: 6,
-        opacity: 0.5,
         fontSize: 18,
         borderColor: '#fff',
+        backgroundColor: inputBackground
     }
 });
 
@@ -40,11 +39,14 @@ const Input: React.FC<InputProps> =  (
     return(
         <View>
             <TextInput placeholder={message} 
-            style={[styles.input, {width: width}, {marginBottom: marginBtm}, {marginLeft: marginLeft}]}
+            style={
+                [styles.input, {width: width}, {marginBottom: marginBtm}, {marginLeft: marginLeft},
+                edit? {opacity: 0.9}: {opacity: 0.5}]}
             onChangeText={changeText}
             value={value}
             keyboardType={`${number? "number-pad": null}`}
             editable={edit}
+            placeholderTextColor="#bbb"
             >
             </TextInput>
         </View>

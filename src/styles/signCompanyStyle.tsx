@@ -2,11 +2,7 @@ import { StyleSheet } from  'react-native';
 import { background, inputBackground } from '../styles/colors';
 
 export const compSignUpStyle = StyleSheet.create({
-    img_container:{
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        height: '100%'
-    },
+
     load: {
         width: 80,
         height: 80
@@ -14,20 +10,12 @@ export const compSignUpStyle = StyleSheet.create({
 
     container:{
         alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: background
     },
     img:{
         width: 112,
         height: 94,
         margin: 10
-    },
-    containerAdress:{
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center'
-        
     },
     errorMsg:{
         color: '#FF0000',
@@ -36,11 +24,26 @@ export const compSignUpStyle = StyleSheet.create({
     },
 
     pickCategory:{
-        borderRadius: 20,
         width: 343,
         backgroundColor: inputBackground,
-        opacity: 0.5,
+        borderRadius: 6,
+        opacity: 0.6,
         marginBottom: 20
 
-    }
+    },
+    small_input:{
+        flexDirection: 'row', 
+        alignItems: 'stretch',
+        justifyContent: 'space-between'
+    },
+    validText: {
+        color: 'green',
+        fontSize: 18,
+        margin: 10,
+    },
+    invalidText: {
+        color: 'red',
+        fontSize: 18,
+        margin: 10,
+    },
 })
