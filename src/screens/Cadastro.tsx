@@ -16,7 +16,7 @@ export default function Cadastro() {
     //Função responsável pelo envio de dados ao backend
     async function signIn() {
         // Envio para o IP local
-        let reqs = await fetch('http://192.168.0.6:3000/acess', {
+        let reqs = await fetch('http://192.168.0.86:19000/acess', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -37,18 +37,23 @@ export default function Cadastro() {
             <TopInitScreen title="Cadastro"/>
             <View style={styles.middle_screen}>
                 <TextInput style={styles.input_box}
-                    placeholder="Email">
+                    placeholder="Email"
+                    onChangeText={(text)=>setUsername(text)}>
+                </TextInput>
+
+                <TextInput style={styles.input_box}
+                    placeholder="Nome de Usuário"
+                    onChangeText={(text) => setEmail(text)}>
+                        
                 </TextInput>
                 <TextInput style={styles.input_box}
-                    placeholder="Nome de Usuário">
+                    placeholder="Digite sua senha"
+                    onChangeText={(text) => setPassword(text)}>
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha">
                 </TextInput>
-                <TextInput style={styles.input_box}
-                    placeholder="Digite sua senha">
-                </TextInput>
-                <TouchableOpacity style={styles.acessing_button}>
+                <TouchableOpacity style={styles.acessing_button} onPress={signIn}>
                     <Text style={styles.getin_text}>
                         CADASTRO
                     </Text>

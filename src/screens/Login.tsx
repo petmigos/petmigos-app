@@ -29,16 +29,16 @@ export default function Login() {
     return (
         <View style={styles.container}>
 
-            <TopInitScreen title="Login"/>
+            <TopInitScreen title="Login" />
             <View style={styles.middle_screen}>
 
                 <TextInput style={styles.input_box}
                     placeholder="Email ou Nome de Usuário"
-                    onChangeText={(text)=>setUsername(text)}>
+                    onChangeText={(text) => setUsername(text)}>
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha"
-                    onChangeText={(text)=>setPassword(text)}>
+                    onChangeText={(text) => setPassword(text)}>
                 </TextInput>
                 <TouchableOpacity style={styles.acessing_button} onPress={signIn}>
                     <Text style={styles.getin_text}>
@@ -51,7 +51,7 @@ export default function Login() {
                     </Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                    <Image source={require('../../assets/Google.png')} style={styles.googlebutton}/>
+                    <Image source={require('../../assets/Google.png')} style={styles.googlebutton} />
                 </TouchableOpacity>
                 <View style={styles.bottom_text}>
                     <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
