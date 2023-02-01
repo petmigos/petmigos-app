@@ -1,7 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import SignUpCompany from './src/screens/SignUpCompany';
 import { background } from './src/styles/colors';
+import { useEffect } from 'React'
 import LoginScreen from './src/screens/LoginScreen';
 import CadastroScreen from './src/screens/CadastroScreen';
 import PickUpSignUp from './src/screens/PickUpSignUp';
@@ -9,6 +10,7 @@ import PickUpSignUp from './src/screens/PickUpSignUp';
 const Stack = createStackNavigator();
 
 const Navigation = () => {
+
     return (
         <NavigationContainer>
           <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
