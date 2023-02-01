@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TextInput } from "react-native";
-import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { Float, Int32 } from "react-native/Libraries/Types/CodegenTypes";
 import { inputBackground } from "../styles/colors";
 import { Platform } from "react-native";
 
@@ -13,6 +13,7 @@ interface InputProps {
     changeText?;
     number?: boolean;
     edit?: boolean;
+    maxLength?: Int32;
 }
 
   const styles = StyleSheet.create({
@@ -34,7 +35,8 @@ const Input: React.FC<InputProps> =  (
       value, 
       changeText, 
       number=false,
-      edit=true
+      edit=true,
+      maxLength=null
     }) => {
     return(
         <View>
@@ -47,6 +49,7 @@ const Input: React.FC<InputProps> =  (
             keyboardType={`${number? "number-pad": null}`}
             editable={edit}
             placeholderTextColor="#bbb"
+            maxLength={maxLength}
             >
             </TextInput>
         </View>

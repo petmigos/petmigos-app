@@ -9,12 +9,20 @@ import SignatureCard from '../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
 import { Address } from '../services/CompanyService';
 
+const verifyEmail = (email:string) =>{
+  const emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if(emailValidation.test(email) || email.length === 0){
+    return false;
+  }
+  return true;
+}
+
 const SignUpCompany: React.FC = () => {
-    const [currentCNPJ, setCNPJ] = useState('');
+    const [currentCNPJ, setCNPJ] = useState("");
     const [cep, setCep] = useState("");
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState(null);
     const [signature, setSignature] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState('Petshop');
@@ -43,7 +51,7 @@ const SignUpCompany: React.FC = () => {
 
     const handleCNPJChange = (text) => {
         setCNPJ(text);
-        if (cnpj.isValid(text)) {
+        if (cnpj.isValid(text) || text.length === 0) {
             setErrorMessage(null);
           } else {
             setErrorMessage('CNPJ Inválido!');
@@ -66,12 +74,6 @@ const SignUpCompany: React.FC = () => {
           Alert.alert('Ops!', 
           'O CNPJ que você digitou não é válido, por favor verifique novamente.');
         }
-        else if(!/[A-Za-z]+([.|_|0-9])*[a-zA-Z|0-9]@[a-z]{2,}.[a-z]{2,}/.test(email)){
-          Alert.alert('Ops!', 
-          'E-mail no formato inválido.');
-        }
-
-        
       }
 
   return (
@@ -85,11 +87,12 @@ const SignUpCompany: React.FC = () => {
             value={cnpj.format(currentCNPJ)} 
             marginBtm={20}
             number={true} 
+            maxLength={18}
             />
              {errorMessage && <Text style={compSignUpStyle.errorMsg}> CNPJ inválido! </Text>}
             <Input message="Nome Fantasia" value={name} changeText={setName}/>
             <Input message="E-mail" value={email} changeText={value => setEmail(value)}/>
-
+            {verifyEmail(email) && <Text style={compSignUpStyle.errorMsg}> Formato de E-mail inválido! </Text>}
             <Picker
               selectedValue={selectedCategory}
               style={compSignUpStyle.pickCategory}
