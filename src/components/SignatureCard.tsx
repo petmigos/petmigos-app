@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Image, View, Text, StyleSheet } from 'react-native';
-import { desabilitado, sucesso } from '../screens/styles/colors';
+import { desabilitado, sucesso } from '../styles/colors';
 
 interface SignatureProps {
   logo: any,

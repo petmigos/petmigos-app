@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TextInput } from "react-native";
-import { Float, Int32 } from "react-native/Libraries/Types/CodegenTypes";
-import { FlowArrayMutation } from "typescript";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { inputBackground } from "../styles/colors";
 
 interface InputProps {
     message: string;
@@ -19,7 +19,7 @@ interface InputProps {
         height: 57,
         borderWidth: 1,
         padding: 10,
-        backgroundColor: '#DCDCDC',
+        backgroundColor: inputBackground,
         borderRadius: 6,
         opacity: 0.5,
         fontSize: 18,

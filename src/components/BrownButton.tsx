@@ -1,11 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Int32 } from 'react-native/Libraries/Types/CodegenTypes';
+import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 interface ButtonProps {
   onPress: () => void;
   title: string;
-  margin
+  margin: Float
 }
 
 const BrownButton: React.FC<ButtonProps> = ({ onPress, title, margin=10 }) => (

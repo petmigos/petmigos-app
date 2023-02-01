@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Input  from '../components/Input';
-import { View, Text, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { compSignUpStyle } from '../styles/signCompanyStyle';
+import { View, Text, Image, ScrollView } from 'react-native';
 import Title from '../components/Title';
 import { cnpj } from 'cpf-cnpj-validator';
 import BrownButton from '../components/BrownButton';
 import SignatureCard from '../components/SignatureCard';
-import { background } from './styles/colors';
+import { Picker } from '@react-native-picker/picker';
 
 interface Address{
-      cep
-      logradouro
-      complemento
-      bairro
-      localidade
-      uf
-      unidade
-      ibge
-      gia
+      cep: string;
+      logradouro: string;
+      complemento: string;
+      bairro: string;
+      localidade: string;
+      uf: string;
+      unidade: string;
+      ibge: string;
+      gia: string;
 }
 
 const SignUpCompany: React.FC = () => {
@@ -25,13 +26,14 @@ const SignUpCompany: React.FC = () => {
     const [cep, setCep] = useState("");
     const [softSignature, setSoftSignature] = useState(false);
     const [idealSignature, setIdealSignature] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('java');
     const [address, setAddress] = useState<Address>({
       cep: "",
       logradouro: "Logradouro",
       complemento: " ",
       bairro: "Bairro",
       localidade: "Cidade",
-      uf: " ",
+      uf: "Estado",
       unidade: " ",
       ibge: " ",
       gia: " "
@@ -58,15 +60,10 @@ const SignUpCompany: React.FC = () => {
           }
       };
 
-    const  handleAdressChange = (text, adressPart: Address) => {
-        setAddress(adressPart)
-        console.log(adressPart)
-      }
-
   return (
       <ScrollView>
-        <View style={styles.container}>
-            <Image source={require('../../assets/logo.png')} style={styles.img}/>
+        <View style={compSignUpStyle.container}>
+            <Image source={require('../../assets/logo.png')} style={compSignUpStyle.img}/>
             <Title message={"Cadastro"} fontSize={40}></Title>
             <Input message="CNPJ*" 
             changeText={handleCNPJChange}
@@ -74,17 +71,26 @@ const SignUpCompany: React.FC = () => {
             marginBtm={20}
             number={true} 
             />
-            {errorMessage && <Text style={styles.errorMsg}> CNPJ inválido! </Text>}
+            {errorMessage && <Text style={compSignUpStyle.errorMsg}> CNPJ inválido! </Text>}
+            <Picker
+              selectedValue={selectedCategory}
+              style={compSignUpStyle.pickCategory}
+              onValueChange={(itemValue, itemIndex) => setSelectedCategory(itemValue)}
+            >
+              <Picker.Item label="Petshop" value="petshop"/>
+              <Picker.Item label="Veterinário" value="veterinario" />
+              <Picker.Item label="Outros" value="outros" />
+            </Picker>
             <Input message="Nome Fantasia"/>
             <Input message="E-mail"/>
-            <Input message="Categoria de Serviço (drop)"/>
-            <View style={styles.containerAdress}>
+            
+            <View style={compSignUpStyle.containerAdress}>
             <Title message={"Endereço"} fontSize={20}/>
-            <Input message="Estado (drop)"/>
+            <Input message="Estado"/>
             <Input message="CEP" width={229} 
-            number={true}
-            value={cep}
-            changeText={setCep}/>
+              number={true}
+              value={cep}
+              changeText={setCep}/>
             <Input message="Cidade" value={address.localidade} edit={false}/>
             <Input message="Logradouro" value={address.logradouro} edit={false}/>
             <Input message="Número" width={110} number={true}/>
@@ -96,61 +102,27 @@ const SignUpCompany: React.FC = () => {
             <View>
               <Title message="Assinatura" fontSize={20}/>
               <SignatureCard
-              logo={require('../../assets/signatureSoftLogo.png')}
-              title="PetMigo Suave"
-              description="Um valor de 4% é cobrado em cima do valor de cada uma das transações através do aplicativo."
-              selected={softSignature}
-            setSelected={setSoftSignature}
+                logo={require('../../assets/signatureSoftLogo.png')}
+                title="PetMigo Suave"
+                description="Um valor de 4% é cobrado em cima do valor de cada uma das transações através do aplicativo."
+                selected={softSignature}
+                setSelected={setSoftSignature}
               />
 
-            <SignatureCard
-              logo={require('../../assets/signatureIdealLogo.png')}
-              title="PetMigo Ideal"
-              description="Um valor de 5% é cobrado em cima do valor das transações pelo aplicativo, e +2% são cobrados para anunciar sua loja em destaque no app. "
-              selected={idealSignature}
-              setSelected={setIdealSignature}
-            />
+              <SignatureCard
+                logo={require('../../assets/signatureIdealLogo.png')}
+                title="PetMigo Ideal"
+                description="Um valor de 5% é cobrado em cima do valor das transações pelo aplicativo, e +2% são cobrados para anunciar sua loja em destaque no app. "
+                selected={idealSignature}
+                setSelected={setIdealSignature}
+              />
             </View>
             <BrownButton onPress={() => console.log("Funfou")} 
-            title="CADASTRAR"
-            margin={40}/>
+              title="CADASTRAR"
+              margin={40}
+            />
         </View>
       </ScrollView>
   )};
-
-const styles = StyleSheet.create({
-    img_container:{
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        height: '100%'
-    },
-    load: {
-        width: 80,
-        height: 80
-    },
-
-    container:{
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: background
-    },
-    img:{
-        width: 112,
-        height: 94,
-        margin: 10
-    },
-    containerAdress:{
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'center'
-        
-    },
-    errorMsg:{
-        color: '#FF0000',
-        marginTop: -20,
-        marginBottom: 15
-    },
-})
 
 export default SignUpCompany;

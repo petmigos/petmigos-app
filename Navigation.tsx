@@ -1,8 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import PickUpSignUp from './src/screens/PickUpSignUp';
 import SignUpCompany from './src/screens/SignUpCompany';
-import { background } from './src/screens/styles/colors';
+import { background } from './src/styles/colors';
 
 const Stack = createStackNavigator();
 

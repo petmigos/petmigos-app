@@ -1,9 +1,8 @@
 
-interface Company {
-  cnpj: string;
-  email: string;
-  password: string;
-}
 
+export class SignUpCompanyService
+{
+
+}
 
 
