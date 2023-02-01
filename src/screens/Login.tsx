@@ -13,7 +13,7 @@ export default function Login() {
     //Função responsável pelo envio de dados ao backend
     async function signIn() {
         // Envio para o IP local
-        let reqs = await fetch('http://192.168.0.86:19000/acess', {
+        let reqs = await fetch('http://192.168.0.6:3000/acess', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -33,10 +33,12 @@ export default function Login() {
             <View style={styles.middle_screen}>
 
                 <TextInput style={styles.input_box}
-                    placeholder="Email ou Nome de Usuário">
+                    placeholder="Email ou Nome de Usuário"
+                    onChangeText={(text)=>setUsername(text)}>
                 </TextInput>
                 <TextInput style={styles.input_box}
-                    placeholder="Digite sua senha">
+                    placeholder="Digite sua senha"
+                    onChangeText={(text)=>setPassword(text)}>
                 </TextInput>
                 <TouchableOpacity style={styles.acessing_button} onPress={signIn}>
                     <Text style={styles.getin_text}>

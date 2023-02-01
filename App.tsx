@@ -6,7 +6,7 @@ export default function App() {
 
 	return (
 		<View>
-			<Cadastro />
+			<Login />
 			{/* <Login /> */}
 		</View>
 	);
