@@ -4,26 +4,24 @@ import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
 import { Linking } from 'react-native';
 import styles from './styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
+import LoginService from '../services/LoginService';
+import Login from '../use_cases/LoginUC';
+import React from 'react';
 
-export default function Login() {
+var loginServ = new LoginService();
+var login = new Login(loginServ);
+
+
+export default function LoginScreen() {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
 
+
     //Função responsável pelo envio de dados ao backend
-    async function signIn() {
-        // Envio para o IP local
-        let reqs = await fetch('http://192.168.0.86:3000/acess', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nameUser: username,
-                passwordUser: password,
-            })
-        })
+
+    function SendData() {
+         login.execute(username, password)
     }
 
     return (
@@ -40,7 +38,7 @@ export default function Login() {
                     placeholder="Digite sua senha"
                     onChangeText={(text) => setPassword(text)}>
                 </TextInput>
-                <TouchableOpacity style={styles.acessing_button} onPress={signIn}>
+                <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
                         ENTRAR
                     </Text>

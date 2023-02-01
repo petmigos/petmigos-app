@@ -4,32 +4,23 @@ import { TouchableOpacity, Text, TextInput, View } from 'react-native';
 import { Linking } from 'react-native';
 import styles from './styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
+import CadastroService from '../services/CadastroService';
+import Cadastro from '../use_cases/CadastroUC';
+import React from 'react';
+
+var cadastroServ = new CadastroService;
+var cadastro = new Cadastro(cadastroServ);
 
 
-export default function Cadastro() {
+export default function CadastroScreen() {
 
     const [email, setEmail] = useState(null);
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-    
 
-    //Função responsável pelo envio de dados ao backend
-    async function signIn() {
-        // Envio para o IP local
-        let reqs = await fetch('http://192.168.0.86:19000/acess', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nameUser: username,
-                emailUser: email,
-                passwordUser: password,
-
-            })
-        })
-    }
+    function SendData() {
+        cadastro.execute(username, email, password)
+   }
 
     return (
         <View style={styles.container}>
@@ -38,22 +29,20 @@ export default function Cadastro() {
             <View style={styles.middle_screen}>
                 <TextInput style={styles.input_box}
                     placeholder="Email"
-                    onChangeText={(text)=>setUsername(text)}>
+                    onChangeText={(text)=>setEmail(text)}>
                 </TextInput>
-
                 <TextInput style={styles.input_box}
                     placeholder="Nome de Usuário"
-                    onChangeText={(text) => setEmail(text)}>
-                        
+                    onChangeText={(text)=>setUsername(text)}>
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha"
-                    onChangeText={(text) => setPassword(text)}>
+                    onChangeText={(text)=>setPassword(text)}>
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha">
                 </TextInput>
-                <TouchableOpacity style={styles.acessing_button} onPress={signIn}>
+                <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
                         CADASTRO
                     </Text>
