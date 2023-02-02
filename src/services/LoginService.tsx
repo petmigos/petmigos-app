@@ -1,5 +1,6 @@
 export default class LoginService {
-    login(user: string, pass: string): void{
+
+    login(user: string, password: string): void{
 
         let reqs = fetch('http://192.168.0.86:3333/login', {
             method: 'POST',
@@ -9,9 +10,10 @@ export default class LoginService {
             },
             body: JSON.stringify({
                 nameUser: user,
-                passwordUser: pass,
+                passwordUser: password,
             })
-        })
+        }).then(resp => console.log("Resposta: " + resp))
+            .catch(error => console.log("Erro: " + error))
 
     }
 

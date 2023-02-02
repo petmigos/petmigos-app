@@ -107,6 +107,23 @@ export default StyleSheet.create({
         left: 70,
     },
 
+    check_box_container: {
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        
+    },
+
+    checkbox: {
+        alignSelf: 'flex-start',
+        margin: 10
+    },
+
+    label: {
+        margin: 10,
+        fontWeight: 'normal'
+    },
+
 
 
 });

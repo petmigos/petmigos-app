@@ -13,8 +13,8 @@ export default class CadastroService {
                 emailUser: useremail,
                 passwordUser: userpassword,
             })
-        }).then(resp => console.log(resp))
-        .catch(error => console.log(error))
+        }).then(resp => console.log("Resposta: " + resp))
+            .catch(error => console.log("Erro: " + error))
 
     }
 

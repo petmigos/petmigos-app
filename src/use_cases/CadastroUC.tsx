@@ -1,6 +1,7 @@
 import CadastroService from "../services/CadastroService";
 
 export default class Cadastro {
+   
    private cadastroService: CadastroService;
 
    constructor(loginService: CadastroService) {
@@ -11,12 +12,10 @@ export default class Cadastro {
 
       if (this.validationPassword(password, confPassword)) {
          this.cadastroService.create(username, email, password);
-
          return true;
       } else {
          return false;
       }
-
    }
 
    private validationPassword(password: string, confPassword: string): boolean {

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, Text, TextInput, View } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { Linking } from 'react-native';
 import styles from '../styles/styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
@@ -20,6 +21,7 @@ export default function CadastroScreen() {
     const [password, setPassword] = useState(null);
     const [confPassword, setConfPassword] = useState(null);
     const [showMessageError, setShowMessageError] = useState(false);
+    const [isSelected, setSelection] = useState(false);
 
     function SendData() {
 
@@ -45,12 +47,23 @@ export default function CadastroScreen() {
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha"
-                    onChangeText={(text) => setPassword(text)}>
+                    onChangeText={(text) => setPassword(text)}
+                    secureTextEntry={!isSelected}>
                 </TextInput>
                 <TextInput style={styles.input_box}
                     placeholder="Digite sua senha"
-                    onChangeText={(text) => setConfPassword(text)}>
+                    onChangeText={(text) => setConfPassword(text)}
+                    secureTextEntry={!isSelected}>
                 </TextInput>
+                <View style={styles.check_box_container}>
+                    <Checkbox
+                        value={isSelected}
+                        onValueChange={setSelection}
+                        style={styles.checkbox}
+                    color={isSelected ? '#915E36' : undefined}
+                    />
+                    <Text style={styles.label}>Show password</Text>
+                </View>
                 {showMessageError && <ValidationMessage error_text='Erro!' />}
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
