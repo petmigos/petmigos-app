@@ -52,9 +52,22 @@ export class CompanySignUpService {
   }*/
 
   public async create(company: Company): Promise<any>{
-    axios.post('https://localhost:3333/company')
-      .catch(function (error) {
-        console.log({...error})
-      });
+    console.log("Sucesso")
+    let reqs = fetch('http://190.10.50.117:3333/company', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              cnpj: company.cnpj,
+              name: company.name,
+              category: company.category,
+              email: company.email,
+              password: company.password,
+              signature: company.signature
+            })
+        }).then(resp => console.log("Resposta: " + resp))
+            .catch(error => console.log("Erro: " + error))
   }
 }

@@ -61,10 +61,16 @@ const SignUpCompany: React.FC = () => {
           unidade: text,
         });
       };
-
+    
+    const handleAdressComplementChange = (text: string) => {
+        setAddress({
+          ...address,
+          complemento: text,
+        });
+      };
 
       const signUp =() => {
-        if (!email || !cnpj || !password || !name || !address || !signature) {
+        if (!email || !currentCNPJ || !password || !name || !address || !signature) {
           Alert.alert('Calma aí!', 
           'Verifique se preencheu todas as informações antes de clicar em cadastrar.');
           return;
@@ -75,7 +81,8 @@ const SignUpCompany: React.FC = () => {
           return;
         }
         else{
-          company.execute(String(cnpj), selectedCategory, name, email, password, signature);
+          //console.log(JSON.stringify(address))
+          company.execute(String(currentCNPJ), selectedCategory, name, email, password, signature);
         }
 
     }
@@ -120,7 +127,7 @@ const SignUpCompany: React.FC = () => {
             <Input message="Bairro" value={address.bairro} edit={false}/>
             <View style={compSignUpStyle.small_input}>
               <Input message="Número" width={110} number={true} changeText={handleAdressNumberChange}/>
-              <Input message="Complemento" width={206}/>
+              <Input message="Complemento" width={206} changeText={handleAdressComplementChange}/>
             </View>
               <Title message={"Senha de acesso"} fontSize={20}/>
               <Input message="Digite sua nova senha" value={password} changeText={setPassword}/>
