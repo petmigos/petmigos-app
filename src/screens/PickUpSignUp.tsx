@@ -1,40 +1,54 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Button, Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { desabilitado, sucesso } from '../styles/colors';
+import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { color } from 'react-native-reanimated';
+import { background, desabilitado, primary, secondary_v2, sucesso } from '../styles/colors';
 
-const PickUpSignUp: React.FC<Props> = () => {
+const PickUpSignUp: React.FC = () => {
     const navigation = useNavigation();
     return (
     <View style={styles.container}>
-        <TouchableOpacity
-                      style={[styles.signature]}
-                      onPress={() => navigation.navigate('CadastroScreen')}>
+      <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => navigation.navigate('CadastroScreen')}>
+      <View style={styles.logoContainer}>
+        <Image source={require('../../assets/pickLogo_2.png')} style={styles.logo} />
+      </View>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: secondary_v2}}>Usuário</Text>
+        <Text style={{color: '#FFF'}}>Quero usar o PetMigos para cuidar do meu pet e fazer novos amigos!</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+          style={[styles.button]}
+          onPress={() => navigation.navigate('SignUpCompany')}>
       <View style={styles.logoContainer}>
         <Image source={require('../../assets/pickLogo.png')} style={styles.logo} />
       </View>
-        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Usuário comum</Text>
-        <Text>Quero cuidar dos meus pets!</Text>
-    </TouchableOpacity>
-        />
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: secondary_v2}}>Empresa</Text>
+        <Text style={{color: '#FFF'}}>Quero oferecer meus serviços e produtos no aplicativo!</Text>
+      </TouchableOpacity>
     </View>
 );
 };
 
 const styles = StyleSheet.create({
   container:{
-    marginTop: 20
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: primary,
+    height: '100%'
   },
-  signature:{
-    width: 343,
-    height: 153,
+  button:{
+    width: '50%',
+    height: '25%',
+    textAlign: 'center',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
     borderWidth: 1,
-    borderRadius: 10,
-    borderColor: desabilitado
+    borderRadius: 30,
+    borderColor: secondary_v2,
+    padding: 20
   },
 
   logoContainer: {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { erro } from '../styles/colors';
 
 export interface Address{
     cep: string;
@@ -33,10 +34,10 @@ export class Company{
 export class CompanySignUpService {
   private company: Company;
   
-  public async create(company: Company): Promise<any> {
+  /*public async create(company: Company): Promise<any> {
     try {
-      const response = await axios.post(`'http://localhost:3333/company`, {
-        cnpj: company.cnpj,
+      const response = await axios.post(`'https://localhost:3333/company`, {
+        cnpj: String(company.cnpj),
         name: company.name,
         category: company.category,
         email: company.email,
@@ -45,8 +46,15 @@ export class CompanySignUpService {
       });
       return response.data;
     } catch (error) {
-      console.error(error);
+      console.error(JSON.stringify(error));
       return error;
     }
+  }*/
+
+  public async create(company: Company): Promise<any>{
+    axios.post('https://localhost:3333/company')
+      .catch(function (error) {
+        console.log({...error})
+      });
   }
 }
