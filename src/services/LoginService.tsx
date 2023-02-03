@@ -1,8 +1,8 @@
 export default class LoginService {
 
-    login(user: string, password: string): void{
+    login(user: string, password: string): void {
 
-        let reqs = fetch('http://192.168.0.86:3333/login', {
+        let reqs = fetch('http://190.10.50.82:3333/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -12,7 +12,7 @@ export default class LoginService {
                 nameUser: user,
                 passwordUser: password,
             })
-        }).then(resp => console.log("Resposta: " + resp))
+        }).then(resp => console.log("Resposta: " + resp.status))
             .catch(error => console.log("Erro: " + error))
 
     }
