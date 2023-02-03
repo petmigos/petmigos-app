@@ -4,7 +4,8 @@ export default StyleSheet.create({
 
     error_box: {
         justifyContent: 'center',
-        alignItems: 'flex-start',
+        alignItems: 'center',
+        paddingTop: 16,
     },
 
     error_text: {
@@ -12,7 +13,7 @@ export default StyleSheet.create({
         // fontFamily: 'Ubuntu-Bold',
         fontWeight: "normal",
         fontSize: 15,
-        textAlign: "left"
+        textAlign: "center"
         
 
     },

@@ -16,26 +16,31 @@ var cadastro = new Cadastro(cadastroServ);
 
 export default function CadastroScreen() {
 
-    const [email, setEmail] = useState(null);
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
-    const [confPassword, setConfPassword] = useState(null);
+    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [confPassword, setConfPassword] = useState("");
     const [showMessageError, setShowMessageError] = useState(false);
     const [isSelected, setSelection] = useState(false);
+    const [messageError, setMessageError] = useState("");
 
-    function SendData() {
+    async function SendData() {
 
-        if (!cadastro.execute(username, email, password, confPassword)) {
-            setShowMessageError(true);
-        } else {
+        try {
+            const createduser = await cadastro.execute(username, email, password, confPassword);
+            // retona sucesso
             setShowMessageError(false);
+        } catch (error: any) {
+            setShowMessageError(true);
+            setMessageError(error.message);
         }
     }
 
     return (
         <View style={styles.container}>
 
-            <TopInitScreen title="Cadastro" />
+            <TopInitScreen title="Cadastro"/>
+            {showMessageError && <ValidationMessage error_text={messageError} />}
             <View style={styles.middle_screen}>
                 <TextInput style={styles.input_box}
                     placeholder="Email"
@@ -64,7 +69,6 @@ export default function CadastroScreen() {
                     />
                     <Text style={styles.label}>Show password</Text>
                 </View>
-                {showMessageError && <ValidationMessage error_text='Erro!' />}
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
                         CADASTRO

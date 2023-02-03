@@ -1,6 +1,6 @@
 export default class LoginService {
 
-    login(user: string, password: string): void{
+    login(user: string, password: string): void {
 
         let reqs = fetch('http://190.10.50.117:3333/login', {
             method: 'POST',
@@ -12,7 +12,7 @@ export default class LoginService {
                 nameUser: user,
                 passwordUser: password,
             })
-        }).then(resp => console.log("Resposta: " + resp))
+        }).then(resp => console.log("Resposta: " + resp.status))
             .catch(error => console.log("Erro: " + error))
 
     }
