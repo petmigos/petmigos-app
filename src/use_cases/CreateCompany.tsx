@@ -11,6 +11,7 @@ export class CreateCompany{
     execute(cnpj: string, category:string, name:string, email: string, password: string, signature: string){
         const newCompany = new Company(cnpj, category, name, email, password, signature);
         this.companySignService.create(newCompany);
+        console.log(this.companySignService.create(newCompany))
     }
 
     public verifyEmail = (email:string) =>{

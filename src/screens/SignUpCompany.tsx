@@ -82,7 +82,7 @@ const SignUpCompany: React.FC = () => {
         }
         else{
           //console.log(JSON.stringify(address))
-          company.execute(String(currentCNPJ), selectedCategory, name, email, password, signature);
+          company.execute(currentCNPJ, selectedCategory, name, email, password, signature);
         }
 
     }
