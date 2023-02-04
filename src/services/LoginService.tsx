@@ -1,8 +1,10 @@
+import { User } from "../entities/user"
+
 export default class LoginService {
 
-    login(user: string, password: string): void {
+     async login(user: string, password: string): Promise<User> {
 
-        let reqs = fetch('http://190.10.50.82:3333/login', {
+        const response = await fetch('http://192.168.0.9:3333/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -12,8 +14,11 @@ export default class LoginService {
                 nameUser: user,
                 passwordUser: password,
             })
-        }).then(resp => console.log("Resposta: " + resp.status))
-            .catch(error => console.log("Erro: " + error))
+        })
+        const responseJSON = await response.json();
+        const responseStatus = response.status;
+        if(responseStatus !== 200) return responseJSON;
+        return responseJSON;
 
     }
 

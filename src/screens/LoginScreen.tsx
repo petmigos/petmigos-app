@@ -13,23 +13,35 @@ import { ValidationMessage } from '../components/ValidationMessages/ValidationMe
 var loginServ = new LoginService();
 var login = new Login(loginServ);
 
-
 export default function LoginScreen() {
 
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const [showMessageError, setShowMessageError] = useState(false);
     const [isSelected, setSelection] = useState(false);
+    const [messageError, setMessageError] = useState("");
+
 
     //Função responsável pelo envio de dados ao backend
-    function SendData() {
-         login.execute(username, password)
+    async function SendData() {
+        
+        try {
+            const createduser = await login.execute(username, password);
+            console.log(createduser);
+            // retona sucesso
+            setShowMessageError(false);
+        } catch (error: any) {
+            setShowMessageError(true);
+            setMessageError(error.message);
+        }
+       
     }
 
     return (
         <View style={styles.container}>
 
             <TopInitScreen title="Login" />
+            {showMessageError && <ValidationMessage error_text={messageError} />}
             <View style={styles.middle_screen}>
 
                 <TextInput style={styles.input_box}

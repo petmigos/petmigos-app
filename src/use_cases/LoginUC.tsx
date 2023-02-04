@@ -1,4 +1,5 @@
 import LoginService  from "../services/LoginService";
+import { User } from "../entities/user";
 
 export default class Login {
    private loginService: LoginService;
@@ -7,9 +8,9 @@ export default class Login {
       this.loginService = loginService
    }
 
-   execute(username: string, password: string): void {
+   async execute(username: string, password: string): Promise<User> {
 
-     this.loginService.login(username, password);
+     return this.loginService.login(username, password);
      
    }
 
