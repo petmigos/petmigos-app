@@ -12,22 +12,34 @@ import { ValidationMessage } from '../components/ValidationMessages/ValidationMe
 
 var loginServ = new LoginService();
 var login = new Login(loginServ);
+var logged;
 
 export default function LoginScreen() {
 
-    const [username, setUsername] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
     const [showMessageError, setShowMessageError] = useState(false);
     const [isSelected, setSelection] = useState(false);
     const [messageError, setMessageError] = useState("");
-
+    const[errorShow, setErrorShow] = useState(false);
+    const[errorEmpty, setErrorEmpty]= useState(false);
+    
 
     //Função responsável pelo envio de dados ao backend
     async function SendData() {
         
         try {
             const createduser = await login.execute(username, password);
-            console.log(createduser);
+            if ((username === "" || password === ""))
+            {
+                setErrorEmpty(true);
+                setTimeout(clearErrorEmpty, 3000);
+            }
+            else if (createduser === undefined) 
+            {
+                setErrorShow(true);
+                setTimeout(clearError, 3000);
+            }
             // retona sucesso
             setShowMessageError(false);
         } catch (error: any) {
@@ -37,13 +49,32 @@ export default function LoginScreen() {
        
     }
 
+    function clearError() {
+        setErrorShow(false);
+    }
+
+    function clearErrorEmpty(){
+        setErrorEmpty(false);
+    }
+
     return (
         <View style={styles.container}>
 
             <TopInitScreen title="Login" />
-            {showMessageError && <ValidationMessage error_text={messageError} />}
-            <View style={styles.middle_screen}>
 
+            {
+            errorShow ? (
+                <Text>Usuário ou senha estão incorretos</Text>
+            ) : null
+            }
+
+            {
+            errorEmpty ? (
+                <Text>Preencha todos os campos</Text>
+            ) : null
+            }
+
+            <View style={styles.middle_screen} >
                 <TextInput style={styles.input_box}
                     placeholder="Email ou Nome de Usuário"
                     onChangeText={(text) => setUsername(text)}>
@@ -53,7 +84,7 @@ export default function LoginScreen() {
                     onChangeText={(text) => setPassword(text)} 
                     secureTextEntry={!isSelected}>
                 </TextInput>
-                {showMessageError && <ValidationMessage error_text='Erro!'/> }
+                
                 <View style={styles.check_box_container}>
                         <Checkbox
                             value={isSelected}

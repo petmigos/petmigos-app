@@ -17,7 +17,7 @@ export default class LoginService {
         })
         const responseJSON = await response.json();
         const responseStatus = response.status;
-        if(responseStatus !== 200) return responseJSON;
+        if(responseStatus !== 200) return undefined;
         return responseJSON;
 
     }
