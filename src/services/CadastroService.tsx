@@ -2,8 +2,8 @@ import { User } from "../entities/user";
 
 export default class CadastroService {
 
-    create(username: string, useremail: string, userpassword: string): void {
-        let reqs = fetch('http://190.10.50.117:3333/cadastro', {
+    async create(username: string, useremail: string, userpassword: string): Promise<User> {
+        let response = await fetch('http://192.168.1.5:3333/cadastro', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

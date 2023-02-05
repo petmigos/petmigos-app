@@ -1,37 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import Input  from '../components/Input';
 import { compSignUpStyle } from '../styles/signCompanyStyle';
-import { View, Text, Image, ScrollView, Alert } from 'react-native';
+import { View, Text, ScrollView, Alert, TextInput } from 'react-native';
+import Checkbox  from 'expo-checkbox';
 import Title from '../components/Title';
-import { cnpj } from 'cpf-cnpj-validator';
 import BrownButton from '../components/BrownButton';
 import SignatureCard from '../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
-import { Address, CompanySignUpService } from '../services/CompanyService';
+import { Address } from '../entities/address';
+import { cnpj } from 'cpf-cnpj-validator';
+import { CompanySignUpService } from '../services/CompanyService';
+import  CreateCompany  from '../use_cases/CreateCompany';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
-import { CreateCompany } from '../use_cases/CreateCompany';
+import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
+import { useNavigation, StackActions } from '@react-navigation/native';
 
 let service = new CompanySignUpService();
 let company = new CreateCompany(service);
 
 const SignUpCompany: React.FC = () => {
+    const navigation = useNavigation();
     const [currentCNPJ, setCNPJ] = useState("");
     const [cep, setCep] = useState("");
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
-    const [errorMessage, setErrorMessage] = useState(null);
+    const [confPassword, setConfPassword] = useState("");
+    const [isSelected, setSelection] = useState(false);
     const [signature, setSignature] = useState<string | null>(null);
     const [selectedCategory, setSelectedCategory] = useState('Petshop');
+    const [showMessageError, setShowMessageError] = useState(false);
+    const [messageError, setMessageError] = useState("");
     const [addressNumber, setAddressNumber] = useState<Address | null>(null);
     const [address, setAddress] = useState<Address>({
       cep: "",
       logradouro: "Logradouro",
-      complemento: " ",
+      complemento: "",
       bairro: "Bairro",
       localidade: "Cidade",
       uf: "Estado",
-      unidade: " "
+      unidade: ""
     });
     
     useEffect(() => {
@@ -44,16 +52,6 @@ const SignUpCompany: React.FC = () => {
         fetchAddress();
       }
     }, [cep]);
-
-
-    const handleCNPJChange = (text) => {
-        setCNPJ(text);
-        if (cnpj.isValid(text) || text.length === 0) {
-            setErrorMessage(null);
-          } else {
-            setErrorMessage('CNPJ Inválido!');
-          }
-      };
     
     const handleAdressNumberChange = (text: string) => {
         setAddress({
@@ -69,23 +67,29 @@ const SignUpCompany: React.FC = () => {
         });
       };
 
-      const signUp =() => {
-        if (!email || !currentCNPJ || !password || !name || !address || !signature) {
-          Alert.alert('Calma aí!', 
-          'Verifique se preencheu todas as informações antes de clicar em cadastrar.');
-          return;
-        }
-        else if(errorMessage){
-          Alert.alert('Ops!', 
-          'O CNPJ que você digitou não é válido, por favor verifique novamente.');
-          return;
-        }
-        else{
-          //console.log(JSON.stringify(address))
-          company.execute(currentCNPJ, selectedCategory, name, email, password, signature);
-        }
+      const handleOKButton = () => 
+      navigation.dispatch(
+        StackActions.popToTop()
+      );
 
+    
+    async function SendData() {
+
+      try {
+            const createdCompany = await company.execute(currentCNPJ, selectedCategory, name, email, password, signature, address)
+            setShowMessageError(false);
+            Alert.alert('Sucesso!', 
+            'Você agora é oficialmente parte da PetMigos! Entre na sua nova conta e descubra todos os nossos recursos!',
+            [
+              {text: 'FAZER LOGIN', onPress: handleOKButton}
+            ])
+        } catch (error: any) {
+            setShowMessageError(true);
+            setMessageError(error.message);
+      }
+      
     }
+
 
   return (
       <ScrollView>
@@ -93,16 +97,15 @@ const SignUpCompany: React.FC = () => {
            
             <TopInitScreen title='Cadastro' marginBottom={25}/>
             <Input message="CNPJ*" 
-            changeText={handleCNPJChange}
+            changeText={setCNPJ}
             value={cnpj.format(currentCNPJ)} 
             marginBtm={20}
             number={true} 
             maxLength={18}
             />
-             {errorMessage && <Text style={compSignUpStyle.errorMsg}> CNPJ inválido! </Text>}
-            <Input message="Nome Fantasia" value={name} changeText={setName}/>
-            <Input message="E-mail" value={email} changeText={value => setEmail(value)}/>
-            {company.verifyEmail(email) && <Text style={compSignUpStyle.errorMsg}> E-mail inválido! </Text>}
+            <Input message="Nome Fantasia*" value={name} changeText={setName}/>
+            <Input message="E-mail*" value={email} changeText={value => setEmail(value)}/>
+          
             <Picker
               selectedValue={selectedCategory}
               style={compSignUpStyle.pickCategory}
@@ -116,7 +119,7 @@ const SignUpCompany: React.FC = () => {
             <View>
               <Title message={"Endereço"} fontSize={20}/>
               <View style={compSignUpStyle.small_input}>
-                <Input message="CEP" width={211} 
+                <Input message="CEP*" width={211} 
                   number={true}
                   value={cep}
                   changeText={setCep}/>
@@ -126,16 +129,33 @@ const SignUpCompany: React.FC = () => {
             <Input message="Logradouro" value={address.logradouro} edit={false}/>
             <Input message="Bairro" value={address.bairro} edit={false}/>
             <View style={compSignUpStyle.small_input}>
-              <Input message="Número" width={110} number={true} changeText={handleAdressNumberChange}/>
+              <Input message="Número*" width={110} number={true} changeText={handleAdressNumberChange}/>
               <Input message="Complemento" width={206} changeText={handleAdressComplementChange}/>
             </View>
-              <Title message={"Senha de acesso"} fontSize={20}/>
-              <Input message="Digite sua nova senha" value={password} changeText={setPassword}/>
+              <Title message={"Senha de acesso*"} fontSize={20}/>
+              <TextInput style={compSignUpStyle.input_box}
+                    placeholder="Digite sua senha"
+                    onChangeText={(text) => setPassword(text)}
+                    secureTextEntry={!isSelected}>
+                </TextInput>
+                <TextInput style={compSignUpStyle.input_box}
+                    placeholder="Digite sua senha"
+                    onChangeText={(text) => setConfPassword(text)}
+                    secureTextEntry={!isSelected}>
+                </TextInput>
+                <View style={compSignUpStyle.check_box_container}>
+                    <Checkbox
+                        value={isSelected}
+                        onValueChange={setSelection}
+                        style={compSignUpStyle.checkbox}
+                    color={isSelected ? '#915E36' : undefined}
+                    />
+                    <Text style={compSignUpStyle.label}> Mostrar senha </Text>
+                </View>
             </View>
             
-            
             <View>
-            <Title message="Assinatura" fontSize={20}/>
+            <Title message="Assinatura*" fontSize={20}/>
               <SignatureCard
                 logo={require('../../assets/signatureSoftLogo.png')}
                 title="PetMigo Suave"
@@ -152,10 +172,11 @@ const SignUpCompany: React.FC = () => {
                 selected={signature === "PetMigo Ideal"}
               />
             </View>
-            <BrownButton onPress={signUp} 
+            {showMessageError && <ValidationMessage error_text={messageError} />}
+            <BrownButton
+              onPress={SendData}
               title="CADASTRAR"
-              margin={40}
-            />
+              margin={20}/>
         </View>
       </ScrollView>
   )};

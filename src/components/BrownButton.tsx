@@ -5,7 +5,7 @@ import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 interface ButtonProps {
   onPress: () => void;
   title: string;
-  margin: Float
+  margin?: Float
 }
 
 const BrownButton: React.FC<ButtonProps> = ({ onPress, title, margin=10 }) => (

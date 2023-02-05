@@ -1,24 +1,55 @@
-import { CompanySignUpService, Company } from "../services/CompanyService"
-import { Address } from "../services/CompanyService";
+import { CompanySignUpService } from "../services/CompanyService"
+import { Company } from "../entities/company";
+import { cnpj } from 'cpf-cnpj-validator';
+import { Address } from "../entities/address";
 
-export class CreateCompany{
+export default class CreateCompany{
     private companySignService: CompanySignUpService;
 
     constructor(companySignService: CompanySignUpService) {
         this.companySignService = companySignService;
       }
     
-    execute(cnpj: string, category:string, name:string, email: string, password: string, signature: string){
-        const newCompany = new Company(cnpj, category, name, email, password, signature);
-        this.companySignService.create(newCompany);
-        console.log(this.companySignService.create(newCompany))
+    async execute(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
+      const isEmpty = 
+      (this.isEmpty(cnpj) || this.isEmpty(category) || 
+      this.isEmpty(name) || this.isEmpty(email) || 
+      this.isEmpty(password) || this.isEmpty(password) ||
+      this.isEmpty(address.unidade) || this.isEmpty(address.cep))
+      
+      if(isEmpty) throw new Error("Preencha todos os campos obrigatórios sinalizados por *.")
+      if(!this.isValidEmail(email)) throw new Error("Preencha o campo de E-mail corretamente.")  
+      if(!this.isValidCNPJ(cnpj)) throw new Error("CNPJ inválido.")
+      if(!this.isValidPassword(password)) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
+      if(!this.hasSignature(signature)) throw new Error("É preciso escolher seu plano de assinatura.")
+
+      const createdCompany = await this.companySignService.create(cnpj, category, name, email, password, signature, address)
+      return createdCompany;
     }
 
-    public verifyEmail = (email:string) =>{
+    private isValidEmail(email:string){
         const emailValidation = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if(emailValidation.test(email) || email.length === 0){
-          return false;
-        }
-        return true;
+        return emailValidation.test(email)
+        
       }
+
+    private isValidPassword(password: string){
+      const passwordValidation = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/
+      return passwordValidation.test(password)
+      
+    }
+
+    private isEmpty(field: string){
+      if(field === undefined) return true
+      return field.trim().length === 0 || field === null
+      
+    }
+
+    private hasSignature(signature: string){
+      return signature !== null
+    }
+
+    private isValidCNPJ(currentCNPJ:string){
+        return cnpj.isValid(currentCNPJ)
+    }
 }
