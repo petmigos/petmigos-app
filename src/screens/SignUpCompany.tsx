@@ -14,6 +14,8 @@ import  CreateCompany  from '../use_cases/CreateCompany';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { useNavigation, StackActions } from '@react-navigation/native';
+import PasswordField from '../components/Password/PasswordField';
+import PasswordCheckbox from '../components/Password/PasswordCheckbox';
 
 let service = new CompanySignUpService();
 let company = new CreateCompany(service);
@@ -76,7 +78,8 @@ const SignUpCompany: React.FC = () => {
     async function SendData() {
 
       try {
-            const createdCompany = await company.execute(currentCNPJ, selectedCategory, name, email, password, signature, address)
+          
+            const createdCompany = await company.execute(currentCNPJ, selectedCategory, name, email, [password, confPassword], signature, address)
             setShowMessageError(false);
             Alert.alert('Sucesso!', 
             'Você agora é oficialmente parte da PetMigos! Entre na sua nova conta e descubra todos os nossos recursos!',
@@ -133,25 +136,9 @@ const SignUpCompany: React.FC = () => {
               <Input message="Complemento" width={206} changeText={handleAdressComplementChange}/>
             </View>
               <Title message={"Senha de acesso*"} fontSize={20}/>
-              <TextInput style={compSignUpStyle.input_box}
-                    placeholder="Digite sua senha"
-                    onChangeText={(text) => setPassword(text)}
-                    secureTextEntry={!isSelected}>
-                </TextInput>
-                <TextInput style={compSignUpStyle.input_box}
-                    placeholder="Digite sua senha"
-                    onChangeText={(text) => setConfPassword(text)}
-                    secureTextEntry={!isSelected}>
-                </TextInput>
-                <View style={compSignUpStyle.check_box_container}>
-                    <Checkbox
-                        value={isSelected}
-                        onValueChange={setSelection}
-                        style={compSignUpStyle.checkbox}
-                    color={isSelected ? '#915E36' : undefined}
-                    />
-                    <Text style={compSignUpStyle.label}> Mostrar senha </Text>
-                </View>
+              <PasswordField message="Digite sua senha" isSelected={isSelected} setPassword={setPassword}/>
+              <PasswordField message="Confirme sua senha" isSelected={isSelected} setPassword={setConfPassword}/>
+              <PasswordCheckbox isSelected={isSelected} setSelection={setSelection}/>
             </View>
             
             <View>

@@ -10,20 +10,21 @@ export default class CreateCompany{
         this.companySignService = companySignService;
       }
     
-    async execute(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
+    async execute(cnpj: string, category:string, name:string, email: string, password: string[], signature: string, address: Address): Promise<Company>{
       const isEmpty = 
       (this.isEmpty(cnpj) || this.isEmpty(category) || 
       this.isEmpty(name) || this.isEmpty(email) || 
-      this.isEmpty(password) || this.isEmpty(password) ||
+      this.isEmpty(password[0]) || this.isEmpty(password[1]) ||
       this.isEmpty(address.unidade) || this.isEmpty(address.cep))
-      
+
       if(isEmpty) throw new Error("Preencha todos os campos obrigatórios sinalizados por *.")
       if(!this.isValidEmail(email)) throw new Error("Preencha o campo de E-mail corretamente.")  
       if(!this.isValidCNPJ(cnpj)) throw new Error("CNPJ inválido.")
-      if(!this.isValidPassword(password)) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
+      if(!this.isValidPassword(password[0])) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
+      if(!this.isPasswordEqual(password[0], password[1])) throw new Error("As senhas não coincidem.")
       if(!this.hasSignature(signature)) throw new Error("É preciso escolher seu plano de assinatura.")
 
-      const createdCompany = await this.companySignService.create(cnpj, category, name, email, password, signature, address)
+      const createdCompany = await this.companySignService.create(cnpj, category, name, email, password[0], signature, address)
       return createdCompany;
     }
 
@@ -43,6 +44,10 @@ export default class CreateCompany{
       if(field === undefined) return true
       return field.trim().length === 0 || field === null
       
+    }
+
+    private isPasswordEqual(password: string, confPassword: string){
+      return password === confPassword
     }
 
     private hasSignature(signature: string){
