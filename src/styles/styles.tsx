@@ -12,6 +12,7 @@ export default StyleSheet.create({
     middle_screen: {
         width: 300,
     },
+   
 
     input_box: {
         height: 57,
