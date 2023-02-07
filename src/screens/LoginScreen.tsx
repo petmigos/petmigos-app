@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { Linking } from 'react-native';
+import { Linking, Alert} from 'react-native';
 import styles from '../styles/styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import LoginService from '../services/LoginService';
 import Login from '../use_cases/LoginUC';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
+import React from 'react';
 
 var loginServ = new LoginService();
 var login = new Login(loginServ);
@@ -25,24 +26,31 @@ export default function LoginScreen() {
     const[errorShow, setErrorShow] = useState(false);
     const[errorEmpty, setErrorEmpty]= useState(false);
     
+    const handleOkButton = () => {
+        console.log("Usuário cadastrado com sucesso!");
+    };
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            console.log('Refreshed!');
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     //Função responsável pelo envio de dados ao backend
     async function SendData() {
         
         try {
             const createduser = await login.execute(username, password);
-            if ((username === "" || password === ""))
-            {
-                setErrorEmpty(true);
-                setTimeout(clearErrorEmpty, 3000);
-            }
-            else if (createduser === undefined) 
-            {
-                setErrorShow(true);
-                setTimeout(clearError, 3000);
-            }
-            // retona sucesso
             setShowMessageError(false);
+            Alert.alert(
+                "Sucesso!",
+                "Usuário logado!",
+                [
+                    { text: "Recomeçar", onPress: handleOkButton }
+                ]
+            );
+
         } catch (error: any) {
             setShowMessageError(true);
             setMessageError(error.message);
@@ -108,14 +116,14 @@ export default function LoginScreen() {
                 <TouchableOpacity>
                     <Image source={require('../../assets/Google.png')} style={styles.googlebutton} />
                 </TouchableOpacity>
-                <View style={styles.bottom_text}>
-                    <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
-                        <Text style={styles.sign_up_text} >
-                            Cadastre-se!
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
+                    <View style={styles.bottom_text}>
+                        <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
+                            <Text style={styles.sign_up_text} >
+                                Cadastre-se!
+                            </Text>
+                    </View>
+                </TouchableOpacity>
 
                 <StatusBar style="auto" />
             </View>

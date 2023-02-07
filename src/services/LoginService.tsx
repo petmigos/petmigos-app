@@ -4,7 +4,7 @@ export default class LoginService {
 
      async login(user: string, password: string): Promise<User> {
 
-        const response = await fetch('http://192.168.0.9:3333/login', {
+         const response = await fetch('http://192.168.0.86:3333/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

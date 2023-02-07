@@ -8,7 +8,7 @@ import CadastroService from '../services/CadastroService';
 import Cadastro from '../use_cases/CadastroUC';
 import React from 'react';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
-import { useNavigation } from '@react-navigation/native';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 var cadastroServ = new CadastroService;
 var cadastro = new Cadastro(cadastroServ);
@@ -26,15 +26,23 @@ export default function CadastroScreen() {
     const navigation = useNavigation();
 
     const handleOkButton = () => {
-        navigation.navigate('Root');
-    }
+        navigation.dispatch(
+            StackActions.popToTop()
+        );
+    };
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            console.log('Refreshed!');
+        });
+        return unsubscribe;
+    }, [navigation]);
 
     async function SendData() {
 
         try {
             const createduser = await cadastro.execute(username, email, password, confPassword);
             setShowMessageError(false);
-
             Alert.alert(
                 "Sucesso!",
                 "Usuário cadastrado!",
@@ -42,7 +50,6 @@ export default function CadastroScreen() {
                     { text: "FAZER LOGIN", onPress: handleOkButton}
                 ]
             );
-            console.log("Usuário cadastrado!");
         } catch (error: any) {
             setShowMessageError(true);
             setMessageError(error.message);

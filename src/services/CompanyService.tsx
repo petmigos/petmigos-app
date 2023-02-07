@@ -33,27 +33,9 @@ export class Company{
 
 export class CompanySignUpService {
   private company: Company;
-  
-  /*public async create(company: Company): Promise<any> {
-    try {
-      const response = await axios.post(`'https://localhost:3333/company`, {
-        cnpj: String(company.cnpj),
-        name: company.name,
-        category: company.category,
-        email: company.email,
-        password: company.password,
-        signature: company.signature
-      });
-      return response.data;
-    } catch (error) {
-      console.error(JSON.stringify(error));
-      return error;
-    }
-  }*/
 
   public async create(company: Company): Promise<any>{
-    console.log("Sucesso")
-    let reqs = fetch('http://190.10.50.117:3333/company', {
+    let reqs = fetch('http://192.168.0.86:3333/company', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

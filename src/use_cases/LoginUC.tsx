@@ -10,8 +10,16 @@ export default class Login {
 
    async execute(username: string, password: string): Promise<User> {
 
-     return this.loginService.login(username, password);
+      if (!this.isValidField(password)) throw new Error("Preencha o campo de senha.");
+      if (!this.isValidField(username)) throw new Error("Preencha o campo de nome/email.");
+      const loggedUser = await this.loginService.login(username, password);
+
+      return loggedUser;
      
+   }
+
+   private isValidField(field: string): boolean {
+      return field !== ""
    }
 
 }
