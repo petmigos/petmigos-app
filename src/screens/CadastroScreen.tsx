@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { TouchableOpacity, Text, TextInput, View } from 'react-native';
+import { TouchableOpacity, Text, TextInput, View, Alert } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { Linking } from 'react-native';
 import styles from '../styles/styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import CadastroService from '../services/CadastroService';
 import Cadastro from '../use_cases/CadastroUC';
 import React from 'react';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
+import { useNavigation } from '@react-navigation/native';
 
 var cadastroServ = new CadastroService;
 var cadastro = new Cadastro(cadastroServ);
@@ -23,13 +23,26 @@ export default function CadastroScreen() {
     const [showMessageError, setShowMessageError] = useState(false);
     const [isSelected, setSelection] = useState(false);
     const [messageError, setMessageError] = useState("");
+    const navigation = useNavigation();
+
+    const handleOkButton = () => {
+        navigation.navigate('Root');
+    }
 
     async function SendData() {
 
         try {
             const createduser = await cadastro.execute(username, email, password, confPassword);
-            // retona sucesso
             setShowMessageError(false);
+
+            Alert.alert(
+                "Sucesso!",
+                "Usuário cadastrado!",
+                [
+                    { text: "FAZER LOGIN", onPress: handleOkButton}
+                ]
+            );
+            console.log("Usuário cadastrado!");
         } catch (error: any) {
             setShowMessageError(true);
             setMessageError(error.message);
@@ -67,7 +80,7 @@ export default function CadastroScreen() {
                         style={styles.checkbox}
                     color={isSelected ? '#915E36' : undefined}
                     />
-                    <Text style={styles.label}>Show password</Text>
+                    <Text style={styles.label}>Mostrar senha</Text>
                 </View>
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
@@ -76,12 +89,12 @@ export default function CadastroScreen() {
                 </TouchableOpacity>
                 <Text style={styles.bottom_text}>
                     Ao se cadastrar você concorda com nossos
-                    <TouchableOpacity onPress={() => Linking.openURL('https://google.com')}>
+                    <TouchableOpacity >
                         <Text style={styles.privacy_text_link} > termos de uso </Text>
 
                     </TouchableOpacity>
                     e
-                    <TouchableOpacity onPress={() => Linking.openURL('https://youtube.com')} >
+                    <TouchableOpacity>
                         <Text style={styles.privacy_text_link}> política de privacidade</Text>
                     </TouchableOpacity>
                 </Text>
