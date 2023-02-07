@@ -67,7 +67,7 @@ export default function CadastroScreen() {
                         style={styles.checkbox}
                     color={isSelected ? '#915E36' : undefined}
                     />
-                    <Text style={styles.label}>Show password</Text>
+                    <Text style={styles.label}>Mostrar senha</Text>
                 </View>
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>

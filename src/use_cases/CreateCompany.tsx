@@ -16,7 +16,6 @@ export default class CreateCompany{
       this.isEmpty(name) || this.isEmpty(email) || 
       this.isEmpty(password[0]) || this.isEmpty(password[1]) ||
       this.isEmpty(address.unidade) || this.isEmpty(address.cep))
-
       if(isEmpty) throw new Error("Preencha todos os campos obrigatórios sinalizados por *.")
       if(!this.isValidEmail(email)) throw new Error("Preencha o campo de E-mail corretamente.")  
       if(!this.isValidCNPJ(cnpj)) throw new Error("CNPJ inválido.")

@@ -67,7 +67,7 @@ export default function LoginScreen() {
                 </TouchableOpacity>
                 <View style={styles.bottom_text}>
                     <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")} style={styles.sign_up_area}>
                         <Text style={styles.sign_up_text} >
                             Cadastre-se!
                         </Text>

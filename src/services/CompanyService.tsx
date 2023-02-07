@@ -42,7 +42,7 @@ export class CompanySignUpService {
   }*/
 
   public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
-    const response = await fetch('http://192.168.1.5:3333/company', {
+    const response = await fetch(`http://192.168.1.5:3333/company`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
