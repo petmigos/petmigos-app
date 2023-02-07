@@ -1,14 +1,18 @@
 import {TouchableOpacity, Image, StyleSheet, Text, View} from "react-native";
 
-const StoreCard = () =>{
+const StoreCard = ({onPress}) =>{
     return(
-        <TouchableOpacity style={styles.box_container}>
+        <TouchableOpacity style={styles.box_container} onPress={onPress}>
             <Image source={require("../../../assets/store_test.png")} style={styles.store_img}/>
                 <View style={styles.store_info}>
-                    <Text style={styles.store_title}>Nome da Loja</Text>
-                    <Text style={{color: '#DBA87F'}}>Categoria</Text>
-                    <Text>0</Text>
-                    <Text>00km</Text>
+                    <View>
+                        <Text style={styles.store_title}>Nome da Loja</Text>
+                        <Text style={{color: '#DBA87F'}}>Categoria</Text>
+                    </View>
+                    <View style={styles.store_left_info}>
+                        <Image source={require('../../../assets/acessorios.png')} style={{marginBottom: 10}}/>
+                        <Text style={{color: '#DBA87F'}}>0km</Text>
+                    </View>
                 </View>
         </TouchableOpacity>
     )
@@ -17,7 +21,7 @@ const StoreCard = () =>{
 const styles = StyleSheet.create({
     store_title:{
         fontWeight: 'bold',
-        fontSize: 16,
+        fontSize: 20,
     },
     box_container:{
         display: 'flex',
@@ -38,13 +42,16 @@ const styles = StyleSheet.create({
     },
     
     store_info:{
-        backgroundColor: 'red',
+       // backgroundColor: 'red',
         width: '80%',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'stretch',
         justifyContent: 'space-between',
+    },
+    store_left_info:{
+        alignItems: 'flex-end',
     }
 
 })

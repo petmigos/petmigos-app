@@ -1,16 +1,20 @@
 import {View, Text, StyleSheet } from "react-native"
-import { background } from "../styles/colors";
 import StoreCard from "../components/StoreCard/StoreCard";
-
+import { useNavigation } from "@react-navigation/native";
 
 const StoreList = () =>{
+    const navigation = useNavigation();
+
+    const funfou = () =>{
+        console.log("funfou")
+    }
     return (
     <View style={styles.container}>
         <View style={styles.header}>
             <Text style={styles.header_text}>Loja</Text>
         </View>
         <View style={styles.store_list}>
-        <StoreCard/>
+        <StoreCard onPress={funfou}/>
         </View>
     </View>
     );
