@@ -46,4 +46,31 @@ export const compSignUpStyle = StyleSheet.create({
         fontSize: 18,
         margin: 10,
     },
+    input_box: {
+        height: 57,
+        marginTop: 20,
+        borderWidth: 1,
+        padding: 10,
+        backgroundColor: '#DCDCDC',
+        borderRadius: 6,
+        opacity: 0.5,
+        fontSize: 18,
+        borderColor: '#fff',
+    },
+    check_box_container: {
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        
+    },
+
+    checkbox: {
+        alignSelf: 'flex-start',
+        margin: 10
+    },
+
+    label: {
+        margin: 10,
+        fontWeight: 'normal'
+    },
 })

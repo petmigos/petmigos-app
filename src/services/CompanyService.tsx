@@ -1,31 +1,21 @@
 import axios from 'axios';
-import { erro } from '../styles/colors';
-
-export interface Address{
-    cep: string;
-    logradouro: string;
-    complemento: string;
-    bairro: string;
-    localidade: string;
-    uf: string;
-    unidade: string;
-}
+import { Address } from '../entities/address';
 
 export class Company{
   public cnpj: string;
   public category: string;
   public name: string;
   public email: string;
-  public adress: Address;
+  public address: Address;
   public password: string;
   public signature: string;
 
-  constructor(cnpj: string, category:string, name:string, email: string, password: string, signature: string) {
+  constructor(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address) {
     this.cnpj = cnpj;
     this.name = name;
     this.email = email;
     this.category = category;
-    //this.adress = adress;
+    this.address = address;
     this.password = password;
     this.signature = signature;
   }
@@ -34,22 +24,34 @@ export class Company{
 export class CompanySignUpService {
   private company: Company;
 
-  public async create(company: Company): Promise<any>{
-    let reqs = fetch('http://192.168.0.86:3333/company', {
+  public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
+    const response = await fetch('http://192.168.1.5:3333/company', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              cnpj: company.cnpj,
-              name: company.name,
-              category: company.category,
-              email: company.email,
-              password: company.password,
-              signature: company.signature
+              cnpj: cnpj,
+              name: name,
+              category: category,
+              email: email,
+              password: password,
+              signature: signature,
+              address_cep: address.cep,
+              address_uf: address.uf,
+              address_cidade: address.localidade,
+              address_logradouro: address.logradouro,
+              address_numero: address.unidade,
+              address_complemento: address.complemento
+
             })
-        }).then(resp => console.log("Resposta: " + resp))
-            .catch(error => console.log("Erro: " + error))
+        })
+        
+        const responseJSON = await response.json();
+        const responseStatus = response.status;
+        if(responseStatus !== 200) throw new Error(responseJSON.message)
+        return responseJSON;
+
   }
 }
