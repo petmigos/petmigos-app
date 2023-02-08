@@ -13,13 +13,16 @@ import { useNavigation } from '@react-navigation/native';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import React from 'react';
 import { ButtonGroup } from 'react-native-elements';
+import * as SecureStore from 'expo-secure-store';
+import { id_user, id_comp } from '../entities/id';
+
 
 var loginUser = new LoginUser(new LoginUserService());
 var loginCompany = new LoginCompany(new LoginCompanyService());
 
-
 export default function LoginScreen() {
-
+    
+    const [result, onChangeResult] = React.useState('(result');
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isSelected, setSelection] = useState(false);
@@ -40,6 +43,21 @@ export default function LoginScreen() {
         });
         return unsubscribe;
     }, [navigation]);
+     
+    async function save_id(ident, password) {
+        await SecureStore.setItemAsync(ident, password);
+    }
+
+    async function getValueFor(ident) {
+        let result = await SecureStore.getItemAsync(ident);
+        if (result) {
+           onChangeResult(result);
+        }
+        else {
+            alert('Invalid key!');
+        }
+
+        }
 
     //Função responsável pelo envio de dados ao backend
     async function SendData() {
@@ -48,6 +66,8 @@ export default function LoginScreen() {
             if (selectedIndex == 0)
             {
                 const loggeduser = await loginUser.execute(username, password);
+                console.log(loggeduser._id)
+                save_id(loggeduser._id, loggeduser.password);
                 setShowMessageError(false);
                 Alert.alert(
                     "Sucesso!",
@@ -126,6 +146,12 @@ export default function LoginScreen() {
                         </Text>
                     </View>
                 </TouchableOpacity>
+                <TextInput
+                onSubmitEditing={event => {getValueFor(event.nativeEvent.text)}}
+                placeholder='Enter an id'
+                >
+                </TextInput>
+                <Text> {result} </Text>
 
                 <StatusBar style="auto" />
             </View>

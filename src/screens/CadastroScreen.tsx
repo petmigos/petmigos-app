@@ -9,6 +9,7 @@ import Cadastro from '../use_cases/CreateUserUC';
 import React from 'react';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { StackActions, useNavigation } from '@react-navigation/native';
+import * as LoginScreen from './LoginScreen';
 
 var cadastroServ = new CadastroService;
 var cadastro = new Cadastro(cadastroServ);
