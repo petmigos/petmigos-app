@@ -128,6 +128,10 @@ export default StyleSheet.create({
 
     button_cadastro: {
         backgroundColor: "FF0000",
+    },
+
+    enable: {
+        backgroundColor: '#915E36',
     }
 
 

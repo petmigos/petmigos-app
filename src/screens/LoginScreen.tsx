@@ -12,6 +12,7 @@ import LoginCompany from '../use_cases/LoginCompanyUC';
 import { useNavigation } from '@react-navigation/native';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import React from 'react';
+import { ButtonGroup } from 'react-native-elements';
 
 var loginUser = new LoginUser(new LoginUserService());
 var loginCompany = new LoginCompany(new LoginCompanyService());
@@ -25,10 +26,12 @@ export default function LoginScreen() {
     const [showMessageError, setShowMessageError] = useState(false);
     const [type, setType] = useState(false);
     const [messageError, setMessageError] = useState("");
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const [selectedIndexes, setSelectedIndexes] = useState([0, 2, 3]);
     const navigation = useNavigation();
 
     const handleOkButton = () => {
-        console.log("Usuário logado com sucesso!");
+        console.log("Logado com sucesso!");
     };
 
     React.useEffect(() => {
@@ -42,7 +45,7 @@ export default function LoginScreen() {
     async function SendData() {
         
         try {
-            if(type)
+            if (selectedIndex == 0)
             {
                 const loggeduser = await loginUser.execute(username, password);
                 setShowMessageError(false);
@@ -107,9 +110,14 @@ export default function LoginScreen() {
                         Esqueceu a senha?
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image source={require('../../assets/Google.png')} style={styles.googlebutton} />
-                </TouchableOpacity>
+                <ButtonGroup
+                    selectedButtonStyle={styles.enable}
+                    buttons={['Adotante', 'Empresa']}
+                    selectedIndex={selectedIndex}
+                    onPress={(value) => {
+                        setSelectedIndex(value);
+                    }}
+                    containerStyle={{marginTop: 40, marginBottom: 50}}/>
                 <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
                     <View style={styles.bottom_text}>
                         <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
