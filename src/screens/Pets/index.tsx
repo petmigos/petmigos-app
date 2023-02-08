@@ -1,13 +1,22 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import PetCard from "../../components/PetCard";
 import { Pet } from "../../entities/pet";
 import { PetService } from "../../services/petService";
 import { FetchAll } from "../../use_cases/pets/FetchAll";
+import { PetDetailNavigationProp } from "./navigation";
 
 const fetchAll = new FetchAll(new PetService());
 
 const ListPets: React.FC = () => {
+  const navigation = useNavigation<PetDetailNavigationProp>();
   const [pets, setPets] = useState<Pet[]>([]);
 
   useEffect(() => {
@@ -19,12 +28,20 @@ const ListPets: React.FC = () => {
     fetch();
   }, []);
 
+  function onPressPet(pet: Pet) {
+    navigation.navigate("PetInfo", { petId: pet._id });
+  }
+
   function renderPets(pet: Pet) {
-    return <PetCard key={pet._id || pet.name} {...pet} />;
+    return (
+      <TouchableOpacity onPress={() => onPressPet(pet)}>
+        <PetCard key={pet._id || pet.name} {...pet} />
+      </TouchableOpacity>
+    );
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       {pets.length === 0 && (
         <Text>
           Não há pets cadastrados. Considere cadastrar um pet primeiro.
@@ -40,6 +57,9 @@ const ListPets: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   pets: {
     flex: 1,
     height: 3,
