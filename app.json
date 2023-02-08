@@ -16,13 +16,25 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "fonts": [{
+        "fontName": "Ubuntu",
+        "fontFile": "./fonts/Ubuntu-Regular.ttf"
+    }]
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#7b4d28"
-      }
+      },
+      "fonts": [
+        "./assets/fonts/Ubuntu.ttf",
+        "./assets/fonts/Ubuntu-Bold.ttf",
+        "./assets/fonts/Ubuntu-Italic.ttf",
+        "./assets/fonts/Ubuntu-Light.ttf",
+        "./assets/fonts/Ubuntu-Medium.ttf",
+        "./assets/fonts/Ubuntu-Regular.ttf"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
