@@ -1,8 +1,10 @@
 import Navigation from './Navigation';
+import PetStoreScreen from './src/screens/PetStoreScreen';
 
 const App = () => {
   return (
-    <Navigation />
+    <PetStoreScreen/>
+    // <Navigation />
   );
 };
 

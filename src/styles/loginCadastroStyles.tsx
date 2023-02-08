@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { erro, primary } from './colors';
 
 
 export default StyleSheet.create({
@@ -127,11 +128,11 @@ export default StyleSheet.create({
     },
 
     button_cadastro: {
-        backgroundColor: "FF0000",
+        backgroundColor: erro,
     },
 
     enable: {
-        backgroundColor: '#915E36',
+        backgroundColor: primary,
     }
 
 
