@@ -13,21 +13,18 @@ import React from 'react';
 
 var loginServ = new LoginService();
 var login = new Login(loginServ);
-var logged;
 
 export default function LoginScreen() {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [showMessageError, setShowMessageError] = useState(false);
     const [isSelected, setSelection] = useState(false);
-    const navigation = useNavigation();
+    const [showMessageError, setShowMessageError] = useState(false);
     const [messageError, setMessageError] = useState("");
-    const[errorShow, setErrorShow] = useState(false);
-    const[errorEmpty, setErrorEmpty]= useState(false);
+    const navigation = useNavigation();
     
     const handleOkButton = () => {
-        console.log("Usuário cadastrado com sucesso!");
+        console.log("Usuário logado com sucesso!");
     };
 
     React.useEffect(() => {
@@ -41,7 +38,7 @@ export default function LoginScreen() {
     async function SendData() {
         
         try {
-            const createduser = await login.execute(username, password);
+            const loggeduser = await login.execute(username, password);
             setShowMessageError(false);
             Alert.alert(
                 "Sucesso!",
@@ -58,34 +55,16 @@ export default function LoginScreen() {
        
     }
 
-    function clearError() {
-        setErrorShow(false);
-    }
-
-    function clearErrorEmpty(){
-        setErrorEmpty(false);
-    }
-
     return (
         <View style={styles.container}>
 
             <TopInitScreen title="Login" />
 
-            {
-            errorShow ? (
-                <Text>Usuário ou senha estão incorretos</Text>
-            ) : null
-            }
-
-            {
-            errorEmpty ? (
-                <Text>Preencha todos os campos</Text>
-            ) : null
-            }
+            {showMessageError && <ValidationMessage error_text={messageError} />}
 
             <View style={styles.middle_screen} >
                 <TextInput style={styles.input_box}
-                    placeholder="Email ou Nome de Usuário"
+                    placeholder="Email"
                     onChangeText={(text) => setUsername(text)}>
                 </TextInput>
                 <TextInput style={styles.input_box}

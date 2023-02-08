@@ -20,8 +20,8 @@ export default function CadastroScreen() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confPassword, setConfPassword] = useState("");
-    const [showMessageError, setShowMessageError] = useState(false);
     const [isSelected, setSelection] = useState(false);
+    const [showMessageError, setShowMessageError] = useState(false);
     const [messageError, setMessageError] = useState("");
     const navigation = useNavigation();
 

@@ -1,8 +1,10 @@
 export interface User {
-    nameUser: string,
-    emailUser: string,
-    passwordUser: string,
+    name: string,
+    email: string,
+    password: string,
     _id: string,
     createdAt: Date,
     updatedAt: Date,
 }
+
+export const ip = "192.168.0.86";
