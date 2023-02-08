@@ -14,11 +14,13 @@ import { ValidationMessage } from '../components/ValidationMessages/ValidationMe
 import React from 'react';
 import { ButtonGroup } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
-import { id_user, id_comp } from '../entities/id';
 
 
 var loginUser = new LoginUser(new LoginUserService());
 var loginCompany = new LoginCompany(new LoginCompanyService());
+export var id_user = "";
+export var id_comp = "";
+
 
 export default function LoginScreen() {
     
@@ -44,19 +46,24 @@ export default function LoginScreen() {
         return unsubscribe;
     }, [navigation]);
      
-    async function save_id(ident, password) {
-        await SecureStore.setItemAsync(ident, password);
+    async function save_id(password, ident) {
+        await SecureStore.setItemAsync(password, ident);
     }
 
-    async function getValueFor(ident) {
-        let result = await SecureStore.getItemAsync(ident);
+    async function getValueForUser(password) {
+        let result = await SecureStore.getItemAsync(password);
         if (result) {
-           onChangeResult(result);
-        }
-        else {
-            alert('Invalid key!');
+           id_user = result;
         }
 
+        }
+
+    async function getValueForComp(password) {
+        let result = await SecureStore.getItemAsync(password);
+        if (result) {
+            id_comp = result;
+        }
+    
         }
 
     //Função responsável pelo envio de dados ao backend
@@ -66,8 +73,9 @@ export default function LoginScreen() {
             if (selectedIndex == 0)
             {
                 const loggeduser = await loginUser.execute(username, password);
-                console.log(loggeduser._id)
-                save_id(loggeduser._id, loggeduser.password);
+                save_id(loggeduser.password, loggeduser._id);
+                getValueForUser(password);
+                console.log(id_user);
                 setShowMessageError(false);
                 Alert.alert(
                     "Sucesso!",
@@ -78,6 +86,9 @@ export default function LoginScreen() {
             else
             {
                 const loggedcompany = await loginCompany.execute(username, password);
+                save_id(loggedcompany.password, loggedcompany.cnpj);
+                getValueForComp(password)
+                console.log(id_comp);
                 setShowMessageError(false);
                 Alert.alert(
                     "Sucesso!",
@@ -146,12 +157,6 @@ export default function LoginScreen() {
                         </Text>
                     </View>
                 </TouchableOpacity>
-                <TextInput
-                onSubmitEditing={event => {getValueFor(event.nativeEvent.text)}}
-                placeholder='Enter an id'
-                >
-                </TextInput>
-                <Text> {result} </Text>
 
                 <StatusBar style="auto" />
             </View>
