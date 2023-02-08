@@ -112,7 +112,7 @@ export default function LoginScreen() {
                 </TouchableOpacity>
                 <ButtonGroup
                     selectedButtonStyle={styles.enable}
-                    buttons={['Adotante', 'Empresa']}
+                    buttons={['Dono de pet', 'Empresa']}
                     selectedIndex={selectedIndex}
                     onPress={(value) => {
                         setSelectedIndex(value);
