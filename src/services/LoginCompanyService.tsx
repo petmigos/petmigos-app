@@ -1,25 +1,26 @@
-import { User } from "../entities/user";
+import { Company } from "./CadastroCompanyService";
+import { ip } from "../entities/ip";
 
-export default class CadastroService {
+export default class LoginCompanyService {
 
-    async create(username: string, useremail: string, userpassword: string): Promise<User> {
+    async login(email: string, password: string): Promise<Company> {
 
-        const response = await fetch(`http://${ip}:3333/cadastro`, {
+        const response = await fetch(`http://${ip}:3333/loginCompany`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: username,
-                email: useremail,
-                password: userpassword,
+                email: email,
+                password: password,
             })
         })
-
         const responseJSON = await response.json();
         const responseStatus = response.status;
         if (responseStatus !== 200) throw new Error(responseJSON.message);
         return responseJSON;
+
     }
+
 }

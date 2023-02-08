@@ -6,5 +6,3 @@ export interface User {
     createdAt: Date,
     updatedAt: Date,
 }
-
-export const ip = "192.168.0.86";

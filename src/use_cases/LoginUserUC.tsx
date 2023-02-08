@@ -1,10 +1,10 @@
-import LoginService  from "../services/LoginService";
+import LoginService from "../services/LoginUserService";
 import { User } from "../entities/user";
 
-export default class Login {
+export default class LoginUser {
    private loginService: LoginService;
 
-   constructor(loginService: LoginService){
+   constructor(loginService: LoginService) {
       this.loginService = loginService
    }
 
@@ -17,7 +17,7 @@ export default class Login {
       const loggedUser = await this.loginService.login(email, password);
 
       return loggedUser;
-     
+
    }
 
    private isValidField(field: string): boolean {

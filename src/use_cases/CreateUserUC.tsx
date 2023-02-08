@@ -1,5 +1,5 @@
 import { User } from "../entities/user";
-import CadastroService from "../services/CadastroService";
+import CadastroService from "../services/CadastroUserService";
 
 export default class Cadastro {
 

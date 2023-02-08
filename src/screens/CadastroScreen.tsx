@@ -4,8 +4,8 @@ import { TouchableOpacity, Text, TextInput, View, Alert } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import styles from '../styles/styles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
-import CadastroService from '../services/CadastroService';
-import Cadastro from '../use_cases/CadastroUC';
+import CadastroService from '../services/CadastroUserService';
+import Cadastro from '../use_cases/CreateUserUC';
 import React from 'react';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { StackActions, useNavigation } from '@react-navigation/native';
@@ -47,7 +47,7 @@ export default function CadastroScreen() {
                 "Sucesso!",
                 "Usuário cadastrado!",
                 [
-                    { text: "FAZER LOGIN", onPress: handleOkButton}
+                    { text: "FAZER LOGIN", onPress: handleOkButton }
                 ]
             );
         } catch (error: any) {
@@ -59,7 +59,7 @@ export default function CadastroScreen() {
     return (
         <View style={styles.container}>
 
-            <TopInitScreen title="Cadastro"/>
+            <TopInitScreen title="Cadastro" />
             {showMessageError && <ValidationMessage error_text={messageError} />}
             <View style={styles.middle_screen}>
                 <TextInput style={styles.input_box}
@@ -85,7 +85,7 @@ export default function CadastroScreen() {
                         value={isSelected}
                         onValueChange={setSelection}
                         style={styles.checkbox}
-                    color={isSelected ? '#915E36' : undefined}
+                        color={isSelected ? '#915E36' : undefined}
                     />
                     <Text style={styles.label}>Mostrar senha</Text>
                 </View>

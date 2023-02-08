@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Address } from '../entities/address';
-import { ip } from '../entities/user';
+import { ip } from "../entities/ip"
 
 export class Company{
   public cnpj: string;
@@ -25,7 +25,7 @@ export class Company{
 export class CompanySignUpService {
 
   public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
-    const response = await fetch(`http://${ip}:3333/company`, {
+    const response = await fetch(`http://${ip}:3333/cadastroCompany`, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
