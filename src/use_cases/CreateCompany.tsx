@@ -12,6 +12,7 @@ export default class CreateCompany {
 
   async execute(currentCNPJ: string, category: string, name: string, email: string, password: string[], signature: string, address: Address): Promise<Company> {
     currentCNPJ = cnpj.format(currentCNPJ)
+    console.log("numero: " + address.unidade + " cep: " + address.cep)
     const isEmpty =
       (this.isEmpty(currentCNPJ) || this.isEmpty(category) ||
         this.isEmpty(name) || this.isEmpty(email) ||
