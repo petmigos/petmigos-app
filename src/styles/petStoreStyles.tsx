@@ -1,23 +1,32 @@
 import { StyleSheet } from 'react-native';
-import { background, primary, secondary, secondary_v2 } from './colors';
+import { background, erro, primary, secondary, secondary_v2 } from './colors';
 
 export default StyleSheet.create({
 
     container: {
+        flex: 1,
         backgroundColor: background,
-        maxHeight: 1000,
         height: 780,
+        alignContent: 'center',
+        textAlign: 'center',
     },
 
     topContainer: {
+        flex: 2,
         backgroundColor: background,
         textAlign: 'flex-start',
         justifyContent: 'flex-start',
         alignItems: 'center',
         flexWrap: 'wrap',
         flexDirection: 'row',
-        margin: 1,
+        marginTop: 10,
+        marginRight: 15,
+        marginLeft: 15,
     },
+
+    bottomContainer: {
+        flex: 4.5,
+    }
 
 
 

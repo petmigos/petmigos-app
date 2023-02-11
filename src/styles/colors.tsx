@@ -2,6 +2,7 @@ export const primary = "#915E36";
 export const secondary = "#915e36";
 export const secondary_v2 = "#DBA87F";
 export const background = "#FFFF";
+export const superficie = "#F6F6F6";
 export const desabilitado = "#D8D8D8";
 export const sucesso = "#1AAA55";
 export const erro = "#FF0000";
