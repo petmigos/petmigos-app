@@ -32,6 +32,7 @@
     "react-native-check-box": "^2.1.7",
     "react-native-drop-shadow": "^0.0.6",
     "react-native-dropdown-picker": "^5.4.4",
+    "react-native-dropdown-select-list": "^2.0.4",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-reanimated": "~2.12.0",
