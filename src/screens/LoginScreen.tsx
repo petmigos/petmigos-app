@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { Alert } from 'react-native';
-import styles from '../styles/styles';
+import styles from '../styles/loginCadastroStyles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import LoginCompanyService from '../services/LoginCompanyService';
 import LoginUserService from '../services/LoginUserService';
@@ -68,10 +68,9 @@ export default function LoginScreen() {
 
     //Função responsável pelo envio de dados ao backend
     async function SendData() {
-        
+
         try {
-            if (selectedIndex == 0)
-            {
+            if (selectedIndex == 0) {
                 const loggeduser = await loginUser.execute(username, password);
                 save_id(loggeduser.password, loggeduser._id);
                 getValueForUser(password);
@@ -83,8 +82,7 @@ export default function LoginScreen() {
                     [{ text: "Recomeçar", onPress: handleOkButton }]
                 );
             }
-            else
-            {
+            else {
                 const loggedcompany = await loginCompany.execute(username, password);
                 save_id(loggedcompany.password, loggedcompany.cnpj);
                 getValueForComp(password)
@@ -148,7 +146,7 @@ export default function LoginScreen() {
                     onPress={(value) => {
                         setSelectedIndex(value);
                     }}
-                    containerStyle={{marginTop: 40, marginBottom: 50}}/>
+                    containerStyle={{ marginTop: 40, marginBottom: 50 }} />
                 <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
                     <View style={styles.bottom_text}>
                         <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>

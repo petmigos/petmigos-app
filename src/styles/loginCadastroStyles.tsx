@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { erro, primary } from './colors';
 
 
 export default StyleSheet.create({
@@ -90,14 +91,18 @@ export default StyleSheet.create({
 
     },
 
+    sign_up_area:{
+        backgroundColor: 'red',
+        color: '#00000',
+        right: -65,
+        top: 2,
+    },
+
     sign_up_text:
     {
-        color: '#00000',
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         fontSize: 14,
-        right: -70,
-        top:0,
     },
 
     sign_up_button:
@@ -127,11 +132,11 @@ export default StyleSheet.create({
     },
 
     button_cadastro: {
-        backgroundColor: "FF0000",
+        backgroundColor: erro,
     },
 
     enable: {
-        backgroundColor: '#915E36',
+        backgroundColor: primary,
     }
 
 
