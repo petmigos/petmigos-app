@@ -10,8 +10,9 @@ export default StyleSheet.create({
     },
 
     middle_screen: {
-        width: 300,
+        width: 320,
     },
+   
 
     input_box: {
         height: 57,
@@ -51,6 +52,7 @@ export default StyleSheet.create({
 
     bottom_text: {
         color: '#000000',
+        width: 310,
         // fontFamily: 'Ubuntu-Regular',
         fontStyle: 'normal',
         paddingTop: 10,
@@ -100,6 +102,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         fontSize: 14,
+        right: -70,
     },
 
     sign_up_button:
@@ -107,7 +110,6 @@ export default StyleSheet.create({
         border: 'none',
         style: 'transparent',
         color: 'white',
-        top: 1,
         left: 70,
     },
 
@@ -127,6 +129,14 @@ export default StyleSheet.create({
         margin: 10,
         fontWeight: 'normal'
     },
+
+    button_cadastro: {
+        backgroundColor: "FF0000",
+    },
+
+    enable: {
+        backgroundColor: '#915E36',
+    }
 
 
 
