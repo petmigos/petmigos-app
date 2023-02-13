@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, Text, TextInput, View, Alert } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import styles from '../styles/styles';
+import styles from '../styles/loginCadastroStyles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import CadastroService from '../services/CadastroUserService';
 import Cadastro from '../use_cases/CreateUserUC';

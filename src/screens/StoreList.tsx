@@ -21,19 +21,11 @@ const StoreList = () =>{
 }
 
 const styles = StyleSheet.create({
-    container:{
+    
+    container: {
         //backgroundColor: background
     },
-    header:{
-        display: 'flex',
-        marginTop: '16%',
-        marginLeft: '8%',
-        //fontFamily: 'Ubuntu'
-    },
-    header_text:{
-        fontSize: 36,
-        fontWeight: 'bold'
-    },
+
     store_list:{
         alignItems: 'center',
         justifyContent: 'flex-start'
