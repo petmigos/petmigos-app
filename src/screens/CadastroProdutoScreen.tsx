@@ -49,6 +49,19 @@ export default function CadastroProdutoScreen() {
         console.log(category);
     }
 
+    function convertToBase64(file){
+        return new Promise((resolve, reject) =>{
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(file);
+            fileReader.onload = () => {
+                resolve(fileReader.result)
+            }
+            fileReader.onerror = (error) => {
+                reject(error)
+            }
+        })
+    }
+
     return (
         <View style={styles.container}>
 
@@ -56,6 +69,7 @@ export default function CadastroProdutoScreen() {
                 <Text style={styles.topText} >Cadastrar Produto</Text>
                 <SetImage image={image.test} addImage={image.addFoto} />
             </View>
+            
             <View style={styles.middleScreen}>
                 <TextInput style={styles.input_box}
                     placeholder='Título'

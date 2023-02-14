@@ -55,7 +55,7 @@ export default StyleSheet.create({
         marginBottom: 20,
         marginTop: 20,
         marginRight: 20,
-        color: 
+        
     },
 
     pickCategory: {
