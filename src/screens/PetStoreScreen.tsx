@@ -1,9 +1,10 @@
-import { View } from 'react-native';
+import { View, Text} from 'react-native';
 import styles from "../styles/petStoreStyles"
 import { TitleScreenComp } from '../components/TitleScreen/TitleScreenComp';
 import { PetStoreItem } from '../components/PetStoreCategory/PetStoreItem';
 import { Line } from '../components/Line/Line';
 import { BottomButton } from '../components/BottomButton/BottomButton';
+import { CardUser } from '../components/Cards/CardUser/CardUser';
 
 
 const images = {
@@ -14,6 +15,10 @@ const images = {
     needle: require("../../assets/petstoreitems/needle.png"),
     food: require("../../assets/petstoreitems/food.png"),
     pet: require("../../assets/petstoreitems/pet.png"),
+
+    fulano: require("../../assets/testimages/fulano.png"),
+    miss_pet: require("../../assets/testimages/miss_pet.png"),
+    petz: require("../../assets/testimages/petz.png"),
 
 }
 
@@ -34,7 +39,12 @@ export default function PetStoreScreen() {
             <Line/>
             <View style={styles.bottomContainer}>
                 <BottomButton title="Lojas"/>
-                <BottomButton title="Itens Mais Procurados"/>
+            </View>
+            <View style={styles.bestSellers}>
+                <Text style={styles.bestSellersText}>Itens mais procurados</Text>
+                <CardUser name="Miss Pet" category='Banho e tosa' price={56.76} categoryImage={images.drop} mainImage={images.miss_pet}/>
+                <CardUser name="Petz" category='Ração Pedigree 30kg' price={56.76} categoryImage={images.food} mainImage={images.petz}/>
+                <CardUser name="Fulano" category='Teste' price={56.76} categoryImage={images.pet} mainImage={images.fulano}/>
             </View>
         </View>
     )

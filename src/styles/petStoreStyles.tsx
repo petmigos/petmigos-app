@@ -12,7 +12,7 @@ export default StyleSheet.create({
     },
 
     topContainer: {
-        flex: 2,
+        flex: 1,
         backgroundColor: background,
         textAlign: 'flex-start',
         justifyContent: 'flex-start',
@@ -25,9 +25,20 @@ export default StyleSheet.create({
     },
 
     bottomContainer: {
-        flex: 4.5,
-    }
+        backgroundColor: background,
+    },
 
+    bestSellers: {
+        flex: 2,
+        backgroundColor: background,
+        marginTop: 10,
+    },
 
+    bestSellersText: {
+        fontSize: 25,
+        marginLeft: 20,
+        marginBottom: 20,
+        fontWeight:'bold',
+    },
 
 });

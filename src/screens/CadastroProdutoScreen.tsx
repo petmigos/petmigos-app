@@ -1,14 +1,13 @@
 import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
 import styles from '../styles/cadastroProdutoStyles';
 import { useState } from 'react';
-import { SelectList } from 'react-native-dropdown-select-list';
 import CadastroItemService from '../services/CadastroItemService';
 import CadastroItem from '../use_cases/RegisterItemUC';
-import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
-import { TitleScreenComp } from '../components/TitleScreen/TitleScreenComp';
 import { SetImage } from '../components/SetImage/SetImage';
 import { Picker } from '@react-native-picker/picker';
 import { result } from '../components/SetImage/SetImage';
+import { QuantButton } from '../components/QuantButton/QuantButton';
+
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -25,6 +24,7 @@ export default function CadastroProdutoScreen() {
     const [price, setPrice] = useState(0);
     const [category, setCategory] = useState("");
     const [selectedCategory, setSelectedCategory] = useState('Petshop');
+    const [quantity, setQuantity] = useState(0);
     const data = [
         { key: 'Acessórios', value: 'Acessórios' },
         { key: 'Banho e Tosa', value: 'Banho e Tosa' },
@@ -39,6 +39,14 @@ export default function CadastroProdutoScreen() {
         
         await cadastroItem.execute(title, description, price, category, result.assets[0].uri);
 
+    }
+
+    function Increment() {
+        setQuantity(quantity + 1);
+    }
+
+    function Decrement() {
+        if (quantity >= 0) setQuantity(quantity - 1);
     }
 
     function Pressed() {
@@ -64,7 +72,7 @@ export default function CadastroProdutoScreen() {
         <View style={styles.container}>
 
             <View style={styles.topContainer}>
-                <Text style={styles.topText} >Cadastrar Produto</Text>
+                <Text style={styles.topText}>Cadastrar Produto</Text>
                 <SetImage image={image.test} addImage={image.addFoto} />
             </View>
             
@@ -96,12 +104,17 @@ export default function CadastroProdutoScreen() {
                     </Picker>
                 </View>
 
+                <View style={styles.quantity}>
+                    <Text style={styles.quantityText}>Quantidade</Text>
+                    <QuantButton quantity={0} increment={undefined} decrement={undefined}/>
+                </View>
+
+
                 <TouchableOpacity style={styles.accessingButton} onPress={SendData}>
                     <Text style={styles.gettingText}>
                         Cadastrar
                     </Text>
                 </TouchableOpacity>
-                
             </View>
 
         </View>

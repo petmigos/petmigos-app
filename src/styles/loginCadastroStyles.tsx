@@ -52,6 +52,7 @@ export default StyleSheet.create({
     },
 
     bottom_text: {
+
         color: '#000000',
         width: 310,
         // fontFamily: 'Ubuntu-Regular',
@@ -103,6 +104,7 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         fontSize: 14,
+        marginLeft: 130,
     },
 
     sign_up_button:

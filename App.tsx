@@ -1,11 +1,20 @@
-import Navigation from './Navigation';
-import Cadastro from './src/use_cases/CreateUserUC';
-import CadastroProductScreen from './src/screens/CadastroProdutoScreen';
+import { NavigationContainer } from "@react-navigation/native";
+import InitialNavigation from "./Navigation";
+import PetStoreScreen from "./src/screens/PetStoreScreen";
+import ItemUserScreen from "./src/screens/ItemUserScreen";
+import CadastroProdutoScreen from "./src/screens/CadastroProdutoScreen";
 
 const App = () => {
   return (
-    <CadastroProductScreen />
+    <>
+      <CadastroProdutoScreen/>
+      {/* <NavigationContainer>
+        <InitialNavigation />
+      </NavigationContainer> */}
+      {/* <NavigationContainer>
+        <Navigation />
+      </NavigationContainer> */}
+    </>
   );
 };
-
 export default App;
