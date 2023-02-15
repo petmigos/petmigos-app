@@ -4,7 +4,7 @@ import { inputBackground } from "../../styles/colors";
 export const styles = StyleSheet.create({
     input_box: {
         height: 57,
-        marginTop: 20,
+        marginTop: 10,
         borderWidth: 1,
         padding: 10,
         backgroundColor: inputBackground,

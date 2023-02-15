@@ -23,7 +23,7 @@ interface InputProps {
         borderRadius: 6,
         fontSize: 18,
         borderColor: '#fff',
-        backgroundColor: inputBackground
+        backgroundColor: inputBackground,
     }
 });
 
@@ -43,12 +43,12 @@ const Input: React.FC<InputProps> =  (
             <TextInput placeholder={message} 
             style={
                 [styles.input, {width: width}, {marginBottom: marginBtm}, {marginLeft: marginLeft},
-                edit? {opacity: 1}: {opacity: 0.5}]}
+                edit? {opacity: 0.5}: {opacity: 0.3}]}
             onChangeText={changeText}
             value={value}
             keyboardType={`${number? "number-pad": null}`}
             editable={edit}
-            placeholderTextColor="#bbb"
+            placeholderTextColor="#737373"
             maxLength={maxLength}
             >
             </TextInput>

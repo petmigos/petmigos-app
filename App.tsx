@@ -1,12 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import InitialNavigation from "./Navigation";
+import PetStoreScreen from "./src/screens/PetStoreScreen";
+import ItemUserScreen from "./src/screens/ItemUserScreen";
 
 const App = () => {
   return (
     <>
-      <NavigationContainer>
+    <PetStoreScreen/>
+      {/* <NavigationContainer>
         <InitialNavigation />
-      </NavigationContainer>
+      </NavigationContainer> */}
       {/* <NavigationContainer>
         <Navigation />
       </NavigationContainer> */}
@@ -14,3 +17,5 @@ const App = () => {
   );
 };
 export default App;
+
+

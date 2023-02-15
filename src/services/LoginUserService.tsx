@@ -20,7 +20,6 @@ export default class LoginService {
         const responseStatus = response.status;
         if (responseStatus !== 200) throw new Error(responseJSON.message);
         return responseJSON;
-
     }
 
 }
