@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Address } from '../entities/address';
-import { ip } from "../entities/ip"
+import { Address } from '../../entities/address';
+import { ip } from "../../entities/ip"
 
 export class Company{
   public cnpj: string;
@@ -22,7 +22,7 @@ export class Company{
   }
 }
 
-export class CompanySignUpService {
+export class CompanyService {
 
   public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
     const response = await fetch(`http://${ip}:3333/cadastroCompany`, {
@@ -52,6 +52,40 @@ export class CompanySignUpService {
         const responseStatus = response.status;
         if(responseStatus !== 200) throw new Error(responseJSON.message)
         return responseJSON;
+  }
+
+  async login(email: string, password: string): Promise<Company> {
+
+    const response = await fetch(`http://${ip}:3333/loginCompany`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password,
+        })
+    })
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
 
   }
+
+  async fetchCompanies() {
+    try {
+      const response = await fetch(`http://${ip}:3333/companies`);
+      const data = await response.json();
+      console.log(data)
+      return data.map(company => ({ name: company.name, _id: company._id, category: company.category }));
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
+  }
+
+
+
 }

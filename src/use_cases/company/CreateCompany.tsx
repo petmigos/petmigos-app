@@ -1,18 +1,17 @@
-import { CompanySignUpService } from "../services/CadastroCompanyService"
-import { Company } from "../entities/company";
+import { CompanyService } from "../../services/company/CompanyService"
+import { Company } from "../../entities/company";
 import { cnpj } from 'cpf-cnpj-validator';
-import { Address } from "../entities/address";
+import { Address } from "../../entities/address";
 
 export default class CreateCompany {
-  private companySignService: CompanySignUpService;
+  private companyService: CompanyService;
 
-  constructor(companySignService: CompanySignUpService) {
-    this.companySignService = companySignService;
+  constructor(service: CompanyService) {
+    this.companyService = service;
   }
 
   async execute(currentCNPJ: string, category: string, name: string, email: string, password: string[], signature: string, address: Address): Promise<Company> {
     currentCNPJ = cnpj.format(currentCNPJ)
-    console.log("numero: " + address.unidade + " cep: " + address.cep)
     const isEmpty =
       (this.isEmpty(currentCNPJ) || this.isEmpty(category) ||
         this.isEmpty(name) || this.isEmpty(email) ||
@@ -26,7 +25,7 @@ export default class CreateCompany {
     if (!this.isPasswordEqual(password[0], password[1])) throw new Error("As senhas não coincidem.")
     if (!this.hasSignature(signature)) throw new Error("É preciso escolher seu plano de assinatura.")
 
-    const createdCompany = await this.companySignService.create(currentCNPJ, category, name, email, password[0], signature, address)
+    const createdCompany = await this.companyService.create(currentCNPJ, category, name, email, password[0], signature, address)
     return createdCompany;
   }
 

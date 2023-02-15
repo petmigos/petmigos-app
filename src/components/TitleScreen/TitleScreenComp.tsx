@@ -5,10 +5,10 @@ type TitleProps = {
     title: string;
 };
 
-export const TitleScreenComp = (props: TitleProps) => {
+export const TitleScreenComp = ({title}) => {
     return (
         <View style={styles.header}>
-            <Text style={styles.header_text}>{props.title}</Text>
+            <Text style={styles.header_text}>{title}</Text>
         </View>
     );
 };

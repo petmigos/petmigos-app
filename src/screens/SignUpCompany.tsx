@@ -9,15 +9,15 @@ import SignatureCard from '../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
 import { Address } from '../entities/address';
 import { cnpj } from 'cpf-cnpj-validator';
-import { CompanySignUpService } from '../services/CadastroCompanyService';
-import CreateCompany from '../use_cases/CreateCompany';
+import { CompanyService } from '../services/company/CompanyService';
+import CreateCompany from '../use_cases/company/CreateCompany';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import PasswordField from '../components/Password/PasswordField';
 import PasswordCheckbox from '../components/Password/PasswordCheckbox';
 
-let service = new CompanySignUpService();
+let service = new CompanyService();
 let company = new CreateCompany(service);
 
 const SignUpCompany: React.FC = () => {
@@ -63,7 +63,6 @@ const SignUpCompany: React.FC = () => {
   }, [cep]);
 
   const handleAdressNumberChange = (text: string) => {
-    console.log("number:" +  text);
     setAddress({
       ...address,
       unidade: text,

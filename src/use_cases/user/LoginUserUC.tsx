@@ -1,22 +1,22 @@
-import LoginService from "../services/LoginCompanyService";
-import { Company } from "../services/CadastroCompanyService";
+import LoginService from "../../services/LoginUserService";
+import { User } from "../../entities/user";
 
-export default class LoginCompany {
+export default class LoginUser {
    private loginService: LoginService;
 
    constructor(loginService: LoginService) {
       this.loginService = loginService
    }
 
-   async execute(email: string, password: string): Promise<Company> {
+   async execute(email: string, password: string): Promise<User> {
 
       if (!this.isValidField(password)) throw new Error("Preencha o campo de senha.");
       if (!this.isValidField(email)) throw new Error("Preencha o campo de email.");
       if (!this.isValidEmail(email)) throw new Error("Insira um email válido.");
 
-      const loggedCompany = await this.loginService.login(email, password);
+      const loggedUser = await this.loginService.login(email, password);
 
-      return loggedCompany;
+      return loggedUser;
 
    }
 

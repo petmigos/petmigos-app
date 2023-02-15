@@ -1,12 +1,12 @@
 import {TouchableOpacity, Image, StyleSheet, Text, View} from "react-native";
 
-const StoreCard = ({onPress}) =>{
+const StoreCard = (props) =>{
     return(
-        <TouchableOpacity style={styles.box_container} onPress={onPress}>
+        <TouchableOpacity style={styles.box_container} onPress={props.onPress} key={props.id}>
             <Image source={require("../../../assets/store_test.png")} style={styles.store_img}/>
                 <View style={styles.store_info}>
                     <View>
-                        <Text style={styles.store_title}>Nome da Loja</Text>
+                        <Text style={styles.store_title}>{props.store_name}</Text>
                         <Text style={{color: '#DBA87F'}}>Categoria</Text>
                     </View>
                     <View style={styles.store_left_info}>
@@ -27,15 +27,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: 'white',
-        height: '35%',
+        height: '14%',
         width: '84%',
-        margin: 30,
-        padding: 8,
+        marginBottom: 30,
+        paddingTop: 20,
+        paddingBottom: 20,
         borderRadius: 8,
         alignItems: 'center'
     },
     store_img:{
-        width: 60,
+        width: '18%',
         height: 60,
         borderRadius: 12,
         marginRight: 8

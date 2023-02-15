@@ -5,7 +5,7 @@ import Checkbox from 'expo-checkbox';
 import styles from '../styles/loginCadastroStyles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import CadastroService from '../services/CadastroUserService';
-import Cadastro from '../use_cases/CreateUserUC';
+import Cadastro from '../use_cases/user/CreateUserUC';
 import React from 'react';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { StackActions, useNavigation } from '@react-navigation/native';

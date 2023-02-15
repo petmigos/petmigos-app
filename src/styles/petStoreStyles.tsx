@@ -11,23 +11,7 @@ export default StyleSheet.create({
         textAlign: 'center',
     },
 
-    topContainer: {
-        flex: 2,
-        backgroundColor: background,
-        textAlign: 'flex-start',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-        marginTop: 10,
-        marginRight: 15,
-        marginLeft: 15,
-    },
-
     bottomContainer: {
         flex: 4.5,
     }
-
-
-
 });
