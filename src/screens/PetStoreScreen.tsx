@@ -6,6 +6,7 @@ import { Line } from '../components/Line/Line';
 import { BottomButton } from '../components/BottomButton/BottomButton';
 import { CardUser } from '../components/Cards/CardUser/CardUser';
 import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 
 const images = {
@@ -24,6 +25,7 @@ const images = {
 }
 
 export default function PetStoreScreen() {
+    const navigation = useNavigation();
 
     return (
         <ScrollView>
@@ -40,7 +42,7 @@ export default function PetStoreScreen() {
                 </View>
                 <Line/>
                 <View style={styles.bottomContainer}>
-                    <BottomButton title="Lojas"/>
+                    <BottomButton title="Lojas" function={navigation.navigate('StoreList')}/>
                 </View>
                 <View style={styles.bestSellers}>
                     <Text style={styles.bestSellersText}>Itens mais procurados</Text>

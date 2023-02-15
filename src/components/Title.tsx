@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
     title:{
         lineHeight: 16,
         paddingTop: 30,
-        marginBottom: 15
+        marginBottom: 15,
+        fontWeight: 'bold'
     }
 })
 

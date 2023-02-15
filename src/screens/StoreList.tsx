@@ -22,14 +22,14 @@ const StoreList = () =>{
             </View>
         <ScrollView>
         <View style={styles.store_list}>
-            {companies.map(companies => (   
-                <TouchableOpacity style={styles.box_container} key={companies._id} 
-                onPress={() => navigation.navigate('StoreScreen', { companies })}>
+            {companies.map(company => (   
+                <TouchableOpacity style={styles.box_container} key={company._id} 
+                onPress={() => navigation.navigate('StoreScreen', { company })}>
                 <Image source={require("../../assets/store/store_test.png")} style={styles.store_img}/>
                     <View style={styles.store_info}>
                         <View>
-                            <Text style={styles.store_title}>{companies.name}</Text>
-                            <Text style={{color: '#DBA87F'}}>{companies.category}</Text>
+                            <Text style={styles.store_title}>{company.name}</Text>
+                            <Text style={{color: '#DBA87F'}}>{company.category}</Text>
                         </View>
                         <View style={styles.store_left_info}>
                             <Image source={require('../../assets/store/acessorios.png')} style={{marginBottom: 10}}/>

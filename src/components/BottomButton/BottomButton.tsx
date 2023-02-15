@@ -5,11 +5,12 @@ import { StyleSheet } from 'react-native';
 
 type ButtonProps = {
     title: string;
+    function
 };
 
 export const BottomButton = (props: ButtonProps) => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.function}>
             <View style={styles.button}>
                 <Text style={styles.text}>{props.title}</Text>
             </View>
