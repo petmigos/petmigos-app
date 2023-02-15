@@ -8,6 +8,7 @@ import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import { TitleScreenComp } from '../components/TitleScreen/TitleScreenComp';
 import { SetImage } from '../components/SetImage/SetImage';
 import { Picker } from '@react-native-picker/picker';
+import { result } from '../components/SetImage/SetImage';
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -15,7 +16,6 @@ const image = {
     test: require("../../assets/store_test.png"),
     addFoto: require("../../assets/addFoto.png")
 }
-
 
 
 export default function CadastroProdutoScreen() {
@@ -36,8 +36,8 @@ export default function CadastroProdutoScreen() {
     ];
 
     async function SendData() {
-
-        await cadastroItem.execute(title, description, price, category);
+        
+        await cadastroItem.execute(title, description, price, category, result.assets[0].uri);
 
     }
 
@@ -49,18 +49,16 @@ export default function CadastroProdutoScreen() {
         console.log(category);
     }
 
-    function convertToBase64(file){
-        return new Promise((resolve, reject) =>{
-            const fileReader = new FileReader();
-            fileReader.readAsDataURL(file);
-            fileReader.onload = () => {
-                resolve(fileReader.result)
-            }
-            fileReader.onerror = (error) => {
-                reject(error)
-            }
-        })
-    }
+    function getBase64(file) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+          console.log(reader.result);
+        };
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        };
+     }
 
     return (
         <View style={styles.container}>
@@ -103,6 +101,7 @@ export default function CadastroProdutoScreen() {
                         Cadastrar
                     </Text>
                 </TouchableOpacity>
+                
             </View>
 
         </View>
