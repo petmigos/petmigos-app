@@ -10,22 +10,26 @@ export default StyleSheet.create({
     },
 
     topContainer: {
-        flex: 1,
+        flex: 1.1,
         backgroundColor: background,
         justifyContent: 'flex-start',
         alignItems: 'center',
+        marginBottom: 10,
 
     },
 
     topText: {
         fontSize: 20,
         fontWeight: 'bold',
-        marginTop: 35,
+        marginTop: 40,
+        marginBottom: 0,
     },
 
     middleScreen: {
         flex: 2,
         backgroundColor: background,
+        marginRight: 20,
+        marginLeft: 20,
     },
 
     selectList: {
@@ -35,8 +39,6 @@ export default StyleSheet.create({
 
     input_box: {
         marginTop: 20,
-        marginRight: 20,
-        marginLeft: 20,
         borderWidth: 1,
         padding: 10,
         backgroundColor: inputBackground,
@@ -50,12 +52,23 @@ export default StyleSheet.create({
         borderRadius: 10,
         overflow: 'hidden',
         opacity: 0.5,
-        marginLeft: 20,
         backgroundColor: inputBackground,
         marginBottom: 20,
         marginTop: 20,
-        marginRight: 20,
         
+    },
+
+    quantity: {
+        flexDirection: 'row',
+        backgroundColor: background,
+        marginRight: 20,
+        marginLeft: 20,
+    },
+
+    quantityText: {
+        fontWeight: '600',
+        fontSize: 17,
+        marginRight: 20,
     },
 
     pickCategory: {
@@ -64,8 +77,6 @@ export default StyleSheet.create({
 
     acessingButton: {
         marginTop: 20,
-        marginRight: 0,
-        marginLeft: 0,
     },
 
     accessingButton: {
@@ -77,6 +88,8 @@ export default StyleSheet.create({
         textAlign: 'center',
         marginTop: 20,
         borderRadius: 8,
+        resizeMode: 'contain',
+
     },
 
     gettingText: {
