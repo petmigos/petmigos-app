@@ -1,28 +1,45 @@
-import * as React from 'react';
-import { Button, Text, View } from 'react-native';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { primary } from './src/styles/colors';
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 import LoginScreen from './src/screens/LoginScreen';
 import PickUpSignUp from './src/screens/PickUpSignUp';
 import StoreList from './src/screens/StoreList';
 import PetStoreScreen from './src/screens/PetStoreScreen';
+import ListPets from './src/screens/Pets';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// Define the Tab Navigator that will be displayed after the user logs in
 function TabNavigator() {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="StoreList" component={StoreList} />
-      <Tab.Screen name="PetStoreScreen" component={PetStoreScreen} />
+    <Tab.Navigator screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: primary,
+        tabBarStyle: {position: 'absolute', height: '6%', padding: 5}}}
+    >
+        <Tab.Screen name="StoreList" component={StoreList} 
+        options={{
+            tabBarLabel: 'PetStore',
+            tabBarIcon: ({ color, size }) => (
+                <MaterialIcons name="local-grocery-store" size={size} color={color} />
+            )}}/>
+
+        <Tab.Screen name="ListPets" component={ListPets} 
+        options={{
+            tabBarLabel: 'Meus Pets',
+            tabBarIcon: ({ color, size }) => (
+                <MaterialIcons name="home" size={size} color={color} />
+            )}}/>
+      <Tab.Screen name="PetStore" component={PetStoreScreen} 
+      />
     </Tab.Navigator>
   );
 }
 
-// Define the Stack Navigator for the Login and Signup screens
 function AuthStack() {
   return (
     <Stack.Navigator
@@ -33,7 +50,6 @@ function AuthStack() {
   );
 }
 
-// Define the main App component that wraps the navigators
 export default function NavigateTo() {
     return (
         <NavigationContainer>
