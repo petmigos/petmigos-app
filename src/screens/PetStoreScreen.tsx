@@ -17,6 +17,10 @@ const images = {
     food: require("../../assets/petstoreitems/food.png"),
     pet: require("../../assets/petstoreitems/pet.png"),
 
+    fulano: require("../../assets/testimages/fulano.png"),
+    miss_pet: require("../../assets/testimages/miss_pet.png"),
+    petz: require("../../assets/testimages/petz.png"),
+
 }
 
 export default function PetStoreScreen() {
@@ -40,9 +44,9 @@ export default function PetStoreScreen() {
                 </View>
                 <View style={styles.bestSellers}>
                     <Text style={styles.bestSellersText}>Itens mais procurados</Text>
-                    <CardUser name="teste" category='Teste' price={56.76} categoryImage={images.heart} mainImage={images.heart}/>
-                    <CardUser name="teste" category='Teste' price={56.76} categoryImage={images.heart} mainImage={images.heart}/>
-                    <CardUser name="teste" category='Teste' price={56.76} categoryImage={images.heart} mainImage={images.heart}/>
+                    <CardUser name="Miss Pet" category='Banho e tosa' price={56.76} categoryImage={images.drop} mainImage={images.miss_pet}/>
+                    <CardUser name="Petz" category='Ração Pedigree 30kg' price={56.76} categoryImage={images.food} mainImage={images.petz}/>
+                    <CardUser name="Fulano" category='Teste' price={56.76} categoryImage={images.pet} mainImage={images.fulano}/>
                 </View>
             </View>
         </ScrollView>

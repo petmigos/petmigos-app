@@ -4,7 +4,7 @@ import { background, erro, primary, secondary, secondary_v2 } from './colors';
 export default StyleSheet.create({
 
     container: {
-
+        flex: 1,
         backgroundColor: background,
         height: 780,
         alignContent: 'center',
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     },
 
     topContainer: {
-
+        flex: 1,
         backgroundColor: background,
         textAlign: 'flex-start',
         justifyContent: 'flex-start',
@@ -25,11 +25,12 @@ export default StyleSheet.create({
     },
 
     bottomContainer: {
-
+        backgroundColor: background,
     },
 
     bestSellers: {
-        backgroundColor: erro,
+        flex: 2,
+        backgroundColor: background,
     },
 
     bestSellersText: {
