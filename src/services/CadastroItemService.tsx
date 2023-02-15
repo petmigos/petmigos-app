@@ -3,7 +3,7 @@ import { ip } from "../entities/ip";
 
 export default class CadastroItemService {
 
-    async register(title: string, description: string, price: number, category: string, image: string): Promise<Item> {
+    async register(title: string, description: string, price: number, category: string, image: string, quantity: number): Promise<Item> {
 
         const response = await fetch(`http://${ip}:3333/cadastroItem`, {
             method: 'POST',
@@ -17,6 +17,7 @@ export default class CadastroItemService {
                 price: price,
                 category: category,
                 image: image,
+                quantity: quantity
             })
         })
 

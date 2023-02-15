@@ -7,7 +7,7 @@ import { SetImage } from '../components/SetImage/SetImage';
 import { Picker } from '@react-native-picker/picker';
 import { result } from '../components/SetImage/SetImage';
 import { QuantButton } from '../components/QuantButton/QuantButton';
-
+import RNFS from 'react-native-fs';
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -37,7 +37,7 @@ export default function CadastroProdutoScreen() {
 
     async function SendData() {
         
-        await cadastroItem.execute(title, description, price, category, result.assets[0].uri);
+        await cadastroItem.execute(title, description, price, category, result.assets[0].uri, quantity)
 
     }
 
@@ -46,7 +46,7 @@ export default function CadastroProdutoScreen() {
     }
 
     function Decrement() {
-        if (quantity >= 0) setQuantity(quantity - 1);
+        if (quantity > 0) setQuantity(quantity - 1);
     }
 
     function Pressed() {
@@ -96,7 +96,7 @@ export default function CadastroProdutoScreen() {
                     <Picker
                         selectedValue={selectedCategory}
                         style={styles.pickCategory}
-                        onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+                        onValueChange={(itemValue) => setCategory(itemValue)}
                     >
                         <Picker.Item label="Petshop" value="petshop" />
                         <Picker.Item label="Veterinário" value="veterinario" />
@@ -106,7 +106,7 @@ export default function CadastroProdutoScreen() {
 
                 <View style={styles.quantity}>
                     <Text style={styles.quantityText}>Quantidade</Text>
-                    <QuantButton quantity={0} increment={undefined} decrement={undefined}/>
+                    <QuantButton quantity={quantity} increment={Increment} decrement={Decrement}/>
                 </View>
 
 
@@ -121,3 +121,4 @@ export default function CadastroProdutoScreen() {
 
     )
 }
+

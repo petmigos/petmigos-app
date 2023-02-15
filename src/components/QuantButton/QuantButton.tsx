@@ -13,7 +13,7 @@ type QuantityProps = {
 export const QuantButton = (props: QuantityProps) => {
     return (
         <View style={styles.component}>
-            <TouchableOpacity style={styles.btn} onPress={props.increment}>
+            <TouchableOpacity style={styles.btn} onPress={props.decrement}>
                 <Text>-</Text>
             </TouchableOpacity>
             <Text style={styles.qtd}>{props.quantity}</Text>
