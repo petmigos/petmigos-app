@@ -12,14 +12,14 @@ type ImageProps = {
 };
 
 export const SetImage = (props: ImageProps) => {
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState("../../../assets/user_icon.png");
 
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [1, 1],
         quality: 1,
       });
 
@@ -37,15 +37,11 @@ export const SetImage = (props: ImageProps) => {
 
     return (
         <View style={styles.component}>
-            {image ? <ImageBackground
-                      source={{uri: image}}
-                      style={styles.image}>
-            </ImageBackground>: null}
-            <TouchableOpacity onPress={ () => {pickImage(); uploadImage()}} style={styles.test}>
-                        <Image
-                            source={props.addImage}
-                            style={styles.camera}/>
-                    </TouchableOpacity>
+                <TouchableOpacity onPress={ () => {pickImage(); uploadImage()}}>
+                {image ? <Image
+                        source={{uri: image}}
+                        style={styles.image}/>: null}
+            </TouchableOpacity>
         </View> 
     );
 };
@@ -58,26 +54,16 @@ const styles = StyleSheet.create({
     },
     
     image: {
+      marginTop: 10,
         flex: 1,
-        borderRadius: 125/2,
+        borderRadius: 250,
         height: 200,
         width: 200,
-        resizeMode: 'contain',
+        resizeMode: 'center',
         justifyContent: 'flex-end',
         alignItems: 'flex-end',
-        top: 10,
         
     },
 
-    test: {
-        justifyContent: 'flex-end',
-        marginRight: 15,
-    },
 
-    camera: {
-        height: 50,
-        weight: 50,
-        aspectRatio: 1,
-        
-    }
 });

@@ -11,7 +11,35 @@ export default StyleSheet.create({
         textAlign: 'center',
     },
 
+    topContainer: {
+        flex: 1,
+        backgroundColor: background,
+        textAlign: 'flex-start',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        marginTop: 10,
+        marginRight: 15,
+        marginLeft: 15,
+    },
+
     bottomContainer: {
-        flex: 4.5,
-    }
+        backgroundColor: background,
+    },
+
+    bestSellers: {
+        flex: 2,
+        backgroundColor: background,
+    },
+
+    bestSellersText: {
+        fontSize: 25,
+        marginLeft: 20,
+        marginBottom: 20,
+        fontWeight:'bold',
+    },
+
+
+
 });
