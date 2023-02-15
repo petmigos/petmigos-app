@@ -1,15 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
-import InitialNavigation from "./Navigation";
+import NavigateTo from "./Navigate";
+import React from 'react';
 
 const App = () => {
   return (
     <>
-      <NavigationContainer>
-        <InitialNavigation />
-      </NavigationContainer>
-      {/* <NavigationContainer>
-        <Navigation />
-      </NavigationContainer> */}
+      <NavigateTo/>
     </>
   );
 };

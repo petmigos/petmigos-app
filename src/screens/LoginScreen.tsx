@@ -5,7 +5,7 @@ import Checkbox from 'expo-checkbox';
 import { Alert } from 'react-native';
 import styles from '../styles/loginCadastroStyles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
-import LoginCompanyService from '../services/company/LoginCompanyService';
+import {CompanyService} from '../services/company/CompanyService';
 import LoginUserService from '../services/LoginUserService';
 import LoginUser from '../use_cases/user/LoginUserUC';
 import LoginCompany from '../use_cases/company/LoginCompanyUC';
@@ -15,7 +15,7 @@ import React from 'react';
 import { ButtonGroup } from 'react-native-elements';
 
 var loginUser = new LoginUser(new LoginUserService());
-var loginCompany = new LoginCompany(new LoginCompanyService());
+var loginCompany = new LoginCompany(new CompanyService());
 
 
 export default function LoginScreen() {
@@ -48,20 +48,12 @@ export default function LoginScreen() {
             if (selectedIndex == 0) {
                 const loggeduser = await loginUser.execute(username, password);
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Usuário logado!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
+                navigation.navigate('TabNavigator');
             }
             else {
                 const loggedcompany = await loginCompany.execute(username, password);
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Empresa logada!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
+                navigation.navigate('TabNavigator');
             }
 
         } catch (error: any) {
