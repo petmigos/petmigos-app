@@ -17,7 +17,6 @@ type CardUserProps = {
 export const CardUser = (props: CardUserProps) => {
     return (
         <TouchableOpacity style={styles.component}>
-            <View style={styles.component}>
                 <Image
                     source={props.mainImage}
                     style={styles.mainImage} />
@@ -32,8 +31,6 @@ export const CardUser = (props: CardUserProps) => {
                         style={styles.categoryImage} />
                     <Text style={styles.price} >R${props.price}</Text>
                 </View>
-                
-            </View>
         </TouchableOpacity>
     );
 };
@@ -41,16 +38,16 @@ export const CardUser = (props: CardUserProps) => {
 const styles = StyleSheet.create({
 
     component: {
-        flex: 0,
         flexDirection: 'row',
         backgroundColor: background,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10,
-        borderColor: textPadrao,
         marginRight: 20,
         marginLeft: 20,
         marginBottom: 10,
+        borderRadius: 5,
+        borderColor: primary,
+        borderWidth: 1,
     },
 
     mainImage: {
@@ -74,6 +71,7 @@ const styles = StyleSheet.create({
     rightComponent: {
         flexDirection: 'column',
         alignItems: 'flex-end',
+        marginRight: 20,
     },
 
     price: {

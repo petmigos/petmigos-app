@@ -31,6 +31,7 @@ export default StyleSheet.create({
     bestSellers: {
         flex: 2,
         backgroundColor: background,
+        marginTop: 10,
     },
 
     bestSellersText: {
@@ -39,7 +40,5 @@ export default StyleSheet.create({
         marginBottom: 20,
         fontWeight:'bold',
     },
-
-
 
 });

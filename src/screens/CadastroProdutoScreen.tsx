@@ -106,7 +106,7 @@ export default function CadastroProdutoScreen() {
 
                 <View style={styles.quantity}>
                     <Text style={styles.quantityText}>Quantidade</Text>
-                    <QuantButton quantity={0} />
+                    <QuantButton quantity={0}/>
                 </View>
 
 

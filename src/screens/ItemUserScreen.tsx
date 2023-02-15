@@ -16,7 +16,7 @@ const image = {
 }
 
 
-export default function CadastroProdutoScreen() {
+export default function ItemUserScreen() {
 
     const [title, setTitle] = useState("Teste");
     const [description, setDescription] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue nibh vel erat ullamcorper tempor. Donec interdum nisl diam, quis mollis tellus finibus eget. Fusce at venenatis justo. Fusce convallis maximus venenatis. Praesent augue nisi, congue at vehicula eu, maximus id enim. Nulla mollis rutrum risus, sed vestibulum est porta eget. Quisque commodo quis lectus et maximus. In mi lorem, porttitor quis risus nec, convallis sagittis dolor.");
@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
         height: 300,
         width: 300,
         resizeMode: 'contain',
+        
     },
 
     info: {
