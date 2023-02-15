@@ -1,12 +1,16 @@
-import Navigation from './Navigation';
-import Cadastro from './src/use_cases/CreateUserUC';
-import CadastroProductScreen from './src/screens/CadastroProdutoScreen';
-import PetStoreScreen from './src/screens/PetStoreScreen';
+import { NavigationContainer } from "@react-navigation/native";
+import InitialNavigation from "./Navigation";
 
 const App = () => {
   return (
-    <PetStoreScreen/>
+    <>
+      <NavigationContainer>
+        <InitialNavigation />
+      </NavigationContainer>
+      {/* <NavigationContainer>
+        <Navigation />
+      </NavigationContainer> */}
+    </>
   );
 };
-
 export default App;

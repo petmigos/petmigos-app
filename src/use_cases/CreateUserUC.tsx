@@ -10,9 +10,9 @@ export default class Cadastro {
    }
 
    async execute(username: string, email: string, password: string, confPassword: string): Promise<User> {
-
       if (!this.isValidField(password)) throw new Error("Preencha o campo de senha.");
-      if (!this.isValidatidPassword(password, confPassword)) throw new Error("As senhas não coincidem");
+      if(!this.isValidPassword(password)) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
+      if (!this.isPasswordEqual(password, confPassword)) throw new Error("As senhas não coincidem");
       if (!this.isValidField(username)) throw new Error("Preencha o campo de nome.");
       if (!this.isValidEmail(email)) throw new Error("Insira um email válido.");
 
@@ -21,9 +21,14 @@ export default class Cadastro {
       return createdUser;
    }
 
-   private isValidatidPassword(password: string, confPassword: string): boolean {
-      return password === confPassword;
-   }
+   private isPasswordEqual(password: string, confPassword: string) {
+      return password === confPassword
+    }
+
+   private isValidPassword(password: string) {
+      const passwordValidation = /^.*(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/
+      return passwordValidation.test(password)
+    }
 
    private isValidField(field: string): boolean {
       return field !== ""

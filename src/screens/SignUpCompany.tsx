@@ -48,7 +48,14 @@ const SignUpCompany: React.FC = () => {
     async function fetchAddress() {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
       const data = await response.json();
-      setAddress(data);
+      setAddress({
+        ...address,
+        cep: data.cep,
+        localidade: data.localidade,
+        logradouro: data.logradouro,
+        uf: data.uf,
+        bairro: data.bairro
+      });
     }
     if (cep.length === 8) {
       fetchAddress();
@@ -56,6 +63,7 @@ const SignUpCompany: React.FC = () => {
   }, [cep]);
 
   const handleAdressNumberChange = (text: string) => {
+    console.log("number:" +  text);
     setAddress({
       ...address,
       unidade: text,

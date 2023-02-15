@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Image, TouchableOpacity, Text, TextInput, View } from 'react-native';
+import { TouchableOpacity, Text, TextInput, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { Alert } from 'react-native';
 import styles from '../styles/loginCadastroStyles';
@@ -127,7 +127,7 @@ export default function LoginScreen() {
                         style={styles.checkbox}
                         color={isSelected ? '#915E36' : undefined}
                     />
-                    <Text style={styles.label}>Show password</Text>
+                    <Text style={styles.label}>Mostrar senha</Text>
                 </View>
                 <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
                     <Text style={styles.getin_text}>
@@ -141,7 +141,7 @@ export default function LoginScreen() {
                 </TouchableOpacity>
                 <ButtonGroup
                     selectedButtonStyle={styles.enable}
-                    buttons={['Adotante', 'Empresa']}
+                    buttons={['Dono de pet', 'Empresa']}
                     selectedIndex={selectedIndex}
                     onPress={(value) => {
                         setSelectedIndex(value);
