@@ -10,3 +10,4 @@ export const alerta = "#FF7A00";
 export const textPadrao = "#000";
 export const textDesabilitado = "#9B9B9B";
 export const inputBackground = "#DCDCDC";
+export const small_info = "#DBA87F"; 

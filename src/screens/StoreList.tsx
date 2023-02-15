@@ -1,5 +1,4 @@
 import {View, ScrollView, StyleSheet, Image, TouchableOpacity, Text } from "react-native"
-import StoreCard from "../components/StoreCard/StoreCard";
 import { useNavigation } from "@react-navigation/native";
 import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
 import { useEffect, useState } from "react";
@@ -17,22 +16,23 @@ const StoreList = () =>{
       }, []);
 
     return (
-        <>
+        <View>
         <View style={styles.page_title}>
                 <TitleScreenComp title="Lojas"/>
             </View>
-        <ScrollView style={{height: '100%'}}>
+        <ScrollView>
         <View style={styles.store_list}>
             {companies.map(companies => (   
-                <TouchableOpacity style={styles.box_container} key={companies._id} onPress={() => console.log(companies.name)}>
-                <Image source={require("../../assets/store_test.png")} style={styles.store_img}/>
+                <TouchableOpacity style={styles.box_container} key={companies._id} 
+                onPress={() => navigation.navigate('StoreScreen', { companies })}>
+                <Image source={require("../../assets/store/store_test.png")} style={styles.store_img}/>
                     <View style={styles.store_info}>
                         <View>
                             <Text style={styles.store_title}>{companies.name}</Text>
                             <Text style={{color: '#DBA87F'}}>{companies.category}</Text>
                         </View>
                         <View style={styles.store_left_info}>
-                            <Image source={require('../../assets/acessorios.png')} style={{marginBottom: 10}}/>
+                            <Image source={require('../../assets/store/acessorios.png')} style={{marginBottom: 10}}/>
                             <Text style={{color: '#DBA87F'}}>0km</Text>
                         </View>
                     </View>
@@ -40,14 +40,14 @@ const StoreList = () =>{
             ))}
         </View>
         </ScrollView>
-        </>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     
     page_title: {
-        marginBottom: 30
+        marginBottom: 25
     },
 
     store_list:{
@@ -62,16 +62,16 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         backgroundColor: 'white',
-        height: '16%',
-        width: '84%',
-        margin: 20,
-        padding: 8,
+        height: 84,
+        width: 330,
+        margin: 16,
+        padding: 10,
         borderRadius: 8,
         alignItems: 'center'
     },
     store_img:{
-        width: '18%',
-        height: 60,
+        width: 50,
+        height: 50,
         borderRadius: 12,
         marginRight: 8
     },

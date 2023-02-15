@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         //fontFamily: 'Ubuntu'
     },
     header_text: {
-        fontSize: 30,
+        fontSize: 40,
         fontWeight: 'bold'
     },
 });

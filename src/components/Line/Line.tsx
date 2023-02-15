@@ -1,6 +1,5 @@
 import { View } from 'react-native';
-import { erro, primary, superficie } from '../../styles/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { superficie } from '../../styles/colors';
 
 
 export const Line = () => {
