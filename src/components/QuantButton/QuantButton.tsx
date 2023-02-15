@@ -6,8 +6,8 @@ import { Button } from 'react-native-elements';
 
 type QuantityProps = {
     quantity: number,
-    increment: Increment;
-    decrement: Decrement;
+    increment: () => void,
+    decrement: () => void;
 };
 
 export const QuantButton = (props: QuantityProps) => {

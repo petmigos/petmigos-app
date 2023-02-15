@@ -7,7 +7,6 @@ import { SetImage } from '../components/SetImage/SetImage';
 import { Picker } from '@react-native-picker/picker';
 import { result } from '../components/SetImage/SetImage';
 import { QuantButton } from '../components/QuantButton/QuantButton';
-import RNFS from 'react-native-fs';
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
