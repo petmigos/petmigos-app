@@ -11,7 +11,6 @@ import LoginUser from '../use_cases/LoginUserUC';
 import LoginCompany from '../use_cases/LoginCompanyUC';
 import { useNavigation } from '@react-navigation/native';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
-import React from 'react';
 import { ButtonGroup } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 

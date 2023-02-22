@@ -6,6 +6,7 @@ import { Line } from "../components/Line/Line";
 import { BottomButton } from "../components/BottomButton/BottomButton";
 import { CardUser } from "../components/Cards/CardUser/CardUser";
 import { PadrinhoAds } from "../components/PetStoreComponents/PadrinhoAds/PadrinhoAds";
+import { ScrollView } from "react-native-gesture-handler";
 
 const images = {
   heart: require("../../assets/petstoreitems/heart.png"),
@@ -23,7 +24,8 @@ const images = {
 
 export default function PetStoreScreen() {
   return (
-    <View style={styles.container}>
+    <ScrollView>
+    <View>
       <TitleScreenComp title="PetStore" />
       <View style={styles.topContainer}>
         <PetStoreItem
@@ -62,10 +64,12 @@ export default function PetStoreScreen() {
           size={{ width: 25, height: 30 }}
         />
       </View>
+      <View style={styles.ads}>
       <PadrinhoAds/>
+      </View>
       <Line/>
       <BottomButton title="Lojas" />
-      <View style={styles.bestSellers}>
+      <View>
         <Text style={styles.bestSellersText}>Itens mais procurados</Text>
         <CardUser
           name="Miss Pet"
@@ -88,7 +92,15 @@ export default function PetStoreScreen() {
           categoryImage={images.pet}
           mainImage={images.fulano}
         />
+        <CardUser
+          name="Carlos"
+          category="Teste"
+          price={56.76}
+          categoryImage={images.pet}
+          mainImage={images.fulano}
+        />
       </View>
     </View>
+    </ScrollView>
   );
 }
