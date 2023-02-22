@@ -12,7 +12,7 @@ export const Line = () => {
                 alignItems: 'center',
                 alignContent: 'center',
                 justifyContent: 'center',
-                marginTop: 25,
+                marginTop: 5,
                 marginBottom: 10,
                 marginLeft: 5,
                 width: 350,

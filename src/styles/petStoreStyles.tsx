@@ -9,10 +9,11 @@ export default StyleSheet.create({
         height: 780,
         alignContent: 'center',
         textAlign: 'center',
+
     },
 
     topContainer: {
-        flex: 1,
+        flex: 2,
         backgroundColor: background,
         textAlign: 'flex-start',
         justifyContent: 'flex-start',
@@ -22,10 +23,6 @@ export default StyleSheet.create({
         marginTop: 10,
         marginRight: 15,
         marginLeft: 15,
-    },
-
-    bottomContainer: {
-        backgroundColor: background,
     },
 
     bestSellers: {

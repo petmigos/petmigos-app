@@ -7,7 +7,7 @@ import CadastroProdutoScreen from "./src/screens/CadastroProdutoScreen";
 const App = () => {
   return (
     <>
-      <CadastroProdutoScreen/>
+      <PetStoreScreen/>
       {/* <NavigationContainer>
         <InitialNavigation />
       </NavigationContainer> */}
