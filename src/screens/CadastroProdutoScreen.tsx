@@ -3,12 +3,12 @@ import styles from '../styles/cadastroProdutoStyles';
 import { useState } from 'react';
 import CadastroItemService from '../services/CadastroItemService';
 import CadastroItem from '../use_cases/RegisterItemUC';
-import { SetImage } from '../components/SetImage/SetImage';
+import { SetImage } from '../components/PetStoreComponents/SetImage/SetImage';
 import { Picker } from '@react-native-picker/picker';
 import { result } from '../components/SetImage/SetImage';
-import { QuantButton } from '../components/QuantButton/QuantButton';
 import { Buffer } from 'buffer';
 import { fromByteArray } from 'base64-js';
+import { QuantButton } from '../components/PetStoreComponents/QuantButton/QuantButton';
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -148,30 +148,6 @@ export default function CadastroProdutoScreen() {
                 </TouchableOpacity>
             </View>
 
-        <View style={styles.picker}>
-          <Picker
-            selectedValue={selectedCategory}
-            style={styles.pickCategory}
-            onValueChange={(itemValue) => setCategory(itemValue)}
-          >
-            <Picker.Item label="Petshop" value="petshop" />
-            <Picker.Item label="Veterinário" value="veterinario" />
-            <Picker.Item label="Outros" value="outros" />
-          </Picker>
-        </View>
-
-        <View style={styles.quantity}>
-          <Text style={styles.quantityText}>Quantidade</Text>
-          <QuantButton
-            quantity={quantity}
-            increment={Increment}
-            decrement={Decrement}
-          />
-        </View>
-
-        <TouchableOpacity style={styles.accessingButton} onPress={SendData}>
-          <Text style={styles.gettingText}>Cadastrar</Text>
-        </TouchableOpacity>
-      </View>
+    	</View>
   );
 }
