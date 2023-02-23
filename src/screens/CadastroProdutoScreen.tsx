@@ -8,6 +8,7 @@ import { Picker } from '@react-native-picker/picker';
 import { result } from '../components/SetImage/SetImage';
 import { QuantButton } from '../components/QuantButton/QuantButton';
 import { Buffer } from 'buffer';
+import { fromByteArray } from 'base64-js';
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -18,7 +19,9 @@ const image = {
 
 
 export default function CadastroProdutoScreen() {
-
+    
+    let valid_format;
+    let original_format;
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
@@ -57,13 +60,25 @@ export default function CadastroProdutoScreen() {
           xhr.send();
         });
       }
+
+    function toUrlSafeBase64(base64String: string): string {
+        const bytes = fromByteArray(Buffer.from(base64String, 'base64'));
+        return bytes.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+      }
+    
+    function fromUrlSafeBase64(encoded: string): string {
+        const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
+        const buffer = Buffer.from(base64, 'base64');
+        return buffer.toString('utf-8');
+      }
       
 
     async function SendData() {
-        
+
         const base64Image = await uriToBase64(result.assets[0].uri);
-        console.log(base64Image);
-        await cadastroItem.execute(title, description, price, category, base64Image, quantity)
+        original_format = base64Image;
+        valid_format = toUrlSafeBase64(base64Image);
+        await cadastroItem.execute(title, description, price, category, valid_format, quantity)
 
     }
 
@@ -125,8 +140,7 @@ export default function CadastroProdutoScreen() {
                     <Text style={styles.quantityText}>Quantidade</Text>
                     <QuantButton quantity={quantity} increment={Increment} decrement={Decrement}/>
                 </View>
-
-
+                <Image source={{ uri: `data:image/png;base64,${original_format}` }} style={{ width: 80, height: 100}} />
                 <TouchableOpacity style={styles.accessingButton} onPress={SendData}>
                     <Text style={styles.gettingText}>
                         Cadastrar
