@@ -14,7 +14,6 @@ import * as ImagePicker from "expo-image-picker";
 
 type ImageProps = {
   image: ImageSourcePropType;
-  addImage: ImageSourcePropType;
 };
 
 export let result;
