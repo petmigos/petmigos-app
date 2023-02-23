@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
 import PetCard from "../../components/PetCard";
 import { Pet } from "../../entities/pet";
 import { PetService } from "../../services/petService";
@@ -41,18 +43,21 @@ const ListPets: React.FC = () => {
   }
 
   return (
-    <View style={styles.container}>
-      {pets.length === 0 && (
-        <Text>
-          Não há pets cadastrados. Considere cadastrar um pet primeiro.
-        </Text>
-      )}
-      <FlatList
-        style={styles.pets}
-        data={pets}
-        renderItem={({ item }) => renderPets(item)}
-      />
-    </View>
+    <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          {pets.length === 0 && (
+            <Text>
+              Não há pets cadastrados. Considere cadastrar um pet primeiro.
+            </Text>
+          )}
+          <FlatList
+            contentContainerStyle={{ paddingBottom: 50 }}
+            style={styles.pets}
+            data={pets}
+            renderItem={({ item }) => renderPets(item)}
+          />
+        </View>
+    </SafeAreaView>
   );
 };
 

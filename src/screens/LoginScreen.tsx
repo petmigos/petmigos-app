@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, Text, TextInput, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
 import { Alert } from 'react-native';
 import styles from '../styles/loginCadastroStyles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
-import LoginCompanyService from '../services/LoginCompanyService';
+import {CompanyService} from '../services/company/companyService';
 import LoginUserService from '../services/LoginUserService';
 import LoginUser from '../use_cases/LoginUserUC';
 import LoginCompany from '../use_cases/LoginCompanyUC';
@@ -15,10 +15,10 @@ import { ButtonGroup } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 
 
-var loginUser = new LoginUser(new LoginUserService());
-var loginCompany = new LoginCompany(new LoginCompanyService());
-export var id_user = "";
-export var id_comp = "";
+const loginUser = new LoginUser(new LoginUserService());
+const loginCompany = new LoginCompany(new CompanyService());
+export let id_user = "";
+export let id_comp = "";
 
 
 export default function LoginScreen() {
@@ -65,6 +65,10 @@ export default function LoginScreen() {
     
         }
 
+    function goToPickUp(){
+        navigation.navigate("PickUpSignUp");
+    }
+
     //Função responsável pelo envio de dados ao backend
     async function SendData() {
 
@@ -75,11 +79,6 @@ export default function LoginScreen() {
                 getValueForUser(password);
                 console.log(id_user);
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Usuário logado!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
             }
             else {
                 const loggedcompany = await loginCompany.execute(username, password);
@@ -87,12 +86,10 @@ export default function LoginScreen() {
                 getValueForComp(password)
                 console.log(id_comp);
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Empresa logada!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
+ 
             }
+
+            navigation.navigate('TabNavigator');
 
         } catch (error: any) {
             setShowMessageError(true);
@@ -146,7 +143,7 @@ export default function LoginScreen() {
                         setSelectedIndex(value);
                     }}
                     containerStyle={{ marginTop: 40, marginBottom: 50 }} />
-                <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
+                <TouchableOpacity onPress={goToPickUp}>
                     <View style={styles.bottom_text}>
                         <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
                         <Text style={styles.sign_up_text} >

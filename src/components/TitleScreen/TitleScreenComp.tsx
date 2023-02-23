@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
 
     header: {
         display: 'flex',
-        marginTop: '16%',
         marginLeft: '8%',
         //fontFamily: 'Ubuntu'
     },

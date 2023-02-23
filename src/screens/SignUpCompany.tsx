@@ -9,7 +9,7 @@ import SignatureCard from '../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
 import { Address } from '../entities/address';
 import { cnpj } from 'cpf-cnpj-validator';
-import { CompanySignUpService } from '../services/CadastroCompanyService';
+import { CompanyService } from '../services/company/companyService';
 import CreateCompany from '../use_cases/CreateCompany';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
@@ -17,7 +17,7 @@ import { useNavigation, StackActions } from '@react-navigation/native';
 import PasswordField from '../components/Password/PasswordField';
 import PasswordCheckbox from '../components/Password/PasswordCheckbox';
 
-let service = new CompanySignUpService();
+let service = new CompanyService();
 let company = new CreateCompany(service);
 
 const SignUpCompany: React.FC = () => {

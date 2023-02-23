@@ -1,10 +1,10 @@
-import LoginService from "../services/LoginCompanyService";
-import { Company } from "../services/CadastroCompanyService";
+import { CompanyService } from "../services/company/companyService";
+import { Company } from "../entities/company";
 
 export default class LoginCompany {
-   private loginService: LoginService;
+   private loginService: CompanyService;
 
-   constructor(loginService: LoginService) {
+   constructor(loginService: CompanyService) {
       this.loginService = loginService
    }
 

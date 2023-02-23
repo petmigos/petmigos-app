@@ -25,5 +25,10 @@ export default StyleSheet.create({
 
     ads:{
         height: 185
+    },
+
+    scroll:{
+        flex: 1, 
+        backgroundColor: background
     }
 });

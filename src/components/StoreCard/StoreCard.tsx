@@ -1,52 +1,78 @@
-import {TouchableOpacity, Image, StyleSheet, Text, View} from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useState }from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Company } from "../../entities/company";
 
-const StoreCard = () =>{
-    return(
-        <TouchableOpacity style={styles.box_container}>
-            <Image source={require("../../../assets/store_test.png")} style={styles.store_img}/>
-                <View style={styles.store_info}>
-                    <Text style={styles.store_title}>Nome da Loja</Text>
-                    <Text style={{color: '#DBA87F'}}>Categoria</Text>
-                    <Text>0</Text>
-                    <Text>00km</Text>
-                </View>
-        </TouchableOpacity>
-    )
-}
+const StoreCard: React.FC<Company> = ({ name, category}) => {
+  return (
+    <View style={styles.box}>
+      <View style={styles.store}>
+      <View style={styles.store_image}>
+        <Image
+          style={styles.store_image_view}
+          source={require('../../../assets/store_test.png')}
+        />
+      </View>
+      <View style={styles.store_description}>
+        <Text style={styles.store_name}>
+          {name}
+        </Text>
+        <Text style={styles.store_category}>{category}.</Text>
+      </View>
+      <View style={styles.store_km}>
+        <Text>
+        15 km
+        </Text>
+      </View>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    store_title:{
-        fontWeight: 'bold',
-        fontSize: 16,
-    },
-    box_container:{
-        display: 'flex',
-        flexDirection: 'row',
-        backgroundColor: 'white',
-        height: '35%',
-        width: '84%',
-        margin: 30,
-        padding: 8,
-        borderRadius: 8,
-        alignItems: 'center'
-    },
-    store_img:{
-        width: 60,
-        height: 60,
-        borderRadius: 12,
-        marginRight: 8
-    },
-    
-    store_info:{
-        backgroundColor: 'red',
-        width: '80%',
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'stretch',
-        justifyContent: 'space-between',
-    }
-
-})
+  box:{
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  store: {
+    display: "flex",
+    flexDirection: "row",
+    borderWidth: 1,
+    borderRadius: 16,
+    borderColor: "#00000010",
+    marginTop: 16,
+    padding: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    width: '95%'
+  },
+  store_image: {
+    marginRight: 8
+  },
+  store_image_view: {
+    borderRadius: 16,
+    width: 64,
+    height: 64
+  },
+  store_description: {
+    flex: 3,
+  },
+  store_name: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  store_category: {
+    fontSize: 12,
+    color: "#DBA87F",
+  },
+  store_km: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    marginRight: 8
+  },
+});
 
 export default StoreCard;
