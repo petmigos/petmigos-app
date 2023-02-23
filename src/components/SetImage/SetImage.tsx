@@ -25,21 +25,15 @@ export const SetImage = (props: ImageProps) => {
         quality: 1,
       });
 
-      console.log(typeof(result));
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
   };
 
-  const uploadImage = () => {
-
-    console.log(typeof(image))
-  }
   
     return (
         <View style={styles.component}>
-                <TouchableOpacity onPress={ () => {pickImage(); uploadImage()}}>
+                <TouchableOpacity onPress={ () => {pickImage();}}>
                 {image ? <Image
                         source={{uri: image}}
                         style={styles.image}/>: null}

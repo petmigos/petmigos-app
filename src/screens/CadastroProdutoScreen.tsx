@@ -7,7 +7,7 @@ import { SetImage } from '../components/SetImage/SetImage';
 import { Picker } from '@react-native-picker/picker';
 import { result } from '../components/SetImage/SetImage';
 import { QuantButton } from '../components/QuantButton/QuantButton';
-import RNFS from 'react-native-fs';
+import { Buffer } from 'buffer';
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -35,11 +35,39 @@ export default function CadastroProdutoScreen() {
         { key: 'Adestramento', value: 'Adestramento' },
     ];
 
+    function uriToBase64(uri: string): Promise<string> {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function() {
+            const reader = new FileReader();
+            reader.onloadend = function() {
+              const base64data = reader.result.toString().split(',')[1];
+              resolve(base64data);
+            };
+            reader.onerror = function(error) {
+              reject(error);
+            };
+            reader.readAsDataURL(xhr.response);
+          };
+          xhr.onerror = function(error) {
+            reject(error);
+          };
+          xhr.responseType = 'blob';
+          xhr.open('GET', uri);
+          xhr.send();
+        });
+      }
+      
+
     async function SendData() {
         
-        await cadastroItem.execute(title, description, price, category, result.assets[0].uri, quantity)
+        const base64Image = await uriToBase64(result.assets[0].uri);
+        console.log(base64Image);
+        await cadastroItem.execute(title, description, price, category, base64Image, quantity)
 
     }
+
+    
 
     function Increment() {
         setQuantity(quantity + 1);
@@ -56,17 +84,6 @@ export default function CadastroProdutoScreen() {
         console.log(price);
         console.log(category);
     }
-
-    function getBase64(file) {
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function () {
-          console.log(reader.result);
-        };
-        reader.onerror = function (error) {
-          console.log('Error: ', error);
-        };
-     }
 
     return (
         <View style={styles.container}>
