@@ -23,7 +23,6 @@ export default class CadastroItemService {
 
         const responseJSON = await response.json();
         const responseStatus = response.status;
-        console.log(responseJSON);
         if (responseStatus !== 200) throw new Error(responseJSON.message);
         return responseJSON;
 
