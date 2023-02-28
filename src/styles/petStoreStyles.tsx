@@ -23,6 +23,10 @@ export default StyleSheet.create({
         fontWeight:'bold',
     },
 
+    list: {
+        backgroundColor: background,
+    },
+
     ads:{
         height: 185
     }

@@ -6,84 +6,99 @@ import { Button } from 'react-native-elements';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-type CardUserProps = {
-    name: string,
-    category: string,
-    price: Float,
-    categoryImage: ImageSourcePropType,
-    mainImage: ImageSourcePropType,
+type ItemData = {
+  id: string;
+  name: string;
+  furnisher: string;
+  price: Float;
+  mainImage: ImageSourcePropType;
 };
 
-export const CardUser = (props: CardUserProps) => {
-    return (
-        <TouchableOpacity style={styles.component}>
-                <Image
-                    source={props.mainImage}
-                    style={styles.mainImage} />
-                <View style={styles.info}>
-                    <Text style={styles.name}>{props.name}</Text>
-                    <Text style={styles.category}>{props.category}</Text>
-                </View>
 
-                <View style={styles.rightComponent}>
-                    <Image
-                        source={props.categoryImage}
-                        style={styles.categoryImage} />
-                    <Text style={styles.price} >R${props.price}</Text>
-                </View>
-        </TouchableOpacity>
+type CardUserProps = {
+    item: ItemData;
+    onPress: () => void;
+};
+
+export const CardUser = ({item, onPress}: CardUserProps) => {
+    return (
+      <TouchableOpacity style={styles.component} onPress={onPress}>
+        <Image source={item.mainImage} style={styles.mainImage} />
+        <View style={styles.info}>
+          <View>
+            <Text style={styles.name}>{item.name}</Text>
+          </View>
+
+          <View style={styles.botComponent}>
+            <View style={styles.botLeftComponent}>
+              <Text style={styles.furnisher}>{item.furnisher}</Text>
+            </View>
+            <View style={styles.botRightComponent}>
+              <Text style={styles.price}>R${item.price}</Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
+  component: {
+    flexDirection: "row",
+    backgroundColor: background,
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: 20,
+    marginLeft: 20,
+    marginBottom: 10,
+    borderRadius: 5,
+    borderColor: primary,
+    borderWidth: 1,
+  },
 
-    component: {
-        flexDirection: 'row',
-        backgroundColor: background,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 20,
-        marginLeft: 20,
-        marginBottom: 10,
-        borderRadius: 5,
-        borderColor: primary,
-        borderWidth: 1,
-    },
+  mainImage: {
+    margin: 10,
+    height: 50,
+    width: 60,
+  },
 
-    mainImage: {
-        margin: 10,
-        height: 50,
-        width: 60,
-    },
+  info: {
+    flex: 3,
+  },
 
-    info: {
-        flex: 3,
-    },
+  name: {
+    fontSize: 20,
+  },
 
-    name: {
-        fontSize: 25,
-    },
+  furnisher: {
+    color: secondary_v2,
+    fontSize: 20,
+  },
 
-    category: {
-        color: secondary_v2,
-    },
+  botComponent: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginRight: 20,
+  },
 
-    rightComponent: {
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        marginRight: 20,
-    },
+  botLeftComponent: {
+    flex: 2,
+    alignItems: "flex-start",
+  },
 
-    price: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        justifyContent: 'center',
-    },
+  botRightComponent: {
+    flex: 3,
+    alignItems: "flex-end",
+  },
 
-    categoryImage: {
-        width: 10,
-        height: 10,
-    }
+  price: {
+    fontSize: 20,
+    fontWeight: "bold",
+    justifyContent: "center",
+  },
 
-
+  categoryImage: {
+    width: 10,
+    height: 10,
+  },
 });
