@@ -20,8 +20,8 @@ const image = {
 
 export default function CadastroProdutoScreen() {
     
-    let valid_format;
-    let original_format;
+    const [valid_format, setValidFormat] = useState("");
+    const [original_format, setOriginalFormat] = useState("");
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
@@ -37,6 +37,10 @@ export default function CadastroProdutoScreen() {
         { key: 'Exames', value: 'Exames' },
         { key: 'Adestramento', value: 'Adestramento' },
     ];
+
+
+    // this function is used for converting the uri got from images to a universal format: base64
+    // it is necessary to save them in a database or display on screen
 
     function uriToBase64(uri: string): Promise<string> {
         return new Promise((resolve, reject) => {
@@ -61,43 +65,42 @@ export default function CadastroProdutoScreen() {
         });
       }
 
+
+    // this function is used to convert the base64 string to a valid format likely to pass through json
     function toUrlSafeBase64(base64String: string): string {
         const bytes = fromByteArray(Buffer.from(base64String, 'base64'));
         return bytes.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
       }
     
-    function fromUrlSafeBase64(encoded: string): string {
-        const base64 = encoded.replace(/-/g, '+').replace(/_/g, '/');
-        const buffer = Buffer.from(base64, 'base64');
-        return buffer.toString('utf-8');
+    // this function is used to convert the previous format mentioned to a base64 string
+    function fromUrlSafeBase64(base64String: string): string {
+        const bytes = fromByteArray(Buffer.from(base64String, 'base64'));
+        return bytes.replace(/-/g, '+').replace(/_/g, '/');
       }
+
+    // execution order: 1. uriToBase64 (get the image uri and convert to base64) 2. toUrlSafeBase64 (get the base64 string and convert to a valid format 
+    // if you want to use json and save it in a database) 3. fromUrlSafeBase64 (get the valid format for json and make it a base64 string again if you
+    // want to display the image)
       
 
     async function SendData() {
 
         const base64Image = await uriToBase64(result.assets[0].uri);
-        original_format = base64Image;
-        valid_format = toUrlSafeBase64(base64Image);
-        await cadastroItem.execute(title, description, price, category, valid_format, quantity)
-
-    }
-
+        const vf = toUrlSafeBase64(await base64Image)
+        setValidFormat(vf);
+        setOriginalFormat(fromUrlSafeBase64(valid_format));
+        console.log(original_format);
     
+        await cadastroItem.execute(title, description, price, category, valid_format, quantity)
+    }
 
     function Increment() {
         setQuantity(quantity + 1);
+      
     }
 
     function Decrement() {
         if (quantity > 0) setQuantity(quantity - 1);
-    }
-
-    function Pressed() {
-
-        console.log(title);
-        console.log(description);
-        console.log(price);
-        console.log(category);
     }
 
     return (
@@ -140,7 +143,7 @@ export default function CadastroProdutoScreen() {
                     <Text style={styles.quantityText}>Quantidade</Text>
                     <QuantButton quantity={quantity} increment={Increment} decrement={Decrement}/>
                 </View>
-                <Image source={{ uri: `data:image/png;base64,${original_format}` }} style={{ width: 80, height: 100}} />
+                <Image source={{ uri: `data:image/png;base64, ${original_format}` }} style={{ width: 100, height: 150}} />
                 <TouchableOpacity style={styles.accessingButton} onPress={SendData}>
                     <Text style={styles.gettingText}>
                         Cadastrar

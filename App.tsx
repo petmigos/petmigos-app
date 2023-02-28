@@ -3,6 +3,7 @@ import InitialNavigation from "./Navigation";
 import PetStoreScreen from "./src/screens/PetStoreScreen";
 import ItemUserScreen from "./src/screens/ItemUserScreen";
 import CadastroProdutoScreen from "./src/screens/CadastroProdutoScreen";
+import LoginScreen from "./src/screens/LoginScreen";
 
 const App = () => {
   return (
