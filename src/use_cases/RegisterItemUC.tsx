@@ -1,17 +1,30 @@
-import CadastroItemService from "../services/CadastroItemService";
+import CadastroItemService from "../services/ItemService";
 import { Item } from "../entities/item";
 
 export default class CadastroItem {
-   private cadastroItemService: CadastroItemService;
+  private cadastroItemService: CadastroItemService;
 
-   constructor(cadastroItemService: CadastroItemService) {
-      this.cadastroItemService = cadastroItemService;
-   }
+  constructor(cadastroItemService: CadastroItemService) {
+    this.cadastroItemService = cadastroItemService;
+  }
 
-   async execute(title: string, description: string, price: number, category: string, img: string, quantity: number): Promise<Item> {
+  async execute(
+    title: string,
+    description: string,
+    price: number,
+    category: string,
+    img: string,
+    quantity: number
+  ): Promise<Item> {
+    const itemregistered = await this.cadastroItemService.register(
+      title,
+      description,
+      price,
+      category,
+      img,
+      quantity
+    );
 
-      const itemregistered = await this.cadastroItemService.register(title, description, price, category, img, quantity);
-
-      return itemregistered;
-   }
+    return itemregistered;
+  }
 }

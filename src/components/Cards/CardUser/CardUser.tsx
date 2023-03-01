@@ -16,7 +16,7 @@ type ItemData = {
 
 
 type CardUserProps = {
-    item: ItemData;
+    item: Item;
 };
 
 export const CardUser = ({item}: CardUserProps) => {

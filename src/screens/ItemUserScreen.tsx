@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState } from "react";
-import CadastroItemService from "../services/CadastroItemService";
+import CadastroItemService from "../services/ItemService";
 import CadastroItem from "../use_cases/RegisterItemUC";
 import { SetImage } from "../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
@@ -23,7 +23,7 @@ const image = {
   image: require("../../assets/store_test.png"),
 };
 
-export default function ItemUserScreen({route}) {
+export default function ItemUserScreen({ route }) {
   const { itemId, otherParam } = route.params;
   const [title, setTitle] = useState(JSON.stringify(itemId));
   const [description, setDescription] = useState(JSON.stringify(otherParam));
