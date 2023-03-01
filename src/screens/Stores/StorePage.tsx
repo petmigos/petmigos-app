@@ -1,28 +1,29 @@
-import {Text, View, TextInput, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import {Text, View, TextInput, Image, StyleSheet, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 import ItemCard from '../../components/ItemCard/ItemCard';
 import React, {useState} from 'react';
 import { inputBackground } from '../../styles/colors';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Item } from '../../entities/item';
 
 const StorePage = ({ route }) =>{
     const navigation = useNavigation()
     const { store } = route.params;
     const [searchText, setSearchText] = useState('');
-    const [data, setData] = useState([
-    { id: '1', name: 'Item 1' },
-    { id: '2', name: 'Item 2' },
-    { id: '3', name: 'Item 3' },
-    { id: '4', name: 'Another item' },
-    { id: '5', name: 'Yet another item' },
+    const [items, setData] = useState([
+    { id: '1', title: 'Item 1', price: '12.34' },
+    { id: '2', title: 'Item 2', price: '12.34' },
+    { id: '3', title: 'Item 3', price: '12.34' },
+    { id: '4', title: 'Another item', price: '12.34' },
+    { id: '5', title: 'Yet another item', price: '12.34' },
     ]);
-    const [filteredData, setFilteredData] = useState(data);
+    const [filteredItems, setFilteredData] = useState(items);
 
     const handleSearch = (text: string) => {
         setSearchText(text);
 
-        const filteredData = data.filter((item) => {
-            const itemName = item.name.toLowerCase();
+        const filteredData = items.filter((item) => {
+            const itemName = item.title.toLowerCase();
             const searchTextLower = text.toLowerCase();
             return itemName.includes(searchTextLower);
         });
@@ -30,20 +31,20 @@ const StorePage = ({ route }) =>{
         console.log(filteredData)
         };
 
-    function onPressItem(item: Item) {
-            navigation.navigate("ItemUserScreen", { item })
+    function onPressItem(item: any) {
+        navigation.navigate("ItemUserScreen", { item })
     }
 
-    function renderProducts(item: Item) {
+    function renderProducts(item: any) {
             return (
               <TouchableOpacity onPress={() => onPressItem(item)}>
-                <ItemCard key={item._id || item.name} {...item} />
+                <ItemCard key={item._id || item.title} {...item}/>
               </TouchableOpacity>
             );
     }
 
     return(
-        <SafeAreaView style={{marginTop: '5%'}}>
+        <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <Image source={require('../../../assets/store_test.png')} style={styles.icon}/>
                 <View style={styles.description}>
@@ -59,22 +60,26 @@ const StorePage = ({ route }) =>{
                 style={styles.searchBar}
             />
             <View style={styles.list}>
-            <FlatList
-                data={searchText ? filteredData : data }
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <Text>{item.name}</Text>}
-            />
-
-
+            {filteredItems.map(item => (   
+                <TouchableOpacity
+                    key={item.id || item.title}
+                >
+                    <ItemCard {...item} onPress={() => onPressItem(item)}/>
+                </TouchableOpacity>
+            ))}
 
             </View>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 
 
 const styles = StyleSheet.create(
     {
+        container:{
+            marginTop: StatusBar.currentHeight || 0, 
+            marginBottom: 50
+        },
         list:{
             display: 'flex',
             flexDirection: 'row',

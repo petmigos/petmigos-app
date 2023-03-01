@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, FlatList, ImageSourcePropType, TouchableOpacity, VirtualizedList } from "react-native";
+import { View, Text, SafeAreaView, FlatList, ImageSourcePropType, TouchableOpacity, VirtualizedList, StatusBar } from "react-native";
 import styles from "../styles/petStoreStyles";
 import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
 import { PetStoreItem } from "../components/PetStoreComponents/PetStoreCategory/PetStoreItem";
@@ -118,11 +118,14 @@ export default function PetStoreScreen() {
         test: "test",
       });
       }}>
-
         <CardUser key={item.id} item={item} />
       </TouchableOpacity>
     );
 	};
+
+  function goToStore(){
+    navigation.navigate('StoreStack')
+  }
 
 	return (
     <ScrollView style={styles.container}>
@@ -177,7 +180,7 @@ export default function PetStoreScreen() {
       </View>
 
       <Line />
-      <BottomButton title="Lojas" />
+      <BottomButton title="Lojas" function={goToStore}/>
 
       <View>
         <Text style={styles.bestSellersText}>Itens mais procurados</Text>

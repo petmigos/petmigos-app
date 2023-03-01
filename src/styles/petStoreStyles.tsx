@@ -1,9 +1,11 @@
+import { StatusBar } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { background, erro, primary, secondary, secondary_v2 } from './colors';
 
 export default StyleSheet.create({
     
   container: {
+    marginTop: StatusBar.currentHeight || 0,
     backgroundColor: background,
     marginBottom: 50,
   },

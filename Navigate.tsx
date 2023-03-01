@@ -25,6 +25,7 @@ import Profile from './src/screens/Profile';
 import MyStoreScreen from './src/screens/MyStoreScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
 import StoreProfileScreen from './src/screens/StoreProfileScreen';
+import ItemUserScreen from './src/screens/ItemUserScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -121,8 +122,6 @@ function PetStoreStack(){
     <Stack.Navigator
       screenOptions={{headerShown: false}} initialRouteName="PetStore">
         <Stack.Screen name="PetStore" component={PetStoreScreen}/>
-        <Stack.Screen name="StoreList" component={StoreList}/>
-        <Stack.Screen name="StorePage" component={StorePage}/>
     </Stack.Navigator>
   )
 }
@@ -132,6 +131,8 @@ function StoreStack(){
         <Stack.Navigator
         screenOptions={{headerShown: false}} initialRouteName="StoreList">
             <Stack.Screen name="StoreList" component={StoreList}/>
+            <Stack.Screen name="StorePage" component={StorePage}/>
+            <Stack.Screen name="ItemUserScreen" component={ItemUserScreen}/>
         </Stack.Navigator>
     )
 }
@@ -143,8 +144,9 @@ export default function NavigateTo() {
           {/*<Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />*/}
           <Stack.Screen name="TabPetOwner" component={TabPetOwner} options={{ headerShown: false }} />
           <Stack.Screen name="TabCompany" component={TabCompany} options={{ headerShown: false }} />
-          <Stack.Screen name="PetStack" component={PetStack} options={{ headerShown: false }} />
-          <Stack.Screen name="PetStoreStack" component={PetStoreStack} options={{headerShown: false}}/>  
+          <Stack.Screen name="PetStoreStack" component={PetStoreStack} options={{headerShown: false}}/>
+          <Stack.Screen name="StoreStack" component={StoreStack} options={{headerShown: false}} />
+          <Stack.Screen name="PetStack" component={PetStack} options={{ headerShown: false }} />  
         </Stack.Navigator>
         </NavigationContainer>
       );

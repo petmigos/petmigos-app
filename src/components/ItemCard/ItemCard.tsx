@@ -1,11 +1,11 @@
 import React from "react";
 import { TouchableOpacity, Image, Text, StyleSheet } from "react-native";
 
-const ItemCard = ({name, price}) => {
+const ItemCard = ({title, price, onPress}) => {
   return(
-    <TouchableOpacity style={style.item}>
+    <TouchableOpacity style={style.item} onPress={onPress}>
                 <Image source={require('../../../assets/store_test.png')} style={style.item_icon}/>
-                <Text style={style.item_name}>{name}</Text>
+                <Text style={style.item_name}>{title}</Text>
                 <Text style={style.item_price}>R$ {price}</Text>
     </TouchableOpacity>
   )
