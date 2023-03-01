@@ -7,19 +7,14 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import React from "react";
-import { background, erro, primary } from "../../../styles/colors";
+import { background, erro, primary, superficie } from "../../../styles/colors";
 import { Input } from "react-native-elements";
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
-type ImageProps = {
-  image: ImageSourcePropType;
-  addImage: ImageSourcePropType;
-};
-
 export let result;
 
-export const SetImage = (props: ImageProps) => {
+export const SetImage = () => {
   const [image, setImage] = useState("../../../assets/user_icon.png");
 
   const pickImage = async () => {
@@ -59,11 +54,11 @@ export const SetImage = (props: ImageProps) => {
 const styles = StyleSheet.create({
   component: {
     flex: 1,
-    backgroundColor: background,
-  },
+},
 
-  image: {
-    marginTop: 10,
+image: {
+	marginTop: 10,
+	backgroundColor: superficie,
     flex: 1,
     borderRadius: 250,
     height: 200,
