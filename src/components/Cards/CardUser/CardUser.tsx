@@ -17,12 +17,11 @@ type ItemData = {
 
 type CardUserProps = {
     item: ItemData;
-    onPress: () => void;
 };
 
-export const CardUser = ({item, onPress}: CardUserProps) => {
+export const CardUser = ({item}: CardUserProps) => {
     return (
-      <TouchableOpacity style={styles.component} onPress={onPress}>
+      <View style={styles.component}>
         <Image source={item.mainImage} style={styles.mainImage} />
         <View style={styles.info}>
           <View>
@@ -38,7 +37,7 @@ export const CardUser = ({item, onPress}: CardUserProps) => {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
 };
 

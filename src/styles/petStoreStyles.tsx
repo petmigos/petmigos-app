@@ -2,8 +2,10 @@ import { StyleSheet } from 'react-native';
 import { background, erro, primary, secondary, secondary_v2 } from './colors';
 
 export default StyleSheet.create({
+    
   container: {
     backgroundColor: background,
+    marginBottom: 50,
   },
 
   topContainer: {

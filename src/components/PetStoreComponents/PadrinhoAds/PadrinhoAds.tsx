@@ -1,8 +1,7 @@
-import { Text, View, Image } from "react-native"
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { alerta, background, erro, padrinhoAds, primary } from "../../../styles/colors";
 import { ImageBackground, StyleSheet } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 
