@@ -13,12 +13,13 @@ type ItemProps = {
   image: ImageSourcePropType;
   title: string;
   size: object;
+  onPress: () => void;
 };
 
 export const PetStoreItem = (props: ItemProps) => {
   return (
     <View style={styles.component}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={props.onPress}>
         <View style={styles.button}>
           <Image source={props.image} style={props.size} />
         </View>

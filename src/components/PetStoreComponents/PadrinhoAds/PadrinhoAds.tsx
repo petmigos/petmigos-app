@@ -4,25 +4,29 @@ import { alerta, background, erro, padrinhoAds, primary } from "../../../styles/
 import { ImageBackground, StyleSheet } from "react-native";
 
 
+type PadrinhoAdsProps = {
+  onPress: () => void;
+};
 
-
-export const PadrinhoAds = () => {
-
-    return (
-      <View style={styles.component}>
-        <View style={styles.leftAD}>
-          <Text style={styles.mainText}>
-            Cuide dos pets de outros donos e ganhe dinheiro!
-          </Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Torne-se um padrinho!</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.rightAD}>
-          <Image style={styles.image} source={require("../../../../assets/padrinhoImg.png")}/>
-        </View>
+export const PadrinhoAds = (props: PadrinhoAdsProps) => {
+  return (
+    <View style={styles.component}>
+      <View style={styles.leftAD}>
+        <Text style={styles.mainText}>
+          Cuide dos pets de outros donos e ganhe dinheiro!
+        </Text>
+        <TouchableOpacity onPress={props.onPress} style={styles.button}>
+          <Text style={styles.buttonText}>Torne-se um padrinho!</Text>
+        </TouchableOpacity>
       </View>
-    );
+      <View style={styles.rightAD}>
+        <Image
+          style={styles.image}
+          source={require("../../../../assets/padrinhoImg.png")}
+        />
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

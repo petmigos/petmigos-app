@@ -8,6 +8,7 @@ import { PadrinhoAds } from "../components/PetStoreComponents/PadrinhoAds/Padrin
 import { ScrollView } from "react-native-gesture-handler";
 import { Line } from "../components/Line/Line";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { useNavigation } from "@react-navigation/native";
 
 const images = {
   heart: require("../../assets/petstoreitems/heart.png"),
@@ -85,8 +86,11 @@ const DATA = [
 
 
 
-export default function PetStoreScreen() {
 
+export default function PetStoreScreen() {
+  
+  const navigation = useNavigation();
+  
 	function getItemCount (){
 		return DATA.length;
 	};
@@ -109,12 +113,11 @@ export default function PetStoreScreen() {
 
 	function renderCard({ item }: { item: ItemData }) {
 		return (
-			<TouchableOpacity  onPress={Test}>
-				<CardUser
-					key={item.id}
-					item={item} />
-			</TouchableOpacity>
-		);
+      <TouchableOpacity onPress={() => navigation.navigate('ItemUserScreen', {params: { id: "test"}})}>
+
+        <CardUser key={item.id} item={item} />
+      </TouchableOpacity>
+    );
 	};
 
 	return (
@@ -122,36 +125,43 @@ export default function PetStoreScreen() {
       <TitleScreenComp title="PetStore" />
       <View style={styles.topContainer}>
         <PetStoreItem
+          onPress={Test}
           title="Acessórios"
           image={images.heart}
           size={{ width: 23, height: 20 }}
         />
         <PetStoreItem
+          onPress={Test}
           title="Banho e Tosa"
           image={images.drop}
           size={{ width: 18, height: 26 }}
         />
         <PetStoreItem
+          onPress={Test}
           title="Consultas"
           image={images.medical}
           size={{ width: 24, height: 26 }}
         />
         <PetStoreItem
+          onPress={Test}
           title="Padrinhos"
           image={images.home}
           size={{ width: 23, height: 23 }}
         />
         <PetStoreItem
+          onPress={Test}
           title="Alimentação"
           image={images.food}
           size={{ width: 23, height: 24 }}
         />
         <PetStoreItem
+          onPress={Test}
           title="Exames"
           image={images.needle}
           size={{ width: 27, height: 27 }}
         />
         <PetStoreItem
+          onPress={Test}
           title="Adestramento"
           image={images.pet}
           size={{ width: 25, height: 30 }}
@@ -159,7 +169,7 @@ export default function PetStoreScreen() {
       </View>
 
       <View style={styles.ads}>
-        <PadrinhoAds />
+        <PadrinhoAds onPress={Test} />
       </View>
 
       <Line />

@@ -15,6 +15,7 @@ import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantB
 import * as ImagePicker from "expo-image-picker";
 import { background, erro, primary } from "../styles/colors";
 import { superficie } from "../styles/colors";
+import { useNavigation } from "@react-navigation/native";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
