@@ -113,7 +113,11 @@ export default function PetStoreScreen() {
 
 	function renderCard({ item }: { item: ItemData }) {
 		return (
-      <TouchableOpacity onPress={() => navigation.navigate('ItemUserScreen', {params: { id: "test"}})}>
+      <TouchableOpacity onPress={() => {navigation.navigate("ItemUserScreen", {
+        itemId: item.id, 
+        test: "test",
+      });
+      }}>
 
         <CardUser key={item.id} item={item} />
       </TouchableOpacity>

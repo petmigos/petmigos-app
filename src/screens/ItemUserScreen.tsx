@@ -23,11 +23,10 @@ const image = {
   image: require("../../assets/store_test.png"),
 };
 
-export default function ItemUserScreen() {
-  const [title, setTitle] = useState("Teste");
-  const [description, setDescription] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque congue nibh vel erat ullamcorper tempor. Donec interdum nisl diam, quis mollis tellus finibus eget. Fusce at venenatis justo. Fusce convallis maximus venenatis. Praesent augue nisi, congue at vehicula eu, maximus id enim. Nulla mollis rutrum risus, sed vestibulum est porta eget. Quisque commodo quis lectus et maximus. In mi lorem, porttitor quis risus nec, convallis sagittis dolor."
-  );
+export default function ItemUserScreen({route}) {
+  const { itemId, otherParam } = route.params;
+  const [title, setTitle] = useState(JSON.stringify(itemId));
+  const [description, setDescription] = useState(JSON.stringify(otherParam));
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);

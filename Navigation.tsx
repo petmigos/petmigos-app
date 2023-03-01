@@ -15,6 +15,7 @@ import ListPets from './src/screens/Pets';
 import PetDetails from './src/screens/PetDetails';
 
 import Profile from './src/screens/Profile';
+import ItemUserScreen from './src/screens/ItemUserScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -76,12 +77,15 @@ function PetStack(){
 }
 
 function PetStoreStack(){
-  return(
+  return (
     <Stack.Navigator
-      screenOptions={{headerShown: false}} initialRouteName="PetStore">
-        <Stack.Screen name="Pets" component={PetStoreScreen} />
+      screenOptions={{ headerShown: false }}
+      initialRouteName="PetStore"
+    >
+      <Stack.Screen name="PetStoreScreen" component={PetStoreScreen} />
+      <Stack.Screen name="ItemUserScreen" component={ItemUserScreen} />
     </Stack.Navigator>
-  )
+  );
 }
 
 /*function StoreStack(){
