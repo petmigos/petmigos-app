@@ -5,21 +5,24 @@ export default class CadastroItemService {
 
     async register(title: string, description: string, price: number, category: string, image: string, quantity: number): Promise<Item> {
 
-        const response = await fetch(`http://${ip}:3333/cadastroItem`, {
-            method: 'POST',
+        const response = await fetch(
+          `http://${ip}:3333//companies/:companyId/items`,
+          {
+            method: "POST",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
+              Accept: "application/json",
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                title: title,
-                description: description,
-                price: price,
-                category: category,
-                image: image,
-                quantity: quantity
-            })
-        })
+              title: title,
+              description: description,
+              price: price,
+              category: category,
+              image: image,
+              quantity: quantity,
+            }),
+          }
+        );
 
         const responseJSON = await response.json();
         const responseStatus = response.status;

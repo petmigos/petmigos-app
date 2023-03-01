@@ -22,7 +22,7 @@ export let id_comp = "";
 
 export default function LoginScreen() {
     
-    const [result, onChangeResult] = React.useState('(result');
+    const [result, onChangeResult] = useState('(result');
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isSelected, setSelection] = useState(false);
@@ -36,13 +36,6 @@ export default function LoginScreen() {
     const handleOkButton = () => {
         console.log("Logado com sucesso!");
     };
-
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            console.log('Refreshed!');
-        });
-        return unsubscribe;
-    }, [navigation]);
      
     async function save_id(password, ident) {
         await SecureStore.setItemAsync(password, ident);
@@ -82,7 +75,7 @@ export default function LoginScreen() {
             }
             else {
                 const loggedcompany = await loginCompany.execute(username, password);
-                save_id(loggedcompany.password, loggedcompany.cnpj);
+                save_id(loggedcompany.password, loggedcompany.id);
                 getValueForComp(password)
                 console.log(id_comp);
                 setShowMessageError(false);

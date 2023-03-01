@@ -5,5 +5,5 @@ export interface Item{
     price: number,
     category: string,
     image: string,
-    quantity: number
+    quantity: number,
 }
