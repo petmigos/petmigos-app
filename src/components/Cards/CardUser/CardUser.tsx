@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginLeft: 20,
     marginBottom: 10,
-    borderRadius: 5,
-    borderColor: primary,
+    borderRadius: 15,
+    borderColor: secondary_v2,
     borderWidth: 1,
   },
 

@@ -16,6 +16,8 @@ import PetDetails from './src/screens/PetDetails';
 
 import Profile from './src/screens/Profile';
 import ItemUserScreen from './src/screens/ItemUserScreen';
+import CadastroProdutoScreen from './src/screens/CadastroProdutoScreen';
+import CompanyHomeScreen from './src/screens/CompanyHomeScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -82,8 +84,10 @@ function PetStoreStack(){
       screenOptions={{ headerShown: false }}
       initialRouteName="PetStore"
     >
-      <Stack.Screen name="PetStoreScreen" component={PetStoreScreen} />
+      <Stack.Screen name="PetStoreScreen" component={CompanyHomeScreen} />
       <Stack.Screen name="ItemUserScreen" component={ItemUserScreen} />
+      <Stack.Screen name="CadastroProdutoScreen" component={CadastroProdutoScreen} />
+  
     </Stack.Navigator>
   );
 }
