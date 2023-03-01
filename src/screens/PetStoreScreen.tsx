@@ -55,7 +55,7 @@ const DATA = [
     furnisher: "Miss Pet",
     price: 56.76,
     categoryImage: images.drop,
-    mainImage: images.miss_pet,
+    mainImage: images.fulano,
   },
   {
     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
@@ -71,7 +71,7 @@ const DATA = [
     furnisher: "Miss Pet",
     price: 56.76,
     categoryImage: images.drop,
-    mainImage: images.miss_pet,
+    mainImage: images.fulano,
   },
   {
     id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
@@ -100,66 +100,66 @@ export default function PetStoreScreen() {
 	};
 
 	return (
-		<ScrollView>
-		<View>
-			<TitleScreenComp title="PetStore" />
-			<View style={styles.topContainer}>
-			<PetStoreItem
-				title="Acessórios"
-				image={images.heart}
-				size={{ width: 23, height: 20 }}
-			/>
-			<PetStoreItem
-				title="Banho e Tosa"
-				image={images.drop}
-				size={{ width: 18, height: 26 }}
-			/>
-			<PetStoreItem
-				title="Consultas"
-				image={images.medical}
-				size={{ width: 24, height: 26 }}
-			/>
-			<PetStoreItem
-				title="Padrinhos"
-				image={images.home}
-				size={{ width: 23, height: 23 }}
-			/>
-			<PetStoreItem
-				title="Alimentação"
-				image={images.food}
-				size={{ width: 23, height: 24 }}
-			/>
-			<PetStoreItem
-				title="Exames"
-				image={images.needle}
-				size={{ width: 27, height: 27 }}
-			/>
-			<PetStoreItem
-				title="Adestramento"
-				image={images.pet}
-				size={{ width: 25, height: 30 }}
-			/>
-			</View>
+    <ScrollView>
+      <View style={styles.container}>
+        <TitleScreenComp title="PetStore" />
+        <View style={styles.topContainer}>
+          <PetStoreItem
+            title="Acessórios"
+            image={images.heart}
+            size={{ width: 23, height: 20 }}
+          />
+          <PetStoreItem
+            title="Banho e Tosa"
+            image={images.drop}
+            size={{ width: 18, height: 26 }}
+          />
+          <PetStoreItem
+            title="Consultas"
+            image={images.medical}
+            size={{ width: 24, height: 26 }}
+          />
+          <PetStoreItem
+            title="Padrinhos"
+            image={images.home}
+            size={{ width: 23, height: 23 }}
+          />
+          <PetStoreItem
+            title="Alimentação"
+            image={images.food}
+            size={{ width: 23, height: 24 }}
+          />
+          <PetStoreItem
+            title="Exames"
+            image={images.needle}
+            size={{ width: 27, height: 27 }}
+          />
+          <PetStoreItem
+            title="Adestramento"
+            image={images.pet}
+            size={{ width: 25, height: 30 }}
+          />
+        </View>
 
-			<View style={styles.ads}>
-			<PadrinhoAds />
-			</View>
+        <View style={styles.ads}>
+          <PadrinhoAds />
+        </View>
 
-			<Line />
-			<BottomButton title="Lojas" />
+        <Line />
+        <BottomButton title="Lojas" />
 
-			<View>
-				<Text style={styles.bestSellersText}>Itens mais procurados</Text>
+        <View>
+          <Text style={styles.bestSellersText}>Itens mais procurados</Text>
 
-				<View style={styles.list}>
-					<FlatList
-						data={DATA}
-						renderItem={renderCard}
-						keyExtractor={(item) => item.id}
-					/>
-				</View>
-			</View>
-		</View>
-		</ScrollView>
-  	);
+          <View style={styles.list}>
+            <FlatList
+              data={DATA}
+              renderItem={renderCard}
+              keyExtractor={(item) => item.id}
+            />
+          </View>
+        </View>
+      </View>
+    </ScrollView>
+  );
 }

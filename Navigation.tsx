@@ -9,6 +9,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import PickUpSignUp from './src/screens/PickUpSignUp';
 import SignUpCompany from './src/screens/SignUpCompany';
 import CadastroScreen from './src/screens/CadastroScreen';
+import PetStoreScreen from './src/screens/PetStoreScreen';
 
 import ListPets from './src/screens/Pets';
 import PetDetails from './src/screens/PetDetails';
@@ -78,10 +79,7 @@ function PetStoreStack(){
   return(
     <Stack.Navigator
       screenOptions={{headerShown: false}} initialRouteName="PetStore">
-        <Stack.Screen name="Pets" component={ListPets} />
-        {/*<Stack.Screen name="PetStore" component={PetStoreScreen}/>
-        <Stack.Screen name="StoreList" component={StoreList}/>
-        <Stack.Screen name="StorePage" component={StorePage}/>*/}
+        <Stack.Screen name="Pets" component={PetStoreScreen} />
     </Stack.Navigator>
   )
 }
