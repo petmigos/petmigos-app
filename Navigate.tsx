@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -20,15 +21,20 @@ import PetDetails from './src/screens/PetDetails';
 import Padrinhos from './src/screens/Padrinhos/Padrinhos';
 import Profile from './src/screens/Profile';
 
+// --- TELAS DE EMPRESA
+import MyStoreScreen from './src/screens/MyStoreScreen';
+import OrdersScreen from './src/screens/OrdersScreen';
+import StoreProfileScreen from './src/screens/StoreProfileScreen';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function TabNavigator() {
+function TabPetOwner() {
   return (
     <Tab.Navigator screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: primary,
-        tabBarStyle: {position: 'absolute', height: '6%', paddingBottom: 5}}}
+        tabBarStyle: style.tab}}
     >
         <Tab.Screen name="PetStoreStack" component={PetStoreStack} 
         options={{
@@ -54,6 +60,37 @@ function TabNavigator() {
           }}/>
     </Tab.Navigator>
   );
+}
+
+function TabCompany(){
+
+    return(
+      <Tab.Navigator screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: primary,
+        tabBarStyle: style.tab}}
+      >
+        <Tab.Screen name="MyStoreScreen" component={MyStoreScreen}
+          options={{
+            tabBarLabel: 'Minha Loja',
+          }}/>
+        <Tab.Screen name="OrdersScreen" component={OrdersScreen}
+          options={{
+            tabBarLabel: 'Pedidos',
+          }}
+        />
+        <Tab.Screen name="StoreProfileScreen" component={StoreProfileScreen}
+          options={{
+            tabBarLabel: 'Meu perfil',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="person-circle-outline" size={size} color={color} />
+            )
+          }}
+        />
+
+      </Tab.Navigator>
+    )
+
 }
 
 function AuthStack() {
@@ -104,10 +141,17 @@ export default function NavigateTo() {
         <NavigationContainer>
           <Stack.Navigator>
           {/*<Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />*/}
-          <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="TabPetOwner" component={TabPetOwner} options={{ headerShown: false }} />
+          <Stack.Screen name="TabCompany" component={TabCompany} options={{ headerShown: false }} />
           <Stack.Screen name="PetStack" component={PetStack} options={{ headerShown: false }} />
           <Stack.Screen name="PetStoreStack" component={PetStoreStack} options={{headerShown: false}}/>  
         </Stack.Navigator>
         </NavigationContainer>
       );
 }
+
+const style = StyleSheet.create({
+  tab:{
+    position: 'absolute', height: '6%', paddingBottom: 5
+  }
+})

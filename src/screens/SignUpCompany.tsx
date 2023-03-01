@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../components/Input';
 import { compSignUpStyle } from '../styles/signCompanyStyle';
-import { View, Text, ScrollView, Alert, TextInput } from 'react-native';
-import Checkbox from 'expo-checkbox';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import Title from '../components/Title';
 import BrownButton from '../components/BrownButton';
 import SignatureCard from '../components/SignatureCard';
@@ -122,9 +121,9 @@ const SignUpCompany: React.FC = () => {
           style={compSignUpStyle.pickCategory}
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
         >
-          <Picker.Item label="Petshop" value="petshop" />
-          <Picker.Item label="Veterinário" value="veterinario" />
-          <Picker.Item label="Outros" value="outros" />
+          <Picker.Item label="Petshop" value="Petshop" />
+          <Picker.Item label="Veterinário" value="Veterinario" />
+          <Picker.Item label="Outros" value="Outros" />
         </Picker>
 
         <View>

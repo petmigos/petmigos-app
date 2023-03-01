@@ -17,7 +17,7 @@ const StoreCard: React.FC<Company> = ({ name, category}) => {
         <Text style={styles.store_name}>
           {name}
         </Text>
-        <Text style={styles.store_category}>{category}.</Text>
+        <Text style={styles.store_category}>{category}</Text>
       </View>
       <View style={styles.store_km}>
         <Text>

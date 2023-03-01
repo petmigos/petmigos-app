@@ -35,7 +35,7 @@ const StoreList: React.FC = () => {
         <SafeAreaView style={styles.container}>
             <View>
                 <View>
-                    <TitleScreenComp title="Loja"/>
+                    <TitleScreenComp title="Lojas"/>
                 </View>
                 <View>
                 <FlatList

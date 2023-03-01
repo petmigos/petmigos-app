@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, Text, TextInput, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { Alert } from 'react-native';
 import styles from '../styles/loginCadastroStyles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import {CompanyService} from '../services/company/companyService';
@@ -79,6 +78,7 @@ export default function LoginScreen() {
                 getValueForUser(password);
                 console.log(id_user);
                 setShowMessageError(false);
+                navigation.navigate('TabPetOwner');
             }
             else {
                 const loggedcompany = await loginCompany.execute(username, password);
@@ -86,10 +86,8 @@ export default function LoginScreen() {
                 getValueForComp(password)
                 console.log(id_comp);
                 setShowMessageError(false);
- 
+                navigation.navigate('TabCompany');
             }
-
-            navigation.navigate('TabNavigator');
 
         } catch (error: any) {
             setShowMessageError(true);

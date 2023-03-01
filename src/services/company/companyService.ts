@@ -81,7 +81,7 @@ export class CompanyService {
       console.log(data)
       return data.map(company => ({ name: company.name, _id: company._id, category: company.category }));
     } catch (error) {
-      console.error(error);
+      console.error("ERRO:" + error);
       return [];
     }
   }
