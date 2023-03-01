@@ -1,8 +1,8 @@
 export interface Item{
-    title: string,
+    name: string,
     description: string,
     price: number,
     category: string,
     image: string,
-    quantity: number
+    quantity: number,
 }
