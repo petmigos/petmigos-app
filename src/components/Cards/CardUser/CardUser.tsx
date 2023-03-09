@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Item } from "../../../entities/item";
 
 type ItemData = {
   id: string;
@@ -17,12 +18,13 @@ type ItemData = {
 
 type CardUserProps = {
     item: Item;
+    companyName: String;
 };
 
-export const CardUser = ({item}: CardUserProps) => {
+export const CardUser = ({item, companyName}: CardUserProps) => {
     return (
       <View style={styles.component}>
-        <Image source={item.mainImage} style={styles.mainImage} />
+        <Image source={require(item.image)} style={styles.mainImage} />
         <View style={styles.info}>
           <View>
             <Text style={styles.name}>{item.name}</Text>
@@ -30,7 +32,7 @@ export const CardUser = ({item}: CardUserProps) => {
 
           <View style={styles.botComponent}>
             <View style={styles.botLeftComponent}>
-              <Text style={styles.furnisher}>{item.furnisher}</Text>
+              <Text style={styles.furnisher}>{companyName}</Text>
             </View>
             <View style={styles.botRightComponent}>
               <Text style={styles.price}>R${item.price}</Text>

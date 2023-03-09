@@ -48,7 +48,6 @@ export default function CadastroProdutoScreen() {
       const result = await fetchAll.execute(
         `http://${ip}:3333//companies/${companyId}/items`
       );
-
       setItems(result);
     }
 
@@ -78,13 +77,10 @@ export default function CadastroProdutoScreen() {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("ItemUserScreen", {
-            itemId: item._id,
-            test: "test",
-          });
+          navigation.navigate("ItemUserScreen");
         }}
       >
-        <CardUser key={item._id} item={item} />
+        <CardUser key={item._id} item={item} companyName={"Teste"} />
       </TouchableOpacity>
     );
   }
