@@ -17,8 +17,6 @@ import * as SecureStore from 'expo-secure-store';
 
 var loginUser = new LoginUser(new LoginUserService());
 var loginCompany = new LoginCompany(new LoginCompanyService());
-export var id_user = "";
-export var id_comp = "";
 
 
 export default function LoginScreen() {
