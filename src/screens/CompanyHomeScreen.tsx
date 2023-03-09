@@ -11,7 +11,7 @@ import { useState } from "react";
 import CadastroItemService from "../services/ItemService";
 import CadastroItem from "../use_cases/RegisterItemUC";
 import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
-import { CardUser } from "../components/Cards/CardUser/CardUser";
+import { CardUser, ItemData } from "../components/Cards/CardUser/CardUser";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import axios from "axios";

@@ -6,7 +6,7 @@ import { FlatList } from "react-native-gesture-handler";
 import AllergyCard from "../../components/AllergyCard";
 import HygieneCard from "../../components/HygieneCard";
 import { Modal } from "../../components/Modal";
-import { Params } from "../../components/Navigation";
+import { Params } from "../Pets/navigation";
 import VaccineCard from "../../components/VaccineCard";
 import { Allergy } from "../../entities/allergy";
 import { Hygiene } from "../../entities/hygiene";
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+    marginTop: '10%'
   },
   pet: {
     display: "flex",
