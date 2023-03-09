@@ -4,8 +4,10 @@ import { useState } from "react";
 import CadastroItemService from "../services/CadastroItemService";
 import CadastroItem from "../use_cases/RegisterItemUC";
 import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
-import { CardUser } from "../components/Cards/CardUser/CardUser";
+import { CardUser, ItemData } from "../components/Cards/CardUser/CardUser";
 import { useNavigation } from "@react-navigation/native";
+import { Item } from "../entities/item";
+
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -75,7 +77,7 @@ const DATA = [
 ];
 
 
-export default function CadastroProdutoScreen() {
+export default function CompanyHomeScreen() {
 
 	const navigation = useNavigation();
 
@@ -98,7 +100,7 @@ export default function CadastroProdutoScreen() {
 		console.log("Teste");
 	}
 
-	function renderCard({ item }: { item: ItemData }) {
+	function renderCard(item: ItemData ) {
 		return (
 		<TouchableOpacity
 			onPress={() => {
@@ -118,7 +120,7 @@ export default function CadastroProdutoScreen() {
       <TitleScreenComp title="Meus Produtos" />
       <VirtualizedList
         data={DATA}
-        renderItem={renderCard}
+        renderItem={({item}) => renderCard(item)}
         keyExtractor={(item) => item.id}
         getItemCount={getItemCount}
         getItem={getItem}

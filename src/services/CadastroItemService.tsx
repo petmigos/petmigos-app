@@ -4,7 +4,7 @@ import { ip } from "../entities/ip";
 export default class CadastroItemService {
 
     async register(title: string, description: string, price: number, category: string, image: string, quantity: number): Promise<Item> {
-
+        console.log(image)
         const response = await fetch(
           `http://${ip}:3333//companies/:companyId/items`,
           {
@@ -18,11 +18,13 @@ export default class CadastroItemService {
               description: description,
               price: price,
               category: category,
-              image: image,
+              image: "image",
               quantity: quantity,
             }),
           }
         );
+
+
 
         const responseJSON = await response.json();
         const responseStatus = response.status;

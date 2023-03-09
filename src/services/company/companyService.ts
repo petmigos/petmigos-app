@@ -78,10 +78,10 @@ export class CompanyService {
     try {
       const response = await fetch(`http://${ip}:3333/companies`);
       const data = await response.json();
-      console.log(data)
+      console.log("data: "+ data)
       return data.map(company => ({ name: company.name, _id: company._id, category: company.category }));
     } catch (error) {
-      console.error("ERRO:" + error);
+      console.error("ERROR: " + error);
       return [];
     }
   }

@@ -24,10 +24,10 @@ const image = {
 };
 
 export default function ItemUserScreen({route}) {
-  const { itemId, otherParam } = route.params;
-  const [title, setTitle] = useState(JSON.stringify(itemId));
-  const [description, setDescription] = useState(JSON.stringify(otherParam));
-  const [price, setPrice] = useState(0);
+  const { title, price } = route.params;
+  //const [title, setTitle] = useState(JSON.stringify(item.id));
+  //const [description, setDescription] = useState(JSON.stringify(description));
+  //const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [image, setImage] = useState("../../../assets/user_icon.png");
@@ -67,7 +67,7 @@ export default function ItemUserScreen({route}) {
         <Text style={styles.tituloItem}>{title}</Text>
         <Text style={styles.informacoes}>Informações</Text>
         <Text style={styles.preco}>R$ {price}</Text>
-        <Text style={styles.descricao}>{description}</Text>
+        <Text style={styles.descricao}>Descrição</Text>
       </View>
       <View style={styles.buyButtons}>
         <TouchableOpacity style={styles.accessingButton}>

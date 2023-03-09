@@ -141,7 +141,7 @@ export default function NavigateTo() {
     return (
         <NavigationContainer>
           <Stack.Navigator>
-          {/*<Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />*/}
+          <Stack.Screen name="AuthStack" component={AuthStack} options={{ headerShown: false }} />
           <Stack.Screen name="TabPetOwner" component={TabPetOwner} options={{ headerShown: false }} />
           <Stack.Screen name="TabCompany" component={TabCompany} options={{ headerShown: false }} />
           <Stack.Screen name="PetStoreStack" component={PetStoreStack} options={{headerShown: false}}/>

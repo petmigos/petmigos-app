@@ -11,11 +11,11 @@ const StorePage = ({ route }) =>{
     const { store } = route.params;
     const [searchText, setSearchText] = useState('');
     const [items, setData] = useState([
-    { id: '1', title: 'Item 1', price: '12.34' },
-    { id: '2', title: 'Item 2', price: '12.34' },
-    { id: '3', title: 'Item 3', price: '12.34' },
-    { id: '4', title: 'Another item', price: '12.34' },
-    { id: '5', title: 'Yet another item', price: '12.34' },
+    { id: '1', title: 'Coleira', price: '45.99' },
+    { id: '2', title: 'Ração Pedigree 2kg', price: '89.00' },
+    { id: '3', title: 'Caminha de gato', price: '276.99' },
+    { id: '4', title: 'Ração 10kg', price: '132.50' },
+    { id: '5', title: 'Arranhador p/ gato', price: '341.00' },
     ]);
     const [filteredItems, setFilteredData] = useState(items);
 
@@ -77,7 +77,7 @@ const StorePage = ({ route }) =>{
 const styles = StyleSheet.create(
     {
         container:{
-            marginTop: StatusBar.currentHeight || 0, 
+            marginTop: StatusBar.currentHeight + 12 || 0, 
             marginBottom: 50
         },
         list:{

@@ -22,10 +22,11 @@ import Padrinhos from './src/screens/Padrinhos/Padrinhos';
 import Profile from './src/screens/Profile';
 
 // --- TELAS DE EMPRESA
-import MyStoreScreen from './src/screens/MyStoreScreen';
+import CompanyHomeScreen from './src/screens/CompanyHomeScreen';
 import OrdersScreen from './src/screens/OrdersScreen';
 import StoreProfileScreen from './src/screens/StoreProfileScreen';
 import ItemUserScreen from './src/screens/ItemUserScreen';
+import CadastroProdutoScreen from './src/screens/CadastroProdutoScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -63,6 +64,16 @@ function TabPetOwner() {
   );
 }
 
+function MyStore(){
+  return (
+    <Stack.Navigator
+    screenOptions={{headerShown: false}}>
+      <Stack.Screen name="CompanyHomeScreen" component={CompanyHomeScreen} />
+      <Stack.Screen name="CadastroProdutoScreen" component={CadastroProdutoScreen} />
+    </Stack.Navigator>
+  );
+}
+
 function TabCompany(){
 
     return(
@@ -71,7 +82,7 @@ function TabCompany(){
         tabBarActiveTintColor: primary,
         tabBarStyle: style.tab}}
       >
-        <Tab.Screen name="MyStoreScreen" component={MyStoreScreen}
+        <Tab.Screen name="MyStore" component={MyStore}
           options={{
             tabBarLabel: 'Minha Loja',
           }}/>
@@ -122,6 +133,7 @@ function PetStoreStack(){
     <Stack.Navigator
       screenOptions={{headerShown: false}} initialRouteName="PetStore">
         <Stack.Screen name="PetStore" component={PetStoreScreen}/>
+        <Stack.Screen name="StoreStack" component={StoreStack} />
     </Stack.Navigator>
   )
 }
@@ -141,9 +153,10 @@ export default function NavigateTo() {
     return (
         <NavigationContainer>
           <Stack.Navigator>
-          {/*<Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />*/}
+          <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
           <Stack.Screen name="TabPetOwner" component={TabPetOwner} options={{ headerShown: false }} />
           <Stack.Screen name="TabCompany" component={TabCompany} options={{ headerShown: false }} />
+          <Stack.Screen name="MyStore" component={MyStore} options={{headerShown: false}} />
           <Stack.Screen name="PetStoreStack" component={PetStoreStack} options={{headerShown: false}}/>
           <Stack.Screen name="StoreStack" component={StoreStack} options={{headerShown: false}} />
           <Stack.Screen name="PetStack" component={PetStack} options={{ headerShown: false }} />  

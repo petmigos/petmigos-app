@@ -5,8 +5,9 @@ import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Item } from '../../../entities/item';
 
-type ItemData = {
+export type ItemData = {
   id: string;
   name: string;
   furnisher: string;
