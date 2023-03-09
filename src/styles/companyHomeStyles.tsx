@@ -6,12 +6,18 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: background,
+    paddingTop: 20,
+  },
+
+  button: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 10,
   },
 
   accessingButton: {
     backgroundColor: "#915E36",
     height: 56,
-    // fontFamily: 'Ubuntu-Bold',
     fontStyle: "normal",
     alignItems: "center",
     textAlign: "center",
@@ -23,9 +29,8 @@ export default StyleSheet.create({
   },
 
   loading: {
-    marginTop: 20,
-    marginBottom: 520,
     fontSize: 18,
+    marginTop: 20,
     textAlign: "center",
     fontWeight: "bold",
   },

@@ -20,18 +20,17 @@ const image = {
 };
 
 export default function CadastroProdutoScreen() {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("Teste");
   const [companyId, setcompanyId] = useState("6409f16c60e618dd9cf39457");
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState("teste");
   const [price, setPrice] = useState(0);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("Consultas");
   const [hasQuantity, setHasQuantity] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("Acessórios");
-  const [quantity, setQuantity] = useState(0);
-
+  const [quantity, setQuantity] = useState(10);
   const data = [
-    { key: "Acessórios", value: "Acessórios" },
-    { key: "Banho e Tosa", value: "Banho e Tosa" },
+    { key: "Acessórios", value: "Acessorios" },
+    { key: "Banho e Tosa", value: "BanhoETosa" },
     { key: "Consultas", value: "Consultas" },
     { key: "Padrinhos", value: "Padrinhos" },
     { key: "Alimentação", value: "Alimentação" },
@@ -46,7 +45,8 @@ export default function CadastroProdutoScreen() {
       name: `test.${result.assets[0].uri.split(".")[1]}`,
     };
 
-    const image = await cloudinaryUpload(source);
+    const image_test = await cloudinaryUpload(source);
+    const image = "Aqui está a imagem!";
 
     await cadastroItem.execute({companyId, title, description, price, category, quantity, image});
   }

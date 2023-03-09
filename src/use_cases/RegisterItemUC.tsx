@@ -8,7 +8,6 @@ export default class CadastroItem {
   constructor(cadastroItemService: CadastroItemService) {
     this.cadastroItemService = cadastroItemService;
   }
-
   async execute(
     newItem: Item
   ): Promise<Item> {

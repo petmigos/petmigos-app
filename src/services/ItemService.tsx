@@ -6,8 +6,9 @@ export default class ItemService {
     newItem: Item,
   ): Promise<Item> {
     const {companyId, title, description, price, category, quantity, image} = newItem;
+    console.log(newItem);
     const response = await fetch(
-      `http://${ip}:3333//companies/${companyId}/items`,
+      `http://${ip}:3333/companies/${companyId}/items`,
       {
         method: "POST",
         headers: {

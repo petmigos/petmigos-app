@@ -19,6 +19,7 @@ import { ip } from "../entities/ip";
 import { FetchAll } from "../use_cases/item/Fetchall";
 import ItemService from "../services/ItemService";
 import { Item } from "../entities/item";
+import { ScrollView } from "react-native-gesture-handler";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -46,8 +47,9 @@ export default function CadastroProdutoScreen() {
 
     async function fetch() {
       const result = await fetchAll.execute(
-        `http://${ip}:3333//companies/6409f16c60e618dd9cf39457/items`
+        `http://${ip}:3333/companies/6409f16c60e618dd9cf39457/items`
       );
+      console.log("teste:" + result);
       setItems(result);
     }
 
@@ -77,26 +79,30 @@ export default function CadastroProdutoScreen() {
 
   return (
     <View style={styles.container}>
-      <TitleScreenComp title="Meus Produtos" />
-      {items !== undefined ? (
-        <VirtualizedList
-          data={items}
-          renderItem={({ item }) => renderCard(item)}
-          keyExtractor={(item) => item._id}
-          getItemCount={getItemCount}
-          getItem={getItem}
-        />
-      ) : (
-        <Text style={styles.loading}>Carregando items...</Text>
-      )}
-      <TouchableOpacity
-        style={styles.accessingButton}
-        onPress={() => {
-          navigation.navigate("CadastroProdutoScreen");
-        }}
-      >
-        <Text style={styles.gettingText}>ADICIONAR PRODUTO</Text>
-      </TouchableOpacity>
+      <ScrollView>
+        <TitleScreenComp title="Meus Produtos" />
+        {items !== undefined ? (
+          <VirtualizedList
+            data={items}
+            renderItem={({ item }) => renderCard(item)}
+            keyExtractor={(item) => item._id}
+            getItemCount={getItemCount}
+            getItem={getItem}
+          />
+        ) : (
+          <Text style={styles.loading}>Carregando items...</Text>
+        )}
+      </ScrollView>
+      <View style={styles.button}>
+        <TouchableOpacity
+          style={styles.accessingButton}
+          onPress={() => {
+            navigation.navigate("CadastroProdutoScreen");
+          }}
+        >
+          <Text style={styles.gettingText}>ADICIONAR PRODUTO</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
