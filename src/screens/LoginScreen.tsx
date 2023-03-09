@@ -49,21 +49,13 @@ export default function LoginScreen() {
             {
                 const loggeduser = await loginUser.execute(username, password);
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Usuário logado!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
+                navigation.navigate('TabPetOwner')
             }
             else
             {
                 const loggedcompany = await loginCompany.execute(username, password);
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Empresa logada!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
+                navigation.navigate('TabCompany')
             }
 
         } catch (error: any) {
