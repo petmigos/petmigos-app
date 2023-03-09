@@ -20,15 +20,15 @@ const image = {
 };
 
 export default function CadastroProdutoScreen() {
-  let valid_format;
-  let original_format;
   const [title, setTitle] = useState("");
+  const [companyId, setcompanyId] = useState("6409f16c60e618dd9cf39457");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [hasQuantity, setHasQuantity] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("Acessórios");
   const [quantity, setQuantity] = useState(0);
+
   const data = [
     { key: "Acessórios", value: "Acessórios" },
     { key: "Banho e Tosa", value: "Banho e Tosa" },
@@ -39,52 +39,16 @@ export default function CadastroProdutoScreen() {
     { key: "Adestramento", value: "Adestramento" },
   ];
 
-  function uriToBase64(uri: string): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        const reader = new FileReader();
-        reader.onloadend = function () {
-          const base64data = reader.result.toString().split(",")[1];
-          resolve(base64data);
-        };
-        reader.onerror = function (error) {
-          reject(error);
-        };
-        reader.readAsDataURL(xhr.response);
-      };
-      xhr.onerror = function (error) {
-        reject(error);
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri);
-      xhr.send();
-    });
-  }
-
-  function toUrlSafeBase64(base64String: string): string {
-    const bytes = fromByteArray(Buffer.from(base64String, "base64"));
-    return bytes.replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
-  }
-
-  function fromUrlSafeBase64(encoded: string): string {
-    const base64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
-    const buffer = Buffer.from(base64, "base64");
-    return buffer.toString("utf-8");
-  }
-
   async function SendData() {
-    const base64Image = await uriToBase64(result.assets[0].uri);
-    original_format = base64Image;
-    valid_format = toUrlSafeBase64(base64Image);
-    await cadastroItem.execute(
-      title,
-      description,
-      price,
-      category,
-      valid_format,
-      quantity
-    );
+    const source = {
+      uri: result.assets[0].uri,
+      type: `test/${result.assets[0].uri.split(".")[1]}`,
+      name: `test.${result.assets[0].uri.split(".")[1]}`,
+    };
+
+    const image = await cloudinaryUpload(source);
+
+    await cadastroItem.execute({companyId, title, description, price, category, quantity, image});
   }
 
   function Increment() {
@@ -112,6 +76,23 @@ export default function CadastroProdutoScreen() {
     console.log(price);
     console.log(category);
   }
+
+  const cloudinaryUpload = async (photo) => {
+    const formData = new FormData();
+    formData.append("file", photo);
+    formData.append("upload_preset", "lipjy5de");
+    formData.append("cloud_name", "petmigosimages");
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/petmigosimages/image/upload",
+      {
+        method: "post",
+        body: formData,
+      }
+    );
+    const data = await response.json();
+    return data.url;
+  };
 
   return (
     <ScrollView style={styles.container}>

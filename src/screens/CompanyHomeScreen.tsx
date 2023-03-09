@@ -46,7 +46,7 @@ export default function CadastroProdutoScreen() {
 
     async function fetch() {
       const result = await fetchAll.execute(
-        `http://${ip}:3333//companies/${companyId}/items`
+        `http://${ip}:3333//companies/6409f16c60e618dd9cf39457/items`
       );
       setItems(result);
     }
@@ -54,24 +54,14 @@ export default function CadastroProdutoScreen() {
     fetch();
   })
 
-  function getItemCount() {
-    return items.length;
+  function getItemCount(data: Item[]) {
+    return data.length;
   }
 
-  function getItem(data, index) {
-    return {
-      id: Math.random().toString(12).substring(0),
-      name: data[index].name,
-      furnisher: data[index].furnisher,
-      price: data[index].price,
-      categoryImage: data[index].categoryImage,
-      mainImage: data[index].mainImage,
-    };
+  function getItem(data: Item[], index: number) {
+    return data[index];
   }
 
-  function Test() {
-    console.log("Teste");
-  }
 
   function renderCard(item: Item) {
     return (
@@ -88,13 +78,17 @@ export default function CadastroProdutoScreen() {
   return (
     <View style={styles.container}>
       <TitleScreenComp title="Meus Produtos" />
-      <VirtualizedList
-        data={items}
-        renderItem={renderCard}
-        keyExtractor={(item) => item.id}
-        getItemCount={getItemCount}
-        getItem={getItem}
-      />
+      {items !== undefined ? (
+        <VirtualizedList
+          data={items}
+          renderItem={({ item }) => renderCard(item)}
+          keyExtractor={(item) => item._id}
+          getItemCount={getItemCount}
+          getItem={getItem}
+        />
+      ) : (
+        <Text style={styles.loading}>Carregando items...</Text>
+      )}
       <TouchableOpacity
         style={styles.accessingButton}
         onPress={() => {

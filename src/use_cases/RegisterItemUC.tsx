@@ -1,5 +1,6 @@
 import CadastroItemService from "../services/ItemService";
 import { Item } from "../entities/item";
+import { Company } from "../services/CadastroCompanyService";
 
 export default class CadastroItem {
   private cadastroItemService: CadastroItemService;
@@ -9,20 +10,10 @@ export default class CadastroItem {
   }
 
   async execute(
-    title: string,
-    description: string,
-    price: number,
-    category: string,
-    img: string,
-    quantity: number
+    newItem: Item
   ): Promise<Item> {
     const itemregistered = await this.cadastroItemService.register(
-      title,
-      description,
-      price,
-      category,
-      img,
-      quantity
+      newItem
     );
 
     return itemregistered;

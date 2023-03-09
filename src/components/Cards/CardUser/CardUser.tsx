@@ -1,46 +1,45 @@
-import React from 'react';
-import { background, erro, primary, secondary_v2, superficie, textPadrao } from '../../../styles/colors';
-import { Text, View, Image, ImageSourcePropType } from 'react-native';
-import { StyleSheet } from 'react-native';
-import { Button } from 'react-native-elements';
-import { Float } from 'react-native/Libraries/Types/CodegenTypes';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import React from "react";
+import {
+  background,
+  erro,
+  primary,
+  secondary_v2,
+  superficie,
+  textPadrao,
+} from "../../../styles/colors";
+import { Text, View, Image, ImageSourcePropType } from "react-native";
+import { StyleSheet } from "react-native";
+import { Button } from "react-native-elements";
+import { Float } from "react-native/Libraries/Types/CodegenTypes";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Item } from "../../../entities/item";
-
-type ItemData = {
-  id: string;
-  name: string;
-  furnisher: string;
-  price: Float;
-  mainImage: ImageSourcePropType;
-};
 
 
 type CardUserProps = {
-    item: Item;
-    companyName: String;
+  item: Item;
+  companyName: String;
 };
 
-export const CardUser = ({item, companyName}: CardUserProps) => {
-    return (
-      <View style={styles.component}>
-        <Image source={require(item.image)} style={styles.mainImage} />
-        <View style={styles.info}>
-          <View>
-            <Text style={styles.name}>{item.name}</Text>
-          </View>
+export const CardUser = ({ item, companyName }: CardUserProps) => {
+  return (
+    <View style={styles.component}>
+      {/* <Image source={item.image} style={styles.mainImage} /> */}
+      <View style={styles.info}>
+        <View>
+          <Text style={styles.name}>{item.title}</Text>
+        </View>
 
-          <View style={styles.botComponent}>
-            <View style={styles.botLeftComponent}>
-              <Text style={styles.furnisher}>{companyName}</Text>
-            </View>
-            <View style={styles.botRightComponent}>
-              <Text style={styles.price}>R${item.price}</Text>
-            </View>
+        <View style={styles.botComponent}>
+          <View style={styles.botLeftComponent}>
+            <Text style={styles.furnisher}>{companyName}</Text>
+          </View>
+          <View style={styles.botRightComponent}>
+            <Text style={styles.price}>R${item.price}</Text>
           </View>
         </View>
       </View>
-    );
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

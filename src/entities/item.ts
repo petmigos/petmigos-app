@@ -1,11 +1,15 @@
-export interface Item{
-    _id?: string,
-    name: string,
-    description: string,
-    price: number,
-    category: string,
-    image: string,
-    quantity: number,
-    createdAt?: Date,
-    updatedAt?: Date,
+import { Company } from "../services/CadastroCompanyService";
+
+export interface Item {
+  _id?: string;
+  companyId: string;
+  company?: Company;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  quantity: number;
+  image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

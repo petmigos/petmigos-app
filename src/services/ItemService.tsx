@@ -3,14 +3,9 @@ import { ip } from "../entities/ip";
 
 export default class ItemService {
   async register(
-    companyId: string,
-    title: string,
-    description: string,
-    price: number,
-    category: string,
-    image: string,
-    quantity: number
+    newItem: Item,
   ): Promise<Item> {
+    const {companyId, title, description, price, category, quantity, image} = newItem;
     const response = await fetch(
       `http://${ip}:3333//companies/${companyId}/items`,
       {
@@ -24,8 +19,8 @@ export default class ItemService {
           description: description,
           price: price,
           category: category,
-          image: image,
           quantity: quantity,
+          image: image
         }),
       }
     );
