@@ -7,8 +7,6 @@ import { SetImage } from '../components/SetImage/SetImage';
 import { Picker } from '@react-native-picker/picker';
 import { result } from '../components/SetImage/SetImage';
 import { QuantButton } from '../components/QuantButton/QuantButton';
-import { Buffer } from 'buffer';
-import { fromByteArray } from 'base64-js';
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -20,8 +18,6 @@ const image = {
 
 export default function CadastroProdutoScreen() {
     
-    const [valid_format, setValidFormat] = useState("");
-    const [original_format, setOriginalFormat] = useState("");
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
@@ -37,61 +33,19 @@ export default function CadastroProdutoScreen() {
         { key: 'Exames', value: 'Exames' },
         { key: 'Adestramento', value: 'Adestramento' },
     ];
-
-
-    // this function is used for converting the uri got from images to a universal format: base64
-    // it is necessary to save them in a database or display on screen
-
-    function uriToBase64(uri: string): Promise<string> {
-        return new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          xhr.onload = function() {
-            const reader = new FileReader();
-            reader.onloadend = function() {
-              const base64data = reader.result.toString().split(',')[1];
-              resolve(base64data);
-            };
-            reader.onerror = function(error) {
-              reject(error);
-            };
-            reader.readAsDataURL(xhr.response);
-          };
-          xhr.onerror = function(error) {
-            reject(error);
-          };
-          xhr.responseType = 'blob';
-          xhr.open('GET', uri);
-          xhr.send();
-        });
-      }
-
-
-    // this function is used to convert the base64 string to a valid format likely to pass through json
-    function toUrlSafeBase64(base64String: string): string {
-        const bytes = fromByteArray(Buffer.from(base64String, 'base64'));
-        return bytes.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-      }
     
-    // this function is used to convert the previous format mentioned to a base64 string
-    function fromUrlSafeBase64(base64String: string): string {
-        const bytes = fromByteArray(Buffer.from(base64String, 'base64'));
-        return bytes.replace(/-/g, '+').replace(/_/g, '/');
-      }
-
-    // execution order: 1. uriToBase64 (get the image uri and convert to base64) 2. toUrlSafeBase64 (get the base64 string and convert to a valid format 
-    // if you want to use json and save it in a database) 3. fromUrlSafeBase64 (get the valid format for json and make it a base64 string again if you
-    // want to display the image)
-      
 
     async function SendData() {
+        
+        const source = {
+          uri: result.assets[0].uri,
+          type:`test/${result.assets[0].uri.split(".")[1]}`,
+          name:`test.${result.assets[0].uri.split(".")[1]}`
+        }
 
-        const base64Image = await uriToBase64(result.assets[0].uri);
-        const vf = toUrlSafeBase64(await base64Image)
-        setValidFormat(vf);
-        setOriginalFormat(fromUrlSafeBase64(valid_format));
-        console.log(original_format);
+        cloudinaryUpload(source);
     
-        await cadastroItem.execute(title, description, price, category, valid_format, quantity)
+        await cadastroItem.execute(title, description, price, category, quantity)
     }
 
     function Increment() {
@@ -101,6 +55,21 @@ export default function CadastroProdutoScreen() {
 
     function Decrement() {
         if (quantity > 0) setQuantity(quantity - 1);
+    }
+    
+    const cloudinaryUpload = (photo) => {
+      const data = new FormData()
+      data.append("file", photo)
+      data.append("upload_preset", 'lipjy5de')
+      data.append("cloud_name", "petmigosimages")
+      
+      fetch("https://api.cloudinary.com/v1_1/petmigosimages/image/upload", {
+        method: "post",
+        body: data
+      }).then(res => res.json()).
+        then(data => {
+          console.log(data)
+        })
     }
 
     return (
@@ -143,7 +112,6 @@ export default function CadastroProdutoScreen() {
                     <Text style={styles.quantityText}>Quantidade</Text>
                     <QuantButton quantity={quantity} increment={Increment} decrement={Decrement}/>
                 </View>
-                <Image source={{ uri: `data:image/png;base64, ${original_format}` }} style={{ width: 100, height: 150}} />
                 <TouchableOpacity style={styles.accessingButton} onPress={SendData}>
                     <Text style={styles.gettingText}>
                         Cadastrar

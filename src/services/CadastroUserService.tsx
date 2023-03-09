@@ -23,4 +23,6 @@ export default class CadastroService {
         if (responseStatus !== 200) throw new Error(responseJSON.message);
         return responseJSON;
     }
+
+    
 }

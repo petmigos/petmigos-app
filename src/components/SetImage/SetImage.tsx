@@ -27,6 +27,7 @@ export const SetImage = (props: ImageProps) => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      upload.single(image)
     }
   };
 
