@@ -17,4 +17,10 @@ export default class CadastroItem {
 
     return itemregistered;
   }
+
+  async uploadImg (photo): Promise<string>
+  {
+    const img = await this.cadastroItemService.cloudinaryUpload(photo);
+    return img;
+  }
 }

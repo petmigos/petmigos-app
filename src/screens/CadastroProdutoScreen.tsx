@@ -45,8 +45,8 @@ export default function CadastroProdutoScreen() {
       name: `test.${result.assets[0].uri.split(".")[1]}`,
     };
 
-    const image_test = await cloudinaryUpload(source);
-    const image = "Aqui está a imagem!";
+    const image_upl = await cadastroItem.uploadImg(source);
+    const image = image_upl.toString();
 
     await cadastroItem.execute({companyId, title, description, price, category, quantity, image});
   }
@@ -76,23 +76,6 @@ export default function CadastroProdutoScreen() {
     console.log(price);
     console.log(category);
   }
-
-  const cloudinaryUpload = async (photo) => {
-    const formData = new FormData();
-    formData.append("file", photo);
-    formData.append("upload_preset", "lipjy5de");
-    formData.append("cloud_name", "petmigosimages");
-
-    const response = await fetch(
-      "https://api.cloudinary.com/v1_1/petmigosimages/image/upload",
-      {
-        method: "post",
-        body: formData,
-      }
-    );
-    const data = await response.json();
-    return data.url;
-  };
 
   return (
     <ScrollView style={styles.container}>
