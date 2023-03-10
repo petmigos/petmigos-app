@@ -12,6 +12,7 @@ import { Buffer } from "buffer";
 import { fromByteArray } from "base64-js";
 import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantButton";
 import { ScrollView } from "react-native-gesture-handler";
+import { id_comp } from "./LoginScreen";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -21,7 +22,7 @@ const image = {
 
 export default function CadastroProdutoScreen() {
   const [title, setTitle] = useState("Teste");
-  const [companyId, setcompanyId] = useState("6409f16c60e618dd9cf39457");
+  const companyId = id_comp
   const [description, setDescription] = useState("teste");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Consultas");
