@@ -4,9 +4,10 @@ import ItemService from "../../services/ItemService";
 export class Create {
   constructor(private readonly itemService: ItemService) {}
 
-  async execute(newItem: Item, companyId: string) {
+  async execute(newItem: Item) {
     const {
       category,
+      companyId: companyId,
       description,
       image,
       title: name,
@@ -14,13 +15,7 @@ export class Create {
       quantity,
     } = newItem;
     return this.itemService.register(
-      companyId,
-      name,
-      description,
-      price,
-      category,
-      image,
-      quantity
+      newItem
     );
   }
 }

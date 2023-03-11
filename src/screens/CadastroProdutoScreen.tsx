@@ -8,8 +8,6 @@ import {
   result,
 } from "../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
-import { Buffer } from "buffer";
-import { fromByteArray } from "base64-js";
 import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantButton";
 import { ScrollView } from "react-native-gesture-handler";
 import { id_comp } from "./LoginScreen";
@@ -21,25 +19,16 @@ const image = {
 };
 
 export default function CadastroProdutoScreen() {
-  const [title, setTitle] = useState("Teste");
-  const companyId = id_comp
-  const [description, setDescription] = useState("teste");
+  const [title, setTitle] = useState("");
+  const companyId = "6409f16c60e618dd9cf39457";
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
-  const [category, setCategory] = useState("Consultas");
+  const [category, setCategory] = useState("Acessorios");
   const [hasQuantity, setHasQuantity] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState("Acessórios");
-  const [quantity, setQuantity] = useState(10);
-  const data = [
-    { key: "Acessórios", value: "Acessorios" },
-    { key: "Banho e Tosa", value: "BanhoETosa" },
-    { key: "Consultas", value: "Consultas" },
-    { key: "Padrinhos", value: "Padrinhos" },
-    { key: "Alimentação", value: "Alimentação" },
-    { key: "Exames", value: "Exames" },
-    { key: "Adestramento", value: "Adestramento" },
-  ];
+  const [quantity, setQuantity] = useState(0);
 
   async function SendData() {
+    
     const source = {
       uri: result.assets[0].uri,
       type: `test/${result.assets[0].uri.split(".")[1]}`,
@@ -67,15 +56,7 @@ export default function CadastroProdutoScreen() {
     } else {
       setHasQuantity(true);
     }
-    setSelectedCategory(itemValue);
     setCategory(itemValue);
-  }
-
-  function Pressed() {
-    console.log(title);
-    console.log(description);
-    console.log(price);
-    console.log(category);
   }
 
   return (
@@ -106,7 +87,7 @@ export default function CadastroProdutoScreen() {
 
         <View style={styles.picker}>
           <Picker
-            selectedValue={selectedCategory}
+            selectedValue={category}
             style={styles.pickCategory}
             onValueChange={(itemValue) => CategoryChange(itemValue)}
           >

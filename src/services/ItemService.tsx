@@ -24,8 +24,8 @@ export default class ItemService {
           image: image
         }),
       }
-    );
-
+      );
+      
     const responseJSON = await response.json();
     const responseStatus = response.status;
     if (responseStatus !== 200) throw new Error(responseJSON.message);
@@ -34,7 +34,7 @@ export default class ItemService {
 
   async fetchAll(companyId: string): Promise<Item[]> {
     const response = await fetch(
-      `http://${ip}:3333//companies/${companyId}/items`
+      `http://${ip}:3333/companies/${companyId}/items`
     );
 
     const responseJSON = await response.json();
@@ -45,7 +45,7 @@ export default class ItemService {
 
   async findById(companyId: string, itemId: string): Promise<Item> {
     const response = await fetch(
-      `http://${ip}:3333//companies/${companyId}/items/${itemId}`
+      `http://${ip}:3333/companies/${companyId}/items/${itemId}`
     );
 
     const responseJSON = await response.json();
