@@ -97,7 +97,7 @@ export default function CadastroProdutoScreen() {
         <TouchableOpacity
           style={styles.accessingButton}
           onPress={() => {
-            navigation.navigate("CadastroProdutoScreen");
+        navigation.navigate("CadastroProdutoScreen");
           }}
         >
           <Text style={styles.gettingText}>ADICIONAR PRODUTO</Text>

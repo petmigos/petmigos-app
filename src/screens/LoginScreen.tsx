@@ -75,7 +75,7 @@ export default function LoginScreen() {
             }
             else {
                 const loggedcompany = await loginCompany.execute(username, password);
-                save_id(loggedcompany.password, loggedcompany.id);
+                save_id(loggedcompany.password, loggedcompany._id);
                 getValueForComp(password)
                 console.log(id_comp);
                 setShowMessageError(false);
