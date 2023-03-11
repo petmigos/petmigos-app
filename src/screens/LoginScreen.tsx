@@ -16,7 +16,11 @@ import * as SecureStore from 'expo-secure-store';
 
 const loginUser = new LoginUser(new LoginUserService());
 const loginCompany = new LoginCompany(new CompanyService());
+
+// This variable is saving the user id, based on their password, after logging
 export let id_user = "";
+
+// This variable is saving the companie id, based on their password, after logging
 export let id_comp = "";
 
 
@@ -36,26 +40,22 @@ export default function LoginScreen() {
     const handleOkButton = () => {
         console.log("Logado com sucesso!");
     };
-     
+    
+    // Implementation of Secure Store Api
     async function save_id(password, ident) {
         await SecureStore.setItemAsync(password, ident);
     }
-
-    async function getValueForUser(password) {
-        let result = await SecureStore.getItemAsync(password);
-        if (result) {
-           id_user = result;
-        }
-
-        }
-
-    async function getValueForComp(password) {
-        let result = await SecureStore.getItemAsync(password);
-        if (result) {
-            id_comp = result;
-        }
     
+    // Implementation of Secure Store Api
+    async function getValueFor(password): Promise<string> {
+        let result = await SecureStore.getItemAsync(password);
+        if (result) {
+            console.log("🔐 Here's your value 🔐 \n" + result);
+        } else {
+            console.log('No values stored under that key.');
         }
+        return result
+    }
 
     function goToPickUp(){
         navigation.navigate("PickUpSignUp");
@@ -68,16 +68,14 @@ export default function LoginScreen() {
             if (selectedIndex == 0) {
                 const loggeduser = await loginUser.execute(username, password);
                 save_id(loggeduser.password, loggeduser._id);
-                getValueForUser(password);
-                console.log(id_user);
+                id_user = await getValueFor(password);
                 setShowMessageError(false);
                 navigation.navigate('TabPetOwner');
             }
             else {
                 const loggedcompany = await loginCompany.execute(username, password);
                 save_id(loggedcompany.password, loggedcompany._id);
-                getValueForComp(password)
-                console.log(id_comp);
+                id_comp = await getValueFor(password)
                 setShowMessageError(false);
                 navigation.navigate('TabCompany');
             }
