@@ -13,17 +13,17 @@ import { Button } from "react-native-elements";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Item } from "../../../entities/item";
+import { err } from "react-native-svg/lib/typescript/xml";
 
 
 type CardUserProps = {
   item: Item;
-  companyName: String;
 };
 
-export const CardUser = ({ item, companyName }: CardUserProps) => {
+export const CardUser = ({ item}: CardUserProps) => {
   return (
     <View style={styles.component}>
-      {/* <Image source={item.image} style={styles.mainImage} /> */}
+      <Image source={{uri: item.image}} style={styles.mainImage} />
       <View style={styles.info}>
         <View>
           <Text style={styles.name}>{item.title}</Text>
@@ -31,7 +31,7 @@ export const CardUser = ({ item, companyName }: CardUserProps) => {
 
         <View style={styles.botComponent}>
           <View style={styles.botLeftComponent}>
-            <Text style={styles.furnisher}>{companyName}</Text>
+            <Text style={styles.furnisher}>{item.company.name}Teste</Text>
           </View>
           <View style={styles.botRightComponent}>
             <Text style={styles.price}>R${item.price}</Text>
@@ -57,9 +57,12 @@ const styles = StyleSheet.create({
   },
 
   mainImage: {
+    borderRadius: 10,
+    borderColor: primary,
+    borderWidth: 1,
     margin: 10,
-    height: 50,
-    width: 60,
+    height: 70,
+    width: 70,
   },
 
   info: {
@@ -70,20 +73,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  furnisher: {
-    color: secondary_v2,
-    fontSize: 20,
-  },
-
+  
   botComponent: {
+    backgroundColor: background,
     flexDirection: "row",
     alignItems: "flex-end",
     marginRight: 20,
   },
-
+  
   botLeftComponent: {
     flex: 2,
     alignItems: "flex-start",
+  },
+  
+  furnisher: {
+    fontSize: 20,
   },
 
   botRightComponent: {

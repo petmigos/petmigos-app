@@ -9,6 +9,10 @@ export default StyleSheet.create({
     paddingTop: 20,
   },
 
+  scroll: {
+    marginTop: 20,
+  },
+
   button: {
     flex: 1,
     justifyContent: "flex-end",

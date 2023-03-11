@@ -20,7 +20,7 @@ const image = {
 
 export default function CadastroProdutoScreen() {
   const [title, setTitle] = useState("");
-  const companyId = "6409f16c60e618dd9cf39457";
+  const companyId = id_comp;
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Acessorios");

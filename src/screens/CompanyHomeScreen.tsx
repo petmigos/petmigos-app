@@ -11,7 +11,7 @@ import { useState } from "react";
 import CadastroItemService from "../services/ItemService";
 import CadastroItem from "../use_cases/RegisterItemUC";
 import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
-import { CardUser, ItemData } from "../components/Cards/CardUser/CardUser";
+import { CardUser} from "../components/Cards/CardUser/CardUser";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import axios from "axios";
@@ -20,6 +20,7 @@ import { FetchAll } from "../use_cases/item/Fetchall";
 import ItemService from "../services/ItemService";
 import { Item } from "../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
+import { id_comp } from "./LoginScreen";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -44,17 +45,10 @@ export default function CadastroProdutoScreen() {
   const fetchAll = new FetchAll(new ItemService());
 
   useEffect(() => {
-
-    async function fetch() {
-      const result = await fetchAll.execute(
-        `http://${ip}:3333/companies/6409f16c60e618dd9cf39457/items`
-      );
-      console.log("teste:" + result);
-      setItems(result);
-    }
-
-    fetch();
-  })
+    fetchAll.execute(id_comp).then((data) => {
+      setItems(data);
+    });
+  }, []);
 
   function getItemCount(data: Item[]) {
     return data.length;
@@ -72,15 +66,17 @@ export default function CadastroProdutoScreen() {
           navigation.navigate("ItemUserScreen");
         }}
       >
-        <CardUser key={item._id} item={item} companyName={"Teste"} />
+        <CardUser 
+          key={item._id} 
+          item={item} />
       </TouchableOpacity>
     );
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <TitleScreenComp title="Meus Produtos" />
+      <TitleScreenComp title="Meus Produtos" />
+      <ScrollView style={styles.scroll}>
         {items !== undefined ? (
           <VirtualizedList
             data={items}
@@ -97,7 +93,7 @@ export default function CadastroProdutoScreen() {
         <TouchableOpacity
           style={styles.accessingButton}
           onPress={() => {
-        navigation.navigate("CadastroProdutoScreen");
+            navigation.navigate("CadastroProdutoScreen");
           }}
         >
           <Text style={styles.gettingText}>ADICIONAR PRODUTO</Text>
