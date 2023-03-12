@@ -14,8 +14,6 @@ import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
 import { CardUser} from "../components/Cards/CardUser/CardUser";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import axios from "axios";
-import { ip } from "../entities/ip";
 import { FetchAll } from "../use_cases/item/Fetchall";
 import ItemService from "../services/ItemService";
 import { Item } from "../entities/item";
@@ -23,20 +21,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { id_comp } from "./LoginScreen";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
-
-const images = {
-  heart: require("../../assets/petstoreitems/heart.png"),
-  drop: require("../../assets/petstoreitems/drop.png"),
-  medical: require("../../assets/petstoreitems/medical.png"),
-  home: require("../../assets/petstoreitems/home.png"),
-  needle: require("../../assets/petstoreitems/needle.png"),
-  food: require("../../assets/petstoreitems/food.png"),
-  pet: require("../../assets/petstoreitems/pet.png"),
-
-  fulano: require("../../assets/testimages/fulano.png"),
-  miss_pet: require("../../assets/testimages/miss_pet.png"),
-  petz: require("../../assets/testimages/petz.png"),
-};
 
 export default function CadastroProdutoScreen() {
   const navigation = useNavigation();
@@ -63,7 +47,10 @@ export default function CadastroProdutoScreen() {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("ItemUserScreen");
+          navigation.navigate("ItemCompanyScreen", {
+            itemId: item._id,
+            companyId: id_comp,
+          });
         }}
       >
         <CardUser 

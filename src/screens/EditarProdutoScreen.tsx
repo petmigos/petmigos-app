@@ -1,6 +1,6 @@
 import { Image, TouchableOpacity, Text, TextInput, View } from "react-native";
 import styles from "../styles/cadastroProdutoStyles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CadastroItemService from "../services/ItemService";
 import CadastroItem from "../use_cases/RegisterItemUC";
 import {
@@ -11,6 +11,8 @@ import { Picker } from "@react-native-picker/picker";
 import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantButton";
 import { ScrollView } from "react-native-gesture-handler";
 import { id_comp } from "./LoginScreen";
+import { FindById } from "../use_cases/item/FindById";
+import ItemService from "../services/ItemService";
 import { useNavigation } from "@react-navigation/native";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
@@ -19,7 +21,8 @@ const image = {
   test: require("../../assets/store_test.png"),
 };
 
-export default function CadastroProdutoScreen() {
+export default function CadastroProdutoScreen({ route }) {
+  const { itemId, id_comp} = route.params;
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const companyId = id_comp;
@@ -28,6 +31,19 @@ export default function CadastroProdutoScreen() {
   const [category, setCategory] = useState("Acessorios");
   const [hasQuantity, setHasQuantity] = useState(true);
   const [quantity, setQuantity] = useState(0);
+  const [image, setImage] = useState("assets/icon.png");
+
+  const findById = new FindById(new ItemService());
+
+  useEffect(() => {
+    findById.execute(id_comp, itemId).then((data) => {
+      
+      setTitle(data.title);
+      setDescription(data.description);
+      setImage(data.image);
+      setQuantity(data.quantity)
+    });
+  });
 
   async function SendData() {
     
@@ -64,8 +80,8 @@ export default function CadastroProdutoScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
-        <Text style={styles.topText}>Cadastrar Produto</Text>
-        <SetImage image="../../assets/user_icon.png" />
+        <Text style={styles.topText}>Editar Produto</Text>
+        <SetImage image={image} />
       </View>
 
       <View style={styles.middleScreen}>

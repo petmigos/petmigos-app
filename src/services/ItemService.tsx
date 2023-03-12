@@ -44,6 +44,7 @@ export default class ItemService {
   }
 
   async findById(companyId: string, itemId: string): Promise<Item> {
+    console.log(companyId, itemId);
     const response = await fetch(
       `http://${ip}:3333/companies/${companyId}/items/${itemId}`
     );

@@ -1,6 +1,8 @@
 import React from "react";
 import {
   background,
+  complementar1,
+  complementar2,
   erro,
   primary,
   secondary_v2,
@@ -23,10 +25,15 @@ type CardUserProps = {
 export const CardUser = ({ item}: CardUserProps) => {
   return (
     <View style={styles.component}>
-      <Image source={{uri: item.image}} style={styles.mainImage} />
+      <Image source={{ uri: item.image }} style={styles.mainImage} />
       <View style={styles.info}>
-        <View>
-          <Text style={styles.name}>{item.title}</Text>
+        <View style={styles.topComponent}>
+          <View style={styles.topLeftComponent}>
+            <Text style={styles.name}>{item.title}</Text>
+          </View>
+          <View style={styles.topRightComponent}>
+            {item.quantity !== 0 && <Text>Qtd: {item.quantity}</Text>}
+          </View>
         </View>
 
         <View style={styles.botComponent}>
@@ -34,7 +41,8 @@ export const CardUser = ({ item}: CardUserProps) => {
             <Text style={styles.furnisher}>{item.company.name}Teste</Text>
           </View>
           <View style={styles.botRightComponent}>
-            <Text style={styles.price}>R${item.price}</Text>
+            <Text style={styles.priceTag}>R$ </Text>
+            <Text style={styles.price}>{item.price.toFixed(2)}</Text>
           </View>
         </View>
       </View>
@@ -70,34 +78,55 @@ const styles = StyleSheet.create({
   },
 
   name: {
+    fontWeight: "bold",
+    backgroundColor: background,
     fontSize: 20,
   },
 
-  
+  topComponent: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginRight: 10,
+  },
+
   botComponent: {
     backgroundColor: background,
     flexDirection: "row",
-    alignItems: "flex-end",
     marginRight: 20,
   },
-  
+
   botLeftComponent: {
-    flex: 2,
+    flex: 4,
     alignItems: "flex-start",
   },
-  
+
+  topLeftComponent: {
+    flex: 5,
+    alignItems: "flex-start",
+  },
+
   furnisher: {
     fontSize: 20,
   },
 
-  botRightComponent: {
-    flex: 3,
+  topRightComponent: {
+    flex: 2,
     alignItems: "flex-end",
+  },
+
+  botRightComponent: {
+    flexDirection: "row",
+    flex: 3,
+  },
+
+  priceTag: {
+    fontSize: 20,
+    justifyContent: "center",
   },
 
   price: {
     fontSize: 20,
-    fontWeight: "bold",
+    color: complementar2,
     justifyContent: "center",
   },
 

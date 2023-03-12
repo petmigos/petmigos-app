@@ -10,11 +10,12 @@ export default StyleSheet.create({
   },
 
   scroll: {
+    flex: 1,
     marginTop: 20,
   },
 
   button: {
-    flex: 1,
+    flex: 0.25,
     justifyContent: "flex-end",
     marginBottom: 10,
   },

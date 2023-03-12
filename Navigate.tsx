@@ -27,6 +27,8 @@ import OrdersScreen from './src/screens/OrdersScreen';
 import StoreProfileScreen from './src/screens/StoreProfileScreen';
 import ItemUserScreen from './src/screens/ItemUserScreen';
 import CadastroProdutoScreen from './src/screens/CadastroProdutoScreen';
+import ItemCompanyScreen from './src/screens/ItemCompanyScreen';
+import EditarProdutoScreen from './src/screens/EditarProdutoScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -70,6 +72,9 @@ function MyStore(){
     screenOptions={{headerShown: false}}>
       <Stack.Screen name="CompanyHomeScreen" component={CompanyHomeScreen} />
       <Stack.Screen name="CadastroProdutoScreen" component={CadastroProdutoScreen} />
+      <Stack.Screen name="EditarProdutoScreen" component={EditarProdutoScreen} />
+      <Stack.Screen name="ItemCompanyScreen" component={ItemCompanyScreen} />
+
     </Stack.Navigator>
   );
 }

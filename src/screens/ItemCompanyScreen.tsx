@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CadastroItemService from "../services/ItemService";
 import CadastroItem from "../use_cases/RegisterItemUC";
 import { SetImage } from "../components/PetStoreComponents/SetImage/SetImage";
@@ -16,6 +16,9 @@ import * as ImagePicker from "expo-image-picker";
 import { background, erro, primary } from "../styles/colors";
 import { superficie } from "../styles/colors";
 import { useNavigation } from "@react-navigation/native";
+import { Item } from "../entities/item";
+import { FindById } from "../use_cases/item/FindById";
+import ItemService from "../services/ItemService";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -24,13 +27,27 @@ const image = {
 };
 
 export default function ItemUserScreen({ route }) {
-  const { itemId, otherParam } = route.params;
-  const [title, setTitle] = useState(JSON.stringify(itemId));
-  const [description, setDescription] = useState(JSON.stringify(otherParam));
+  const navigation = useNavigation();
+  const { itemId, id_comp} = route.params;
+  console.log(route.params);
+  const [title, setTitle] = useState("Teste");
+  const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
-  const [image, setImage] = useState("../../../assets/user_icon.png");
+  const [image, setImage] = useState("assets/icon.png");
+
+  const findById = new FindById(new ItemService());
+
+  useEffect(() => {
+    findById.execute(id_comp, itemId).then((data) => {
+      
+      setTitle(data.title);
+      setDescription(data.description);
+      setImage(data.image);
+      setQuantity(data.quantity)
+    });
+  });
 
   const pickImage = async () => {
 
@@ -70,11 +87,19 @@ export default function ItemUserScreen({ route }) {
         <Text style={styles.descricao}>Descrição</Text>
       </View>
       <View style={styles.buyButtons}>
-        <TouchableOpacity style={styles.accessingButton}>
-          <Text style={styles.gettingText}>Comprar</Text>
+        <TouchableOpacity
+          style={styles.accessingButtonEdit}
+          onPress={() => {
+            navigation.navigate("EditarProdutoScreen", {
+              itemId: itemId,
+              companyId: id_comp,
+            });
+          }}
+        >
+          <Text style={styles.gettingTextEdit}>Editar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.accessingButton}>
-          <Text style={styles.gettingText}>Adicionar ao Carrinho</Text>
+        <TouchableOpacity style={styles.accessingButtonRemove}>
+          <Text style={styles.gettingTextRemove}>Remover Item</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -135,7 +160,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
 
-  accessingButton: {
+  accessingButtonEdit: {
     backgroundColor: "#915E36",
     height: 56,
     // fontFamily: 'Ubuntu-Bold',
@@ -147,10 +172,29 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
 
-  gettingText: {
+  accessingButtonRemove: {
+    backgroundColor: erro,
+    height: 56,
+    // fontFamily: 'Ubuntu-Bold',
+    fontStyle: "normal",
+    alignItems: "center",
+    textAlign: "center",
+    marginTop: 20,
+    borderRadius: 8,
+    resizeMode: "contain",
+  },
+
+  gettingTextEdit: {
     fontSize: 18,
     fontWeight: "bold",
     top: 15,
     color: "#FFFFFF",
+  },
+
+  gettingTextRemove: {
+    fontSize: 18,
+    fontWeight: "bold",
+    top: 15,
+    color: background,
   },
 });

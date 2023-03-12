@@ -14,8 +14,13 @@ import * as ImagePicker from "expo-image-picker";
 
 export let result;
 
-export const SetImage = () => {
-  const [image, setImage] = useState("../../../assets/user_icon.png");
+
+type SetImageProps = {
+  image: string;
+};
+
+export const SetImage = ({ image }: SetImageProps) => {
+  const [itemImage, setItemImage] = useState(image);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -26,15 +31,13 @@ export const SetImage = () => {
       quality: 1,
     });
 
-    console.log(typeof result);
-
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      setItemImage(result.assets[0].uri);
     }
   };
 
   const uploadImage = () => {
-    console.log(typeof image);
+    console.log(typeof itemImage);
   };
 
   return (
@@ -45,7 +48,9 @@ export const SetImage = () => {
           uploadImage();
         }}
       >
-        {image ? <Image source={{ uri: image }} style={styles.image} /> : null}
+        {itemImage ? (
+          <Image source={{ uri: itemImage }} style={styles.image} />
+        ) : null}
       </TouchableOpacity>
     </View>
   );
