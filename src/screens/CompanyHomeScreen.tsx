@@ -11,10 +11,10 @@ import { useState } from "react";
 import CadastroItemService from "../services/ItemService";
 import CadastroItem from "../use_cases/RegisterItemUC";
 import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
-import { CardUser} from "../components/Cards/CardUser/CardUser";
+import { CardCompany } from "../components/Cards/CardCompany/CardCompany";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import { FetchAll } from "../use_cases/item/Fetchall";
+import { FetchAllByCompany } from "../use_cases/item/FetchAllByCompany";
 import ItemService from "../services/ItemService";
 import { Item } from "../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
@@ -26,10 +26,10 @@ export default function CadastroProdutoScreen() {
   const navigation = useNavigation();
   const [items, setItems] = useState<Item[]>();
 
-  const fetchAll = new FetchAll(new ItemService());
+  const fetchAllByCompany = new FetchAllByCompany(new ItemService());
 
   useEffect(() => {
-    fetchAll.execute(id_comp).then((data) => {
+    fetchAllByCompany.execute(id_comp).then((data) => {
       setItems(data);
     });
   }, []);
@@ -42,20 +42,16 @@ export default function CadastroProdutoScreen() {
     return data[index];
   }
 
-
   function renderCard(item: Item) {
     return (
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("ItemCompanyScreen", {
             itemId: item._id,
-            companyId: id_comp,
           });
         }}
       >
-        <CardUser 
-          key={item._id} 
-          item={item} />
+        <CardCompany key={item._id} item={item} />
       </TouchableOpacity>
     );
   }

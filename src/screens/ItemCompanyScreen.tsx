@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Item } from "../entities/item";
 import { FindById } from "../use_cases/item/FindById";
 import ItemService from "../services/ItemService";
+import { id_comp } from "./LoginScreen";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -28,8 +29,7 @@ const image = {
 
 export default function ItemUserScreen({ route }) {
   const navigation = useNavigation();
-  const { itemId, id_comp} = route.params;
-  console.log(route.params);
+  const  itemId = route.params;
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
@@ -46,6 +46,7 @@ export default function ItemUserScreen({ route }) {
       setDescription(data.description);
       setImage(data.image);
       setQuantity(data.quantity)
+      setPrice(data.price);
     });
   });
 
@@ -71,20 +72,14 @@ export default function ItemUserScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.imageButton}
-        onPress={() => {
-          pickImage();
-          uploadImage();
-        }}
-      >
+      <TouchableOpacity style={styles.imageButton}>
         <Image source={{ uri: image }} style={styles.image} />
       </TouchableOpacity>
       <View style={styles.info}>
         <Text style={styles.tituloItem}>{title}</Text>
         <Text style={styles.informacoes}>Informações</Text>
         <Text style={styles.preco}>R$ {price}</Text>
-        <Text style={styles.descricao}>Descrição</Text>
+        <Text style={styles.descricao}>{description}</Text>
       </View>
       <View style={styles.buyButtons}>
         <TouchableOpacity
@@ -92,7 +87,6 @@ export default function ItemUserScreen({ route }) {
           onPress={() => {
             navigation.navigate("EditarProdutoScreen", {
               itemId: itemId,
-              companyId: id_comp,
             });
           }}
         >
@@ -113,49 +107,52 @@ const styles = StyleSheet.create({
   },
 
   imageButton: {
-    flex: 2,
+    flex: 4,
     backgroundColor: superficie,
     justifyContent: "center",
     alignItems: "center",
   },
 
   image: {
-    height: 300,
-    width: 300,
+    height: 500,
+    width: 400,
     resizeMode: "contain",
   },
 
   info: {
-    flex: 3,
+    flex: 4,
     backgroundColor: background,
-    marginLeft: 20,
-    marginRight: 20,
   },
 
   tituloItem: {
     marginTop: 30,
-    marginLeft: 10,
-    fontSize: 25,
+    marginLeft: 30,
+    fontSize: 30,
     fontWeight: "bold",
+
   },
 
   informacoes: {
     marginTop: 30,
     fontSize: 20,
     fontWeight: "bold",
+    marginLeft: 20,
   },
 
   preco: {
     fontSize: 40,
     fontWeight: "bold",
+    marginLeft: 20,
   },
 
   descricao: {
     textAlign: "justify",
+    fontSize: 20,
+    marginLeft: 20,
   },
 
   buyButtons: {
-    flex: 2,
+    flex: 3,
     marginRight: 20,
     marginLeft: 20,
   },

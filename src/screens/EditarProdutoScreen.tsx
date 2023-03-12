@@ -22,7 +22,7 @@ const image = {
 };
 
 export default function CadastroProdutoScreen({ route }) {
-  const { itemId, id_comp} = route.params;
+  const  itemId  = route.params;
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const companyId = id_comp;
@@ -42,6 +42,7 @@ export default function CadastroProdutoScreen({ route }) {
       setDescription(data.description);
       setImage(data.image);
       setQuantity(data.quantity)
+      setPrice(data.price);
     });
   });
 

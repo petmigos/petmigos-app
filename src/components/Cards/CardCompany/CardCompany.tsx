@@ -18,11 +18,11 @@ import { Item } from "../../../entities/item";
 import { err } from "react-native-svg/lib/typescript/xml";
 
 
-type CardUserProps = {
+type CardCompanyProps = {
   item: Item;
 };
 
-export const CardUser = ({ item}: CardUserProps) => {
+export const CardCompany = ({ item}: CardCompanyProps) => {
   return (
     <View style={styles.component}>
       <Image source={{ uri: item.image }} style={styles.mainImage} />
@@ -38,7 +38,7 @@ export const CardUser = ({ item}: CardUserProps) => {
 
         <View style={styles.botComponent}>
           <View style={styles.botLeftComponent}>
-            <Text style={styles.furnisher}>Teste</Text>
+            <Text style={styles.furnisher}>{item.company.name}Teste</Text>
           </View>
           <View style={styles.botRightComponent}>
             <Text style={styles.priceTag}>R$ </Text>
