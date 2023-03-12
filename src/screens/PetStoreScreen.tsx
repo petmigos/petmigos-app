@@ -19,7 +19,7 @@ import { Line } from "../components/Line/Line";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
 import { useNavigation } from "@react-navigation/native";
 import ItemService from "../services/ItemService";
-import { FetchAll } from "../use_cases/item/FetchAll";
+import { FetchAll } from "../use_cases/item/Fetchall";
 import { useEffect, useState } from "react";
 import { Item } from "../entities/item";
 

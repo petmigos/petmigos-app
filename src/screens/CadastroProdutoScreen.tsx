@@ -39,6 +39,7 @@ export default function CadastroProdutoScreen() {
 
     const image_upl = await cadastroItem.uploadImg(source);
     const image = image_upl.toString();
+    
 
     await cadastroItem.execute({companyId, title, description, price, category, quantity, image});
   }

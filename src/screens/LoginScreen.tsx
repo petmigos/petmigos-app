@@ -20,7 +20,7 @@ const loginCompany = new LoginCompany(new CompanyService());
 // This variable is saving the user id, based on their password, after logging
 export let id_user = "";
 
-// This variable is saving the companie id, based on their password, after logging
+// This variable is saving the company id, based on their password, after logging
 export let id_comp = "";
 
 

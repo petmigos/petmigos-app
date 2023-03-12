@@ -19,6 +19,7 @@ import ItemService from "../services/ItemService";
 import { Item } from "../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
 import { id_comp } from "./LoginScreen";
+import { Delete } from "../use_cases/item/Delete";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -27,6 +28,9 @@ export default function CadastroProdutoScreen() {
   const [items, setItems] = useState<Item[]>();
 
   const fetchAllByCompany = new FetchAllByCompany(new ItemService());
+  // variable saving an instance of delete
+  // to delete, use "await removeItem.execute(<id>)"
+  const removeItem = new Delete(new ItemService());
 
   useEffect(() => {
     fetchAllByCompany.execute(id_comp).then((data) => {
@@ -75,7 +79,7 @@ export default function CadastroProdutoScreen() {
       <View style={styles.button}>
         <TouchableOpacity
           style={styles.accessingButton}
-          onPress={() => {
+          onPress={async () => {
             navigation.navigate("CadastroProdutoScreen");
           }}
         >
