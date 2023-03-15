@@ -19,8 +19,7 @@ export default StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
     marginTop: 10,
-    marginRight: 15,
-    marginLeft: 15,
+    marginHorizontal: 0,
   },
 
   bestSellersText: {
