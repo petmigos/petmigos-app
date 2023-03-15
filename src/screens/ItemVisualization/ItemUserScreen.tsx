@@ -6,34 +6,49 @@ import {
   View,
   StyleSheet,
 } from "react-native";
-import { useState } from "react";
-import CadastroItemService from "../services/ItemService";
-import CadastroItem from "../use_cases/RegisterItemUC";
-import { SetImage } from "../components/PetStoreComponents/SetImage/SetImage";
+import { useEffect, useState } from "react";
+import CadastroItemService from "../../services/ItemService";
+import CadastroItem from "../../use_cases/RegisterItemUC";
+import { SetImage } from "../../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
-import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantButton";
+import { QuantButton } from "../../components/PetStoreComponents/QuantButton/QuantButton";
 import * as ImagePicker from "expo-image-picker";
-import { background, erro, primary } from "../styles/colors";
-import { superficie } from "../styles/colors";
+import { background, erro, primary } from "../../styles/colors";
+import { superficie } from "../../styles/colors";
 import { useNavigation } from "@react-navigation/native";
+import { FindById } from "../../use_cases/item/FindById";
+import ItemService from "../../services/ItemService";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
 const image = {
-  image: require("../../assets/store_test.png"),
+  image: require("../../../assets/store_test.png"),
 };
 
 export default function ItemUserScreen({ route }) {
-  const { itemId, otherParam } = route.params;
-  const [title, setTitle] = useState(JSON.stringify(itemId));
-  const [description, setDescription] = useState(JSON.stringify(otherParam));
+  const { itemId } = route.params;
+  const { id_comp } = itemId
+  const [title, setTitle] = useState("Teste");
+  const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [image, setImage] = useState("../../../assets/user_icon.png");
 
+  const findById = new FindById(new ItemService());
+
+  useEffect(() => {
+    findById.execute(id_comp, itemId).then((data) => {
+      setTitle(data.title);
+      setDescription(data.description);
+      setImage(data.image);
+      setQuantity(data.quantity);
+      setPrice(data.price);
+    });
+  });
+
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,

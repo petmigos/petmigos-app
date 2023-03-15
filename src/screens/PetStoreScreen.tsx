@@ -1,4 +1,13 @@
-import { View, Text, SafeAreaView, FlatList, ImageSourcePropType, TouchableOpacity, VirtualizedList, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  FlatList,
+  ImageSourcePropType,
+  TouchableOpacity,
+  VirtualizedList,
+  StatusBar,
+} from "react-native";
 import styles from "../styles/petStoreStyles";
 import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
 import { PetStoreItem } from "../components/PetStoreComponents/PetStoreCategory/PetStoreItem";
@@ -8,7 +17,11 @@ import { PadrinhoAds } from "../components/PetStoreComponents/PadrinhoAds/Padrin
 import { ScrollView } from "react-native-gesture-handler";
 import { Line } from "../components/Line/Line";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import ItemService from "../services/ItemService";
+import { useEffect, useState } from "react";
+import { Item } from "../entities/item";
+import { FetchAll } from "../use_cases/item/FetchAll";
 
 const images = {
   heart: require("../../assets/petstoreitems/heart.png"),
@@ -24,151 +37,121 @@ const images = {
   petz: require("../../assets/testimages/petz.png"),
 };
 
-type ItemData = {
-  id: string;
-  name: string;
-  furnisher: string;
-  price: Float;
-  categoryImage: ImageSourcePropType;
-  mainImage: ImageSourcePropType;
-};
-
-const DATA = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    name: "Banho e tosa",
-    furnisher: "Miss Pet",
-    price: 56.76,
-    categoryImage: images.drop,
-    mainImage: images.miss_pet,
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f6b",
-    name: "Ração Pedigree 30kg",
-    furnisher: "Petz",
-    price: 56.76,
-    categoryImage: images.food,
-    mainImage: images.petz,
-  },
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28bc",
-    name: "Banho e tosa",
-    furnisher: "Miss Pet",
-    price: 56.76,
-    categoryImage: images.drop,
-    mainImage: images.fulano,
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f6d",
-    name: "Ração Pedigree 30kg",
-    furnisher: "Petz",
-    price: 56.76,
-    categoryImage: images.food,
-    mainImage: images.petz,
-  },
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28be",
-    name: "Banho e tosa",
-    furnisher: "Miss Pet",
-    price: 56.76,
-    categoryImage: images.drop,
-    mainImage: images.fulano,
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f6f",
-    name: "Ração Pedigree 30kg",
-    furnisher: "Petz",
-    price: 56.76,
-    categoryImage: images.food,
-    mainImage: images.petz,
-  },
-];
-
-
-
-
-export default function PetStoreScreen() {
-  
+export default function PetStoreScreen(props) {
   const navigation = useNavigation();
-  
-	function getItemCount (){
-		return DATA.length;
-	};
+  const isFocused = useIsFocused();
+  const [items, setItems] = useState<Item[]>();
 
-	function getItem(data, index) {
-		return {
-			id: Math.random().toString(12).substring(0),
-			name: data[index].name,
-			furnisher: data[index].furnisher,
-			price: data[index].price,
-			categoryImage: data[index].categoryImage,
-			mainImage: data[index].mainImage,
-    };
-	}
-	
+  const fetchAll = new FetchAll(new ItemService());
 
-	function Test(){
-		console.log("Teste");
-	}
-
-	function renderCard({ item }: { item: ItemData }) {
-		return (
-      <TouchableOpacity onPress={() => {navigation.navigate("ItemUserScreen", {
-        itemId: item.id, 
-        test: "test",
+  useEffect(() => {
+    if (isFocused) {
+      fetchAll.execute().then((data) => {
+        setItems(data);
       });
-      }}>
-        <CardUser key={item.id} item={item} />
-      </TouchableOpacity>
-    );
-	};
+    }
+  }, [props, isFocused]);
 
-  function goToStore(){
-    navigation.navigate('StoreStack')
+  function getItemCount(data: Item[]) {
+    return data.length;
   }
 
-	return (
+  function getItem(data: Item[], index: number) {
+    return data[index];
+  }
+  
+  function renderCard(item: Item) {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("ItemUserScreen", {
+            itemId: item.id,
+          });
+        }}
+      >
+        <CardUser key={item._id} item={item} />
+      </TouchableOpacity>
+    );
+  }
+
+  function goToStore() {
+    navigation.navigate("StoreStack");
+  }
+
+  function Test() {
+    navigation.navigate("StoreStack");
+  }
+
+  return (
     <ScrollView style={styles.container}>
       <TitleScreenComp title="PetStore" />
       <View style={styles.topContainer}>
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Acessórios",
+            });
+          }}
           title="Acessórios"
           image={images.heart}
           size={{ width: 23, height: 20 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Banho e Tosa",
+            });
+          }}
           title="Banho e Tosa"
           image={images.drop}
           size={{ width: 18, height: 26 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Consultas",
+            });
+          }}
           title="Consultas"
           image={images.medical}
           size={{ width: 24, height: 26 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Padrinhos",
+            });
+          }}
           title="Padrinhos"
           image={images.home}
           size={{ width: 23, height: 23 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Alimentação",
+            });
+          }}
           title="Alimentação"
           image={images.food}
           size={{ width: 23, height: 24 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Exames",
+            });
+          }}
           title="Exames"
           image={images.needle}
           size={{ width: 27, height: 27 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Adestramento",
+            });
+          }}
           title="Adestramento"
           image={images.pet}
           size={{ width: 25, height: 30 }}
@@ -180,15 +163,15 @@ export default function PetStoreScreen() {
       </View>
 
       <Line />
-      <BottomButton title="Lojas" function={goToStore}/>
+      <BottomButton title="Lojas" function={goToStore} />
 
       <View>
         <Text style={styles.bestSellersText}>Itens mais procurados</Text>
 
         <VirtualizedList
-          data={DATA}
-          renderItem={renderCard}
-          keyExtractor={(item) => item.id}
+          data={items}
+          renderItem={({ item }) => renderCard(item)}
+          keyExtractor={(item) => item._id}
           getItemCount={getItemCount}
           getItem={getItem}
         />

@@ -1,11 +1,11 @@
 import { Item } from "../entities/item";
 import { ip } from "../entities/ip";
+import { id_comp } from "../screens/LoginScreen";
 
 export default class ItemService {
-  async register(
-    newItem: Item,
-  ): Promise<Item> {
-    const {companyId, title, description, price, category, quantity, image} = newItem;
+  async register(newItem: Item): Promise<Item> {
+    const { companyId, title, description, price, category, quantity, image } =
+      newItem;
     console.log(newItem);
     const response = await fetch(
       `http://${ip}:3333/companies/${companyId}/items`,
@@ -21,20 +21,31 @@ export default class ItemService {
           price: price,
           category: category,
           quantity: quantity,
-          image: image
+          image: image,
         }),
       }
-      );
-      
+    );
+
     const responseJSON = await response.json();
     const responseStatus = response.status;
     if (responseStatus !== 200) throw new Error(responseJSON.message);
     return responseJSON;
   }
 
-  async fetchAll(companyId: string): Promise<Item[]> {
+  async fetchAllByCompany(companyId: string): Promise<Item[]> {
     const response = await fetch(
       `http://${ip}:3333/companies/${companyId}/items`
+    );
+
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
+
+  async fetchAll(): Promise<Item[]> {
+    const response = await fetch(
+      `http://${ip}:3333/companies/items`
     );
 
     const responseJSON = await response.json();
@@ -48,6 +59,28 @@ export default class ItemService {
       `http://${ip}:3333/companies/${companyId}/items/${itemId}`
     );
 
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
+
+  async delete(id: string): Promise<string> {
+    const companyId = id_comp;
+      
+      const response = await fetch(
+        `http://${ip}:3333/companies/${companyId}/items/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: id
+          }),
+        }
+    );
     const responseJSON = await response.json();
     const responseStatus = response.status;
     if (responseStatus !== 200) throw new Error(responseJSON.message);
@@ -69,6 +102,7 @@ export default class ItemService {
     );
     const data = await response.json();
     return data.url;
-  };
+  }
 
+  
 }

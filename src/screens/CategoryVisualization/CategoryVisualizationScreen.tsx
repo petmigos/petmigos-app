@@ -1,39 +1,33 @@
 import {
-  Image,
   TouchableOpacity,
   Text,
-  TextInput,
   View,
   VirtualizedList,
 } from "react-native";
-import styles from "../styles/companyHomeStyles";
+import styles from "../../styles/companyHomeStyles";
 import { useState } from "react";
-import CadastroItemService from "../services/ItemService";
-import CadastroItem from "../use_cases/RegisterItemUC";
-import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
-import { CardCompany } from "../components/Cards/CardCompany/CardCompany";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { TitleScreenComp } from "../../components/TitleScreen/TitleScreenComp";
+import { CardCompany } from "../../components/Cards/CardCompany/CardCompany";
+import { useIsFocused} from "@react-navigation/native";
 import { useEffect } from "react";
-import { FetchAllByCompany } from "../use_cases/item/FetchAllByCompany";
-import ItemService from "../services/ItemService";
-import { Item } from "../entities/item";
+import ItemService from "../../services/ItemService";
+import { Item } from "../../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
-import { id_comp } from "./LoginScreen";
+import { FetchAll } from "../../use_cases/item/FetchAll";
 
-export default function CadastroProdutoScreen(props) {
-  const navigation = useNavigation();
+export default function CategoryVisualizationScreen({ route, navigation }) {
+  const { category } = route.params;
   const isFocused = useIsFocused();
   const [items, setItems] = useState<Item[]>();
 
-  const fetchAllByCompany = new FetchAllByCompany(new ItemService());
+  const fetchAll = new FetchAll(new ItemService());
 
   useEffect(() => {
-    if(isFocused){
-      fetchAllByCompany.execute(id_comp).then((data) => {
+    if (isFocused) {
+      fetchAll.execute().then((data) => {
         setItems(data);
       });
     }
-    
   }, [props, isFocused]);
 
   function getItemCount(data: Item[]) {
@@ -48,7 +42,7 @@ export default function CadastroProdutoScreen(props) {
     return (
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate("ItemCompanyScreen", {
+          navigation.navigate("ItemUserScreen", {
             itemId: item._id,
           });
         }}
@@ -60,7 +54,7 @@ export default function CadastroProdutoScreen(props) {
 
   return (
     <View style={styles.container}>
-      <TitleScreenComp title="Meus Produtos" />
+      <TitleScreenComp title={category} />
       <ScrollView style={styles.scroll}>
         {items !== undefined ? (
           <VirtualizedList
@@ -80,9 +74,7 @@ export default function CadastroProdutoScreen(props) {
           onPress={async () => {
             navigation.navigate("CadastroProdutoScreen");
           }}
-        >
-          <Text style={styles.gettingText}>ADICIONAR PRODUTO</Text>
-        </TouchableOpacity>
+        ></TouchableOpacity>
       </View>
     </View>
   );

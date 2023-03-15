@@ -1,9 +1,9 @@
 import ItemService from "../../services/ItemService";
 
-export class FetchAll {
+export class Delete {
   constructor(private readonly itemService: ItemService) {}
 
-  async execute() {
-    return this.itemService.fetchAll();
+  async execute(id: string) {
+    return this.itemService.delete(id);
   }
 }

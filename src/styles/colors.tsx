@@ -10,4 +10,7 @@ export const alerta = "#FFAD33";
 export const textPadrao = "#000000";
 export const textDesabilitado = "#9B9B9B";
 export const inputBackground = "#e9e9e9";
+export const complementar1 = "#1a3952";
+export const complementar2 = "#7fb2db";
+
 export const padrinhoAds = "#E29417";
