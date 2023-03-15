@@ -31,14 +31,11 @@ export const CardUser = ({ item}: CardUserProps) => {
           <View style={styles.topLeftComponent}>
             <Text style={styles.name}>{item.title}</Text>
           </View>
-          <View style={styles.topRightComponent}>
-            {item.quantity !== 0 && <Text>Qtd: {item.quantity}</Text>}
-          </View>
         </View>
 
         <View style={styles.botComponent}>
           <View style={styles.botLeftComponent}>
-            <Text style={styles.furnisher}>Teste</Text>
+            <Text style={styles.furnisher}>Petmigos</Text>
           </View>
           <View style={styles.botRightComponent}>
             <Text style={styles.priceTag}>R$ </Text>
@@ -115,19 +112,26 @@ const styles = StyleSheet.create({
   },
 
   botRightComponent: {
+    borderRadius: 5,
+    borderColor: superficie,
+    borderWidth: 3,
+    backgroundColor: background,
     flexDirection: "row",
-    flex: 3,
+    alignText: "flex-end",
+    flex: 4,
   },
 
   priceTag: {
     fontSize: 20,
     justifyContent: "center",
+    alignText: "flex-end",
   },
 
   price: {
     fontSize: 20,
     color: complementar2,
     justifyContent: "center",
+    alignText: "flex-end",
   },
 
   categoryImage: {
