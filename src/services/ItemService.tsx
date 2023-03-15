@@ -54,7 +54,7 @@ export default class ItemService {
     return responseJSON;
   }
 
-  async findById(companyId: string, itemId: string): Promise<Item> {
+  async findByIdAndCompany(companyId: string, itemId: string): Promise<Item> {
     const response = await fetch(
       `http://${ip}:3333/companies/${companyId}/items/${itemId}`
     );
@@ -64,6 +64,18 @@ export default class ItemService {
     if (responseStatus !== 200) throw new Error(responseJSON.message);
     return responseJSON;
   }
+
+  async findById(itemId: string): Promise<Item> {
+    const response = await fetch(
+      `http://${ip}:3333/items/${itemId}`
+    );
+
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
+
 
   async delete(id: string): Promise<string> {
     const companyId = id_comp;
