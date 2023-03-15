@@ -7,29 +7,31 @@ import {
   StyleSheet,
 } from "react-native";
 import { useEffect, useState } from "react";
-import CadastroItemService from "../services/ItemService";
-import CadastroItem from "../use_cases/RegisterItemUC";
-import { SetImage } from "../components/PetStoreComponents/SetImage/SetImage";
+import CadastroItemService from "../../services/ItemService";
+import CadastroItem from "../../use_cases/RegisterItemUC";
+import { SetImage } from "../../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
-import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantButton";
+import { QuantButton } from "../../components/PetStoreComponents/QuantButton/QuantButton";
 import * as ImagePicker from "expo-image-picker";
-import { background, erro, primary } from "../styles/colors";
-import { superficie } from "../styles/colors";
+import { background, erro, primary } from "../../styles/colors";
+import { superficie } from "../../styles/colors";
 import { useNavigation } from "@react-navigation/native";
-import { Item } from "../entities/item";
-import { FindById } from "../use_cases/item/FindById";
-import ItemService from "../services/ItemService";
-import { id_comp } from "./LoginScreen";
-
-var cadastroItem = new CadastroItem(new CadastroItemService());
+import { Item } from "../../entities/item";
+import { FindById } from "../../use_cases/item/FindById";
+import ItemService from "../../services/ItemService";
+import { id_comp } from "../LoginScreen";
+import { Delete } from "../../use_cases/item/Delete";
 
 const image = {
-  image: require("../../assets/store_test.png"),
+  image: require("../../../assets/store_test.png"),
 };
 
-export default function ItemUserScreen({ route }) {
-  const navigation = useNavigation();
-  const  itemId = route.params;
+export default function ItemUserScreen({ route, navigation  }) {
+  // variable saving an instance of delete
+  // to delete, use "await removeItem.execute(<id>)"
+  const removeItem = new Delete(new ItemService());
+  const {itemId} = route.params;
+  console.log("Item ID: " + itemId);
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
@@ -41,17 +43,20 @@ export default function ItemUserScreen({ route }) {
 
   useEffect(() => {
     findById.execute(id_comp, itemId).then((data) => {
-      
       setTitle(data.title);
       setDescription(data.description);
       setImage(data.image);
-      setQuantity(data.quantity)
+      setQuantity(data.quantity);
       setPrice(data.price);
     });
   });
 
-  const pickImage = async () => {
+  function DeleteItem () {
+    removeItem.execute(itemId);
+    navigation.goBack();
+  };
 
+  const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -92,7 +97,7 @@ export default function ItemUserScreen({ route }) {
         >
           <Text style={styles.gettingTextEdit}>Editar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.accessingButtonRemove}>
+        <TouchableOpacity onPress={DeleteItem} style={styles.accessingButtonRemove}>
           <Text style={styles.gettingTextRemove}>Remover Item</Text>
         </TouchableOpacity>
       </View>
@@ -129,7 +134,6 @@ const styles = StyleSheet.create({
     marginLeft: 30,
     fontSize: 30,
     fontWeight: "bold",
-
   },
 
   informacoes: {

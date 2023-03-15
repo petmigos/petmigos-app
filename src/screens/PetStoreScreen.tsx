@@ -17,11 +17,11 @@ import { PadrinhoAds } from "../components/PetStoreComponents/PadrinhoAds/Padrin
 import { ScrollView } from "react-native-gesture-handler";
 import { Line } from "../components/Line/Line";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import ItemService from "../services/ItemService";
-import { FetchAll } from "../use_cases/item/Fetchall";
 import { useEffect, useState } from "react";
 import { Item } from "../entities/item";
+import { FetchAll } from "../use_cases/item/FetchAll";
 
 const images = {
   heart: require("../../assets/petstoreitems/heart.png"),
@@ -37,17 +37,20 @@ const images = {
   petz: require("../../assets/testimages/petz.png"),
 };
 
-export default function PetStoreScreen() {
+export default function PetStoreScreen(props) {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const [items, setItems] = useState<Item[]>();
 
   const fetchAll = new FetchAll(new ItemService());
 
   useEffect(() => {
-    fetchAll.execute().then((data) => {
-      setItems(data);
-    });
-  }, []);
+    if (isFocused) {
+      fetchAll.execute().then((data) => {
+        setItems(data);
+      });
+    }
+  }, [props, isFocused]);
 
   function getItemCount(data: Item[]) {
     return data.length;
@@ -56,7 +59,8 @@ export default function PetStoreScreen() {
   function getItem(data: Item[], index: number) {
     return data[index];
   }
-  function renderCard(item: Item ) {
+  
+  function renderCard(item: Item) {
     return (
       <TouchableOpacity
         onPress={() => {
@@ -83,43 +87,71 @@ export default function PetStoreScreen() {
       <TitleScreenComp title="PetStore" />
       <View style={styles.topContainer}>
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Acessórios",
+            });
+          }}
           title="Acessórios"
           image={images.heart}
           size={{ width: 23, height: 20 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Banho e Tosa",
+            });
+          }}
           title="Banho e Tosa"
           image={images.drop}
           size={{ width: 18, height: 26 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Consultas",
+            });
+          }}
           title="Consultas"
           image={images.medical}
           size={{ width: 24, height: 26 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Padrinhos",
+            });
+          }}
           title="Padrinhos"
           image={images.home}
           size={{ width: 23, height: 23 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Alimentação",
+            });
+          }}
           title="Alimentação"
           image={images.food}
           size={{ width: 23, height: 24 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Exames",
+            });
+          }}
           title="Exames"
           image={images.needle}
           size={{ width: 27, height: 27 }}
         />
         <PetStoreItem
-          onPress={Test}
+          onPress={() => {
+            navigation.navigate("CategoryVisualizationScreen", {
+              category: "Adestramento",
+            });
+          }}
           title="Adestramento"
           image={images.pet}
           size={{ width: 25, height: 30 }}

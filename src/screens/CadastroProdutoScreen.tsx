@@ -12,6 +12,7 @@ import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantB
 import { ScrollView } from "react-native-gesture-handler";
 import { id_comp } from "./LoginScreen";
 import { useNavigation } from "@react-navigation/native";
+import { ValidationMessage } from "../components/ValidationMessages/ValidationMessage";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -23,6 +24,8 @@ export default function CadastroProdutoScreen() {
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const companyId = id_comp;
+  const [showMessageError, setShowMessageError] = useState(false);
+  const [messageError, setMessageError] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Acessorios");
@@ -31,17 +34,25 @@ export default function CadastroProdutoScreen() {
 
   async function SendData() {
     
-    const source = {
-      uri: result.assets[0].uri,
-      type: `test/${result.assets[0].uri.split(".")[1]}`,
-      name: `test.${result.assets[0].uri.split(".")[1]}`,
-    };
-
-    const image_upl = await cadastroItem.uploadImg(source);
-    const image = image_upl.toString();
-    
-
-    await cadastroItem.execute({companyId, title, description, price, category, quantity, image});
+    try {
+      const source = {
+        uri: result.assets[0].uri,
+        type: `test/${result.assets[0].uri.split(".")[1]}`,
+        name: `test.${result.assets[0].uri.split(".")[1]}`,
+      };
+  
+      const image_upl = await cadastroItem.uploadImg(source);
+      const image = image_upl.toString();
+      
+  
+      await cadastroItem.execute({companyId, title, description, price, category, quantity, image});
+      setShowMessageError(false);
+  
+      navigation.goBack();
+    } catch (error: any) {
+      setShowMessageError(true);
+      setMessageError(error.message);
+    }
   }
 
   function Increment() {
@@ -68,6 +79,8 @@ export default function CadastroProdutoScreen() {
         <Text style={styles.topText}>Cadastrar Produto</Text>
         <SetImage image="../../assets/user_icon.png" />
       </View>
+
+      {showMessageError && <ValidationMessage error_text={messageError} />}
 
       <View style={styles.middleScreen}>
         <TextInput
@@ -115,7 +128,7 @@ export default function CadastroProdutoScreen() {
         )}
         <TouchableOpacity
           style={styles.accessingButton}
-          onPress={() => SendData && navigation.goBack()}
+          onPress={() => SendData()}
         >
           <Text style={styles.gettingText}>Continuar</Text>
         </TouchableOpacity>

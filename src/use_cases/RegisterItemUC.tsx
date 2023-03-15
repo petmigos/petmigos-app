@@ -9,20 +9,25 @@ export default class CadastroItem {
     this.cadastroItemService = cadastroItemService;
   }
   async execute(newItem: Item): Promise<Item> {
-    if (!this.isValidField(newItem.title)) throw new Error("Preencha o campo de Título");
-    if (!this.isValidField(newItem.description)) throw new Error("Preencha o campo de descrição");
-    if (!this.isValidField(newItem.price)) throw new Error("Preço inválido");
-    if (!this.isValidField(newItem.description)) throw new Error("Preencha o campo de descrição");
-    
+    if (!this.isValidFieldText(newItem.title))
+      throw new Error("Preencha o campo de Título");
+    if (!this.isValidFieldText(newItem.description))
+      throw new Error("Preencha o campo de descrição");
+    if (!this.isValidFieldNumber(newItem.price))
+      throw new Error("Preço inválido");
+
     const itemregistered = await this.cadastroItemService.register(newItem);
 
     return itemregistered;
   }
 
-  private isValidField(field: string): boolean {
+  private isValidFieldText(field: string): boolean {
     return field !== "";
   }
-  
+
+  private isValidFieldNumber(field: number): boolean {
+    return field !== 0;
+  }
 
   async uploadImg(photo): Promise<string> {
     const img = await this.cadastroItemService.cloudinaryUpload(photo);
