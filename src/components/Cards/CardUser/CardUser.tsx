@@ -103,7 +103,9 @@ const styles = StyleSheet.create({
   },
 
   furnisher: {
-    fontSize: 20,
+    fontWeight: "bold",
+    fontSize: 15,
+    fontStyle: "italic",
   },
 
   topRightComponent: {
