@@ -25,10 +25,11 @@ export default function CategoryVisualizationScreen({ route, navigation }) {
   useEffect(() => {
     if (isFocused) {
       fetchAll.execute().then((data) => {
+        data = data.filter((item) => item.category == category)
         setItems(data);
       });
     }
-  }, [props, isFocused]);
+  }, [isFocused]);
 
   function getItemCount(data: Item[]) {
     return data.length;
@@ -68,14 +69,6 @@ export default function CategoryVisualizationScreen({ route, navigation }) {
           <Text style={styles.loading}>Carregando items...</Text>
         )}
       </ScrollView>
-      <View style={styles.button}>
-        <TouchableOpacity
-          style={styles.accessingButton}
-          onPress={async () => {
-            navigation.navigate("CadastroProdutoScreen");
-          }}
-        ></TouchableOpacity>
-      </View>
     </View>
   );
 }

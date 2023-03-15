@@ -66,6 +66,7 @@ export default function PetStoreScreen(props) {
         onPress={() => {
           navigation.navigate("ItemUserScreen", {
             itemId: item.id,
+            companyId: item.company.id,
           });
         }}
       >
@@ -167,14 +168,17 @@ export default function PetStoreScreen(props) {
 
       <View>
         <Text style={styles.bestSellersText}>Itens mais procurados</Text>
-
-        <VirtualizedList
-          data={items}
-          renderItem={({ item }) => renderCard(item)}
-          keyExtractor={(item) => item._id}
-          getItemCount={getItemCount}
-          getItem={getItem}
-        />
+        {items !== undefined ? (
+          <VirtualizedList
+            data={items}
+            renderItem={({ item }) => renderCard(item)}
+            keyExtractor={(item) => item._id}
+            getItemCount={getItemCount}
+            getItem={getItem}
+          />
+        ) : (
+          <Text>Carregando items...</Text>
+        )}
       </View>
     </ScrollView>
   );

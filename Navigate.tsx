@@ -29,6 +29,7 @@ import ItemUserScreen from "./src/screens/ItemVisualization/ItemUserScreen";
 import CadastroProdutoScreen from "./src/screens/CadastroProdutoScreen";
 import ItemCompanyScreen from "./src/screens/ItemVisualization/ItemCompanyScreen";
 import EditarProdutoScreen from "./src/screens/EditarProdutoScreen";
+import CategoryVisualizationScreen from "./src/screens/CategoryVisualization/CategoryVisualizationScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -168,6 +169,11 @@ function PetStoreStack() {
     >
       <Stack.Screen name="PetStore" component={PetStoreScreen} />
       <Stack.Screen name="StoreStack" component={StoreStack} />
+      <Stack.Screen
+        name="CategoryVisualizationScreen"
+        component={CategoryVisualizationScreen}
+      />
+      <Stack.Screen name="ItemUserScreen" component={ItemUserScreen} />
     </Stack.Navigator>
   );
 }

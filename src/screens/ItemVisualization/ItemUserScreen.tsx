@@ -26,8 +26,7 @@ const image = {
 };
 
 export default function ItemUserScreen({ route }) {
-  const { itemId } = route.params;
-  const { id_comp } = itemId
+  const { itemId , companyId} = route.params;
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
@@ -38,7 +37,8 @@ export default function ItemUserScreen({ route }) {
   const findById = new FindById(new ItemService());
 
   useEffect(() => {
-    findById.execute(id_comp, itemId).then((data) => {
+    findById.execute(companyId, itemId).then((data) => {
+      console.log(companyId, itemId);
       setTitle(data.title);
       setDescription(data.description);
       setImage(data.image);
