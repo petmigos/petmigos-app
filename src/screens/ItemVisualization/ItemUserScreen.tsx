@@ -84,22 +84,20 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    height: 300,
-    width: 300,
+    height: 500,
+    width: 400,
     resizeMode: "contain",
   },
 
   info: {
-    flex: 3,
+    flex: 4,
     backgroundColor: background,
-    marginLeft: 20,
-    marginRight: 20,
   },
 
   tituloItem: {
     marginTop: 30,
-    marginLeft: 10,
-    fontSize: 25,
+    marginLeft: 30,
+    fontSize: 30,
     fontWeight: "bold",
   },
 
@@ -107,19 +105,23 @@ const styles = StyleSheet.create({
     marginTop: 30,
     fontSize: 20,
     fontWeight: "bold",
+    marginLeft: 20,
   },
 
   preco: {
     fontSize: 40,
     fontWeight: "bold",
+    marginLeft: 20,
   },
 
   descricao: {
     textAlign: "justify",
+    fontSize: 20,
+    marginLeft: 20,
   },
 
   buyButtons: {
-    flex: 2,
+    flex: 3,
     marginRight: 20,
     marginLeft: 20,
   },

@@ -15,6 +15,7 @@ import { Item } from "../../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
 import { FetchAll } from "../../use_cases/item/FetchAll";
 
+
 export default function CategoryVisualizationScreen({ route, navigation }) {
   const { category } = route.params;
   const isFocused = useIsFocused();
@@ -25,10 +26,11 @@ export default function CategoryVisualizationScreen({ route, navigation }) {
   useEffect(() => {
     if (isFocused) {
       fetchAll.execute().then((data) => {
+        data = data.filter((item) => item.category == category)
         setItems(data);
       });
     }
-  }, [props, isFocused]);
+  }, [isFocused]);
 
   function getItemCount(data: Item[]) {
     return data.length;
@@ -68,14 +70,6 @@ export default function CategoryVisualizationScreen({ route, navigation }) {
           <Text style={styles.loading}>Carregando items...</Text>
         )}
       </ScrollView>
-      <View style={styles.button}>
-        <TouchableOpacity
-          style={styles.accessingButton}
-          onPress={async () => {
-            navigation.navigate("CadastroProdutoScreen");
-          }}
-        ></TouchableOpacity>
-      </View>
     </View>
   );
 }
