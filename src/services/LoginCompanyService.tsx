@@ -1,4 +1,4 @@
-import { Company } from "./CadastroCompanyService";
+import { Company } from "../entities/company";
 import { ip } from "../entities/ip";
 
 export default class LoginCompanyService {

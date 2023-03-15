@@ -1,25 +1,32 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { TouchableOpacity, Text, TextInput, View } from 'react-native';
 import Checkbox from 'expo-checkbox';
-import { Alert } from 'react-native';
-import styles from '../styles/styles';
+import styles from '../styles/loginCadastroStyles';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
-import LoginCompanyService from '../services/LoginCompanyService';
+import {CompanyService} from '../services/company/companyService';
 import LoginUserService from '../services/LoginUserService';
 import LoginUser from '../use_cases/LoginUserUC';
 import LoginCompany from '../use_cases/LoginCompanyUC';
 import { useNavigation } from '@react-navigation/native';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
-import React from 'react';
 import { ButtonGroup } from 'react-native-elements';
+import * as SecureStore from 'expo-secure-store';
 
-var loginUser = new LoginUser(new LoginUserService());
-var loginCompany = new LoginCompany(new LoginCompanyService());
+
+const loginUser = new LoginUser(new LoginUserService());
+const loginCompany = new LoginCompany(new CompanyService());
+
+// This variable is saving the user id, based on their password, after logging
+export let id_user = "";
+
+// This variable is saving the company id, based on their password, after logging
+export let id_comp = "";
 
 
 export default function LoginScreen() {
-
+    
+    const [result, onChangeResult] = useState('(result');
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isSelected, setSelection] = useState(false);
@@ -33,37 +40,44 @@ export default function LoginScreen() {
     const handleOkButton = () => {
         console.log("Logado com sucesso!");
     };
+    
+    // Implementation of Secure Store Api
+    async function save_id(password, ident) {
+        await SecureStore.setItemAsync(password, ident);
+    }
+    
+    // Implementation of Secure Store Api
+    async function getValueFor(password): Promise<string> {
+        let result = await SecureStore.getItemAsync(password);
+        if (result) {
+            console.log("🔐 Here's your value 🔐 \n" + result);
+        } else {
+            console.log('No values stored under that key.');
+        }
+        return result
+    }
 
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            console.log('Refreshed!');
-        });
-        return unsubscribe;
-    }, [navigation]);
+    function goToPickUp(){
+        navigation.navigate("PickUpSignUp");
+    }
 
     //Função responsável pelo envio de dados ao backend
     async function SendData() {
-        
+
         try {
-            if (selectedIndex == 0)
-            {
+            if (selectedIndex == 0) {
                 const loggeduser = await loginUser.execute(username, password);
+                save_id(loggeduser.password, loggeduser._id);
+                id_user = await getValueFor(password);
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Usuário logado!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
+                navigation.navigate('TabPetOwner');
             }
-            else
-            {
+            else {
                 const loggedcompany = await loginCompany.execute(username, password);
+                save_id(loggedcompany.password, loggedcompany._id);
+                id_comp = await getValueFor(password)
                 setShowMessageError(false);
-                Alert.alert(
-                    "Sucesso!",
-                    "Empresa logada!",
-                    [{ text: "Recomeçar", onPress: handleOkButton }]
-                );
+                navigation.navigate('TabCompany');
             }
 
         } catch (error: any) {
@@ -117,8 +131,8 @@ export default function LoginScreen() {
                     onPress={(value) => {
                         setSelectedIndex(value);
                     }}
-                    containerStyle={{marginTop: 40, marginBottom: 50}}/>
-                <TouchableOpacity onPress={() => navigation.navigate("PickUpSignUp")}>
+                    containerStyle={{ marginTop: 40, marginBottom: 50 }} />
+                <TouchableOpacity onPress={goToPickUp}>
                     <View style={styles.bottom_text}>
                         <Text style={styles.dont_have_account_text}> Não tem uma conta? </Text>
                         <Text style={styles.sign_up_text} >

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { erro, primary } from './colors';
 
 
 export default StyleSheet.create({
@@ -51,6 +52,7 @@ export default StyleSheet.create({
     },
 
     bottom_text: {
+
         color: '#000000',
         width: 310,
         // fontFamily: 'Ubuntu-Regular',
@@ -90,13 +92,19 @@ export default StyleSheet.create({
 
     },
 
+    sign_up_area:{
+        backgroundColor: 'red',
+        color: '#00000',
+        right: -65,
+        top: 2,
+    },
+
     sign_up_text:
     {
-        color: '#00000',
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         fontSize: 14,
-        right: -70,
+        marginLeft: 130,
     },
 
     sign_up_button:
@@ -104,6 +112,7 @@ export default StyleSheet.create({
         border: 'none',
         style: 'transparent',
         color: 'white',
+        top: 1,
         left: 70,
     },
 
@@ -125,11 +134,11 @@ export default StyleSheet.create({
     },
 
     button_cadastro: {
-        backgroundColor: "FF0000",
+        backgroundColor: erro,
     },
 
     enable: {
-        backgroundColor: '#915E36',
+        backgroundColor: primary,
     }
 
 

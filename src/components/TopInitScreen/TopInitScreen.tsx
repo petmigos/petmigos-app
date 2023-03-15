@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 import Logo from "../../../assets/logo.svg";
-import top_init_screen from './top_init_screen';
+import { StyleSheet } from "react-native";
 
 type TitleProps = {
     title: string;
@@ -10,11 +10,31 @@ type TitleProps = {
 
 export const TopInitScreen = (props: TitleProps) => {
     return (
-        <View style={top_init_screen.top_init_screen}>
-            <Logo style={top_init_screen.logo_img} />
-            <Text style={[top_init_screen.titleText, {marginBottom: props.marginBottom}]}>
+        <View style={styles.top_init_screen}>
+            <Logo style={styles.logo_img} />
+            <Text style={[styles.titleText, {marginBottom: props.marginBottom}]}>
                 {props.title}
             </Text>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    logo_img: {
+        marginTop: 100,
+        marginBottom: 10,
+    },
+
+    top_init_screen: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    titleText: {
+        color: '#000000',
+        // fontFamily: 'Ubuntu-Bold',
+        fontWeight: "bold",
+        fontSize: 48,
+
+    },
+});

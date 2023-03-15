@@ -3,6 +3,7 @@ import { Address } from '../entities/address';
 import { ip } from "../entities/ip"
 
 export class Company{
+  public id: string;
   public cnpj: string;
   public category: string;
   public name: string;

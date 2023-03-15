@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../components/Input';
 import { compSignUpStyle } from '../styles/signCompanyStyle';
-import { View, Text, ScrollView, Alert, TextInput } from 'react-native';
-import Checkbox from 'expo-checkbox';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import Title from '../components/Title';
 import BrownButton from '../components/BrownButton';
 import SignatureCard from '../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
 import { Address } from '../entities/address';
 import { cnpj } from 'cpf-cnpj-validator';
-import { CompanySignUpService } from '../services/CadastroCompanyService';
+import { CompanyService } from '../services/company/companyService';
 import CreateCompany from '../use_cases/CreateCompany';
 import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
@@ -17,7 +16,7 @@ import { useNavigation, StackActions } from '@react-navigation/native';
 import PasswordField from '../components/Password/PasswordField';
 import PasswordCheckbox from '../components/Password/PasswordCheckbox';
 
-let service = new CompanySignUpService();
+let service = new CompanyService();
 let company = new CreateCompany(service);
 
 const SignUpCompany: React.FC = () => {
@@ -122,9 +121,9 @@ const SignUpCompany: React.FC = () => {
           style={compSignUpStyle.pickCategory}
           onValueChange={(itemValue) => setSelectedCategory(itemValue)}
         >
-          <Picker.Item label="Petshop" value="petshop" />
-          <Picker.Item label="Veterinário" value="veterinario" />
-          <Picker.Item label="Outros" value="outros" />
+          <Picker.Item label="Petshop" value="Petshop" />
+          <Picker.Item label="Veterinário" value="Veterinario" />
+          <Picker.Item label="Outros" value="Outros" />
         </Picker>
 
         <View>
