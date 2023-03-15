@@ -38,7 +38,7 @@ export const CardCompany = ({ item}: CardCompanyProps) => {
 
         <View style={styles.botComponent}>
           <View style={styles.botLeftComponent}>
-            <Text style={styles.furnisher}>{item.company.name}Teste</Text>
+            <Text style={styles.furnisher}>{item.company.name}</Text>
           </View>
           <View style={styles.botRightComponent}>
             <Text style={styles.priceTag}>R$ </Text>
@@ -106,7 +106,9 @@ const styles = StyleSheet.create({
   },
 
   furnisher: {
-    fontSize: 20,
+    fontWeight: "bold",
+    fontSize: 15,
+    fontStyle: "italic",
   },
 
   topRightComponent: {
