@@ -49,7 +49,7 @@ export default function CadastroProdutoScreen(props) {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("ItemCompanyScreen", {
-            itemId: item._id,
+            item
           });
         }}
       >

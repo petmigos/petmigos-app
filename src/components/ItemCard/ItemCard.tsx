@@ -16,12 +16,15 @@ const style = StyleSheet.create({
         margin: 14,
         display: 'flex',
         alignItems: 'center',
+        // borderWidth: 0.5,
+        // borderRadius: 16,
+        // borderColor: '#ccc',
     },
 
     item_icon:{
         borderRadius: 16,
         width: 170,
-        height: 170
+        height: 170,
     },
     item_name:{
         fontWeight: 'bold',

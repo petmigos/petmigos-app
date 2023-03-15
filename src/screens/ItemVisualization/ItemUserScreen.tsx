@@ -26,8 +26,7 @@ const image = {
 };
 
 export default function ItemUserScreen({ route }) {
-  const { itemId } = route.params;
-  const { id_comp } = itemId
+  const { item } = route.params;
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
@@ -37,52 +36,27 @@ export default function ItemUserScreen({ route }) {
 
   const findById = new FindById(new ItemService());
 
-  useEffect(() => {
-    findById.execute(id_comp, itemId).then((data) => {
-      setTitle(data.title);
-      setDescription(data.description);
-      setImage(data.image);
-      setQuantity(data.quantity);
-      setPrice(data.price);
-    });
-  });
+  // useEffect(() => {
+  //   findById.execute(id_comp, itemId).then((data) => {
+  //     setTitle(data.title);
+  //     setDescription(data.description);
+  //     setImage(data.image);
+  //     setQuantity(data.quantity);
+  //     setPrice(data.price);
+  //   });
+  // });
 
-  const pickImage = async () => {
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    console.log(typeof result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
-  const uploadImage = () => {
-    console.log(typeof image);
-  };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.imageButton}
-        onPress={() => {
-          pickImage();
-          uploadImage();
-        }}
-      >
-        <Image source={{ uri: image }} style={styles.image} />
-      </TouchableOpacity>
+      <View style={styles.image_holder}>
+        <Image source={{ uri: item.image }} style={styles.image} />
+      </View>
       <View style={styles.info}>
-        <Text style={styles.tituloItem}>{title}</Text>
+        <Text style={styles.tituloItem}>{item.title}</Text>
         <Text style={styles.informacoes}>Informações</Text>
-        <Text style={styles.preco}>R$ {price}</Text>
-        <Text style={styles.descricao}>Descrição</Text>
+        <Text style={styles.preco}>R$ {item.price}</Text>
+        <Text style={styles.descricao}>{item.description}</Text>
       </View>
       <View style={styles.buyButtons}>
         <TouchableOpacity style={styles.accessingButton}>
@@ -102,7 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: background,
   },
 
-  imageButton: {
+  image_holder: {
     flex: 2,
     backgroundColor: superficie,
     justifyContent: "center",

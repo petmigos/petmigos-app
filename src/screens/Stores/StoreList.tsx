@@ -10,7 +10,7 @@ import { CompanyService } from "../../services/company/companyService";
 
 const StoreList: React.FC = () => {
     const navigation = useNavigation();
-    const [stores, setStores] = useState([]);
+    const [stores, setStores] = useState<Company[]>([]);
     const company = new CompanyService();
 
     useEffect(() => {
@@ -33,18 +33,21 @@ const StoreList: React.FC = () => {
 
     return(
         <SafeAreaView style={styles.container}>
-            <View>
+              <TitleScreenComp title="Lojas"/>
                 <View>
-                    <TitleScreenComp title="Lojas"/>
+                {stores.length > 0 ? (
+                  <FlatList
+                    data={stores}
+                    renderItem={({ item }) => renderStores(item)}
+                    keyExtractor={item => item._id}
+                  />
+                ) : (
+                  <View style={styles.warning_container}>
+                  <Text style={styles.warning}>Não existem lojas cadastradas</Text>
+                  </View>
+                )}
                 </View>
-                <View>
-                <FlatList
-                data={stores}
-                renderItem={({ item }) => renderStores(item)}
-                keyExtractor={item => item._id}
-            />
-                </View>
-            </View>
+        
         </SafeAreaView>
     )
 }

@@ -31,7 +31,6 @@ export default function ItemUserScreen({ route, navigation  }) {
   // to delete, use "await removeItem.execute(<id>)"
   const removeItem = new Delete(new ItemService());
   const {itemId} = route.params;
-  console.log("Item ID: " + itemId);
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);

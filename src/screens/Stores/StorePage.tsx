@@ -24,7 +24,6 @@ const StorePage = ({ route }) =>{
     const getItems = () => {
         if(isFocused){
             fetchAllByCompany.execute(store._id).then((data) => {
-            console.log("ITEMS: " + data)
               setData(data);
               setFilteredData(data)
             });
@@ -40,7 +39,6 @@ const StorePage = ({ route }) =>{
             return itemName.includes(searchTextLower);
         });
         setFilteredData(filteredData)
-        console.log(filteredData)
         };
 
     function onPressItem(item: any) {
@@ -72,13 +70,13 @@ const StorePage = ({ route }) =>{
                 style={styles.searchBar}
             />
             <View style={styles.list}>
-            {filteredItems.map(item => (   
+            {items !== undefined? filteredItems.map(item => (   
                 <TouchableOpacity
                     key={item._id || item.title}
                 >
                     <ItemCard {...item} onPress={() => onPressItem(item)} image={item.image}/>
                 </TouchableOpacity>
-            ))
+            )) : (<Text>NAO TEM ITEM</Text>)
             }
 
             </View>
@@ -109,7 +107,8 @@ const styles = StyleSheet.create(
         icon:{
             width: 90,
             height: 90,
-            borderRadius: 20
+            borderRadius: 20,
+            
         },
         description:{
             marginLeft: 10,

@@ -62,7 +62,6 @@ const SignUpCompany: React.FC = () => {
   }, [cep]);
 
   const handleAdressNumberChange = (text: string) => {
-    console.log("number:" +  text);
     setAddress({
       ...address,
       unidade: text,
