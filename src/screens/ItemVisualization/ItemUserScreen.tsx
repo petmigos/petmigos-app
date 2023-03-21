@@ -82,7 +82,7 @@ export default function ItemUserScreen({ route }) {
         <Text style={styles.tituloItem}>{title}</Text>
         <Text style={styles.informacoes}>Informações</Text>
         <Text style={styles.preco}>R$ {price}</Text>
-        <Text style={styles.descricao}>Descrição</Text>
+        <Text style={styles.descricao}>{description}</Text>
       </View>
       <View style={styles.buyButtons}>
         <TouchableOpacity style={styles.accessingButton}>

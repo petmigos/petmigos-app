@@ -17,10 +17,10 @@ import { background, erro, primary } from "../../styles/colors";
 import { superficie } from "../../styles/colors";
 import { useNavigation } from "@react-navigation/native";
 import { Item } from "../../entities/item";
-import { FindById } from "../../use_cases/item/FindById";
 import ItemService from "../../services/ItemService";
 import { id_comp } from "../LoginScreen";
 import { Delete } from "../../use_cases/item/Delete";
+import { FindByIdAndCompany } from "../../use_cases/item/FindByIdAndCompany";
 
 const image = {
   image: require("../../../assets/store_test.png"),
@@ -39,10 +39,10 @@ export default function ItemUserScreen({ route, navigation  }) {
   const [quantity, setQuantity] = useState(0);
   const [image, setImage] = useState("assets/icon.png");
 
-  const findById = new FindById(new ItemService());
+  const findByIdAndCompany = new FindByIdAndCompany(new ItemService());
 
   useEffect(() => {
-    findById.execute(id_comp, itemId).then((data) => {
+    findByIdAndCompany.execute(id_comp, itemId).then((data) => {
       setTitle(data.title);
       setDescription(data.description);
       setImage(data.image);

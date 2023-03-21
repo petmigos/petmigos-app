@@ -14,6 +14,7 @@ import ItemService from "../../services/ItemService";
 import { Item } from "../../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
 import { FetchAll } from "../../use_cases/item/FetchAll";
+import { CardUser } from "../../components/Cards/CardUser/CardUser";
 
 
 export default function CategoryVisualizationScreen({ route, navigation }) {
@@ -49,7 +50,7 @@ export default function CategoryVisualizationScreen({ route, navigation }) {
           });
         }}
       >
-        <CardCompany key={item._id} item={item} />
+        <CardUser key={item._id} item={item} />
       </TouchableOpacity>
     );
   }
