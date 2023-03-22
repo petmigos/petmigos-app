@@ -1,6 +1,6 @@
 import { Item } from "../entities/item";
 import { ip } from "../entities/ip";
-import { id_comp } from "../screens/LoginScreen";
+import { id_comp } from "../screens/Auth/LoginScreen";
 
 export default class ItemService {
   async register(newItem: Item): Promise<Item> {
@@ -44,9 +44,7 @@ export default class ItemService {
   }
 
   async fetchAll(): Promise<Item[]> {
-    const response = await fetch(
-      `http://${ip}:3333/companies/items`
-    );
+    const response = await fetch(`http://${ip}:3333/companies/items`);
 
     const responseJSON = await response.json();
     const responseStatus = response.status;
@@ -66,9 +64,7 @@ export default class ItemService {
   }
 
   async findById(itemId: string): Promise<Item> {
-    const response = await fetch(
-      `http://${ip}:3333/items/${itemId}`
-    );
+    const response = await fetch(`http://${ip}:3333/items/${itemId}`);
 
     const responseJSON = await response.json();
     const responseStatus = response.status;
@@ -76,22 +72,21 @@ export default class ItemService {
     return responseJSON;
   }
 
-
   async delete(id: string): Promise<string> {
     const companyId = id_comp;
-      
-      const response = await fetch(
-        `http://${ip}:3333/companies/${companyId}/items/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id: id
-          }),
-        }
+
+    const response = await fetch(
+      `http://${ip}:3333/companies/${companyId}/items/${id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id,
+        }),
+      }
     );
     const responseJSON = await response.json();
     const responseStatus = response.status;
@@ -115,6 +110,4 @@ export default class ItemService {
     const data = await response.json();
     return data.url;
   }
-
-  
 }

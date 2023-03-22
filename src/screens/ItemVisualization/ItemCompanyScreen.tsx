@@ -18,7 +18,7 @@ import { superficie } from "../../styles/colors";
 import { useNavigation } from "@react-navigation/native";
 import { Item } from "../../entities/item";
 import ItemService from "../../services/ItemService";
-import { id_comp } from "../LoginScreen";
+import { id_comp } from "../Auth/LoginScreen";
 import { Delete } from "../../use_cases/item/Delete";
 import { FindByIdAndCompany } from "../../use_cases/item/FindByIdAndCompany";
 
@@ -26,11 +26,11 @@ const image = {
   image: require("../../../assets/store_test.png"),
 };
 
-export default function ItemUserScreen({ route, navigation  }) {
+export default function ItemUserScreen({ route, navigation }) {
   // variable saving an instance of delete
   // to delete, use "await removeItem.execute(<id>)"
   const removeItem = new Delete(new ItemService());
-  const {itemId} = route.params;
+  const { itemId } = route.params;
   console.log("Item ID: " + itemId);
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
@@ -51,10 +51,10 @@ export default function ItemUserScreen({ route, navigation  }) {
     });
   });
 
-  function DeleteItem () {
+  function DeleteItem() {
     removeItem.execute(itemId);
     navigation.goBack();
-  };
+  }
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -97,7 +97,10 @@ export default function ItemUserScreen({ route, navigation  }) {
         >
           <Text style={styles.gettingTextEdit}>Editar</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={DeleteItem} style={styles.accessingButtonRemove}>
+        <TouchableOpacity
+          onPress={DeleteItem}
+          style={styles.accessingButtonRemove}
+        >
           <Text style={styles.gettingTextRemove}>Remover Item</Text>
         </TouchableOpacity>
       </View>

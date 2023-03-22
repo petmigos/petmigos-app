@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { Pet } from "../../entities/pet";
+import { Pet } from "../../../entities/pet";
 import { formatDate } from "./formatDate";
 
 const PetCard: React.FC<Pet> = ({ birthday, gender, imageURL, name }) => {

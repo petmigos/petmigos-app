@@ -1,5 +1,5 @@
 import {Text, View, TextInput, Image, StyleSheet, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
-import ItemCard from '../../components/ItemCard/ItemCard';
+import ItemCard from '../../components/Cards/ItemCard/ItemCard';
 import React, {useState} from 'react';
 import { inputBackground } from '../../styles/colors';
 import { useNavigation } from '@react-navigation/native';

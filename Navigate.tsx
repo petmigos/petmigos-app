@@ -6,10 +6,10 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { primary } from "./src/styles/colors";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 
-import LoginScreen from "./src/screens/LoginScreen";
-import PickUpSignUp from "./src/screens/PickUpSignUp";
-import SignUpCompany from "./src/screens/SignUpCompany";
-import CadastroScreen from "./src/screens/CadastroScreen";
+import LoginScreen from "./src/screens/Auth/LoginScreen";
+import PickUpSignUp from "./src/screens/Auth/PickUpSignUp";
+import SignUpCompany from "./src/screens/Auth/SignUpCompany";
+import CadastroScreen from "./src/screens/Auth/CadastroScreen";
 
 import PetStoreScreen from "./src/screens/PetStoreScreen";
 import StoreList from "./src/screens/Stores/StoreList";
@@ -22,13 +22,13 @@ import Padrinhos from "./src/screens/Padrinhos/Padrinhos";
 import Profile from "./src/screens/Profile";
 
 // --- TELAS DE EMPRESA
-import CompanyHomeScreen from "./src/screens/CompanyHomeScreen";
+import CompanyHomeScreen from "./src/screens/Company/CompanyHomeScreen";
 import OrdersScreen from "./src/screens/OrdersScreen";
 import StoreProfileScreen from "./src/screens/StoreProfileScreen";
 import ItemUserScreen from "./src/screens/ItemVisualization/ItemUserScreen";
-import CadastroProdutoScreen from "./src/screens/CadastroProdutoScreen";
+import CadastroProdutoScreen from "./src/screens/Company/CadastroProdutoScreen";
 import ItemCompanyScreen from "./src/screens/ItemVisualization/ItemCompanyScreen";
-import EditarProdutoScreen from "./src/screens/EditarProdutoScreen";
+import EditarProdutoScreen from "./src/screens/Company/EditarProdutoScreen";
 import CategoryVisualizationScreen from "./src/screens/CategoryVisualization/CategoryVisualizationScreen";
 
 const Stack = createStackNavigator();

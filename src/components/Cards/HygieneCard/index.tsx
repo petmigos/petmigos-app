@@ -1,7 +1,7 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Hygiene } from "../../entities/hygiene";
+import { Hygiene } from "../../../entities/hygiene";
 import { formatDate } from "./formatDate";
 
 interface Props {

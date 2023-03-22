@@ -6,19 +6,19 @@ import {
   View,
   VirtualizedList,
 } from "react-native";
-import styles from "../styles/companyHomeStyles";
+import styles from "../../styles/companyHomeStyles";
 import { useState } from "react";
-import CadastroItemService from "../services/ItemService";
-import CadastroItem from "../use_cases/RegisterItemUC";
-import { TitleScreenComp } from "../components/TitleScreen/TitleScreenComp";
-import { CardCompany } from "../components/Cards/CardCompany/CardCompany";
+import CadastroItemService from "../../services/ItemService";
+import CadastroItem from "../../use_cases/RegisterItemUC";
+import { TitleScreenComp } from "../../components/TitleScreen/TitleScreenComp";
+import { CardCompany } from "../../components/Cards/CardCompany/CardCompany";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
-import { FetchAllByCompany } from "../use_cases/item/FetchAllByCompany";
-import ItemService from "../services/ItemService";
-import { Item } from "../entities/item";
+import { FetchAllByCompany } from "../../use_cases/item/FetchAllByCompany";
+import ItemService from "../../services/ItemService";
+import { Item } from "../../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
-import { id_comp } from "./LoginScreen";
+import { id_comp } from "../Auth/LoginScreen";
 
 export default function CadastroProdutoScreen(props) {
   const navigation = useNavigation();
@@ -28,12 +28,11 @@ export default function CadastroProdutoScreen(props) {
   const fetchAllByCompany = new FetchAllByCompany(new ItemService());
 
   useEffect(() => {
-    if(isFocused){
+    if (isFocused) {
       fetchAllByCompany.execute(id_comp).then((data) => {
         setItems(data);
       });
     }
-    
   }, [props, isFocused]);
 
   function getItemCount(data: Item[]) {

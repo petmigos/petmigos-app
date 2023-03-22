@@ -1,58 +1,69 @@
 import { Image, TouchableOpacity, Text, TextInput, View } from "react-native";
-import styles from "../styles/cadastroProdutoStyles";
-import { useState } from "react";
-import CadastroItemService from "../services/ItemService";
-import CadastroItem from "../use_cases/RegisterItemUC";
+import styles from "../../styles/cadastroProdutoStyles";
+import { useEffect, useState } from "react";
+import CadastroItemService from "../../services/ItemService";
+import CadastroItem from "../../use_cases/RegisterItemUC";
 import {
   SetImage,
   result,
-} from "../components/PetStoreComponents/SetImage/SetImage";
+} from "../../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
-import { QuantButton } from "../components/PetStoreComponents/QuantButton/QuantButton";
+import { QuantButton } from "../../components/PetStoreComponents/QuantButton/QuantButton";
 import { ScrollView } from "react-native-gesture-handler";
-import { id_comp } from "./LoginScreen";
+import { id_comp } from "../Auth/LoginScreen";
+import { FindById } from "../../use_cases/item/FindById";
+import ItemService from "../../services/ItemService";
 import { useNavigation } from "@react-navigation/native";
-import { ValidationMessage } from "../components/ValidationMessages/ValidationMessage";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
 const image = {
-  test: require("../../assets/store_test.png"),
+  test: require("../../../assets/store_test.png"),
 };
 
-export default function CadastroProdutoScreen() {
+export default function CadastroProdutoScreen({ route }) {
+  const itemId = route.params;
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const companyId = id_comp;
-  const [showMessageError, setShowMessageError] = useState(false);
-  const [messageError, setMessageError] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Acessorios");
   const [hasQuantity, setHasQuantity] = useState(true);
   const [quantity, setQuantity] = useState(0);
+  const [image, setImage] = useState("assets/icon.png");
+
+  const findById = new FindById(new ItemService());
+
+  useEffect(() => {
+    findById.execute(id_comp, itemId).then((data) => {
+      setTitle(data.title);
+      setDescription(data.description);
+      setImage(data.image);
+      setQuantity(data.quantity);
+      setPrice(data.price);
+    });
+  });
 
   async function SendData() {
-    
-    try {
-      const source = {
-        uri: result.assets[0].uri,
-        type: `test/${result.assets[0].uri.split(".")[1]}`,
-        name: `test.${result.assets[0].uri.split(".")[1]}`,
-      };
-  
-      const image_upl = await cadastroItem.uploadImg(source);
-      const image = image_upl.toString();
-      
-  
-      await cadastroItem.execute({companyId, title, description, price, category, quantity, image});
-      setShowMessageError(false);
-  
-      navigation.goBack();
-    } catch (error: any) {
-      setShowMessageError(true);
-      setMessageError(error.message);
-    }
+    const source = {
+      uri: result.assets[0].uri,
+      type: `test/${result.assets[0].uri.split(".")[1]}`,
+      name: `test.${result.assets[0].uri.split(".")[1]}`,
+    };
+
+    const image_upl = await cadastroItem.uploadImg(source);
+    const image = image_upl.toString();
+
+    await cadastroItem.execute({
+      companyId,
+      title,
+      description,
+      price,
+      category,
+      quantity,
+      image,
+    });
   }
 
   function Increment() {
@@ -76,11 +87,9 @@ export default function CadastroProdutoScreen() {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
-        <Text style={styles.topText}>Cadastrar Produto</Text>
-        <SetImage image="../../assets/user_icon.png" />
+        <Text style={styles.topText}>Editar Produto</Text>
+        <SetImage image={image} />
       </View>
-
-      {showMessageError && <ValidationMessage error_text={messageError} />}
 
       <View style={styles.middleScreen}>
         <TextInput
@@ -128,7 +137,7 @@ export default function CadastroProdutoScreen() {
         )}
         <TouchableOpacity
           style={styles.accessingButton}
-          onPress={() => SendData()}
+          onPress={() => SendData && navigation.goBack()}
         >
           <Text style={styles.gettingText}>Continuar</Text>
         </TouchableOpacity>

@@ -3,11 +3,11 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import AllergyCard from "../../components/AllergyCard";
-import HygieneCard from "../../components/HygieneCard";
+import AllergyCard from "../../components/Cards/AllergyCard";
+import HygieneCard from "../../components/Cards/HygieneCard";
 import { Modal } from "../../components/Modal";
 import { Params } from "../Pets/navigation";
-import VaccineCard from "../../components/VaccineCard";
+import VaccineCard from "../../components/Cards/VaccineCard";
 import { Allergy } from "../../entities/allergy";
 import { Hygiene } from "../../entities/hygiene";
 import { Pet } from "../../entities/pet";
@@ -21,6 +21,8 @@ import { FindAll as FindAllAllergies } from "../../use_cases/allergies/FindAll";
 import { FindAll as FindAllHygienes } from "../../use_cases/hygienes/FindAll";
 import { FindById } from "../../use_cases/pets/FindById";
 import { FindAll as FindAllVaccines } from "../../use_cases/vaccines/FindAll";
+import { erro } from "../../styles/colors";
+import { AddButton } from "../../components/AddButton";
 
 const findById = new FindById(new PetService());
 const findAllAllergies = new FindAllAllergies(new AllergyService());
@@ -101,7 +103,7 @@ const PetDetails: React.FC = () => {
           }}
         />
         <View style={styles.petDetails}>
-          <Text style={styles.petName}>Nome do Pet</Text>
+          <Text style={styles.petName}>{pet.name}</Text>
           <View style={styles.divisor} />
           <Text style={styles.petAge}>0 meses</Text>
         </View>
@@ -126,18 +128,19 @@ const PetDetails: React.FC = () => {
       <Modal visible={visibleVaccineModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
+            <Pressable onPress={closeVaccineModal} style={{ width: "10%" }}>
+              <MaterialIcons name="close" color="#915E36" size={28} />
+            </Pressable>
             <Text
               style={{
-                width: "90%",
+                width: "80%",
                 textAlign: "center",
-                fontSize: 18,
+                fontWeight: "500",
+                fontSize: 25,
               }}
             >
               Vacinas
             </Text>
-            <Pressable onPress={closeVaccineModal} style={{ width: "10%" }}>
-              <MaterialIcons name="close" color="#915E36" size={28} />
-            </Pressable>
           </View>
           <View style={styles.modalMain}>
             <FlatList
@@ -145,23 +148,27 @@ const PetDetails: React.FC = () => {
               renderItem={({ item }) => renderVaccine(item)}
             />
           </View>
+          <View style={styles.button}>
+            <AddButton onPress={closeAllergyModal} />
+          </View>
         </View>
       </Modal>
       <Modal visible={visibleHygieneModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
+            <Pressable onPress={closeHygieneModal} style={{ width: "10%" }}>
+              <MaterialIcons name="close" color="#915E36" size={28} />
+            </Pressable>
             <Text
               style={{
-                width: "90%",
+                width: "80%",
                 textAlign: "center",
-                fontSize: 18,
+                fontWeight: "500",
+                fontSize: 25,
               }}
             >
               Higiene
             </Text>
-            <Pressable onPress={closeHygieneModal} style={{ width: "10%" }}>
-              <MaterialIcons name="close" color="#915E36" size={28} />
-            </Pressable>
           </View>
           <View style={styles.modalMain}>
             <FlatList
@@ -169,29 +176,36 @@ const PetDetails: React.FC = () => {
               renderItem={({ item }) => renderHygiene(item)}
             />
           </View>
+          <View style={styles.button}>
+            <AddButton onPress={closeAllergyModal} />
+          </View>
         </View>
       </Modal>
       <Modal visible={visibleAllergyModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
+            <Pressable onPress={closeAllergyModal} style={{ width: "10%" }}>
+              <MaterialIcons name="close" color="#915E36" size={28} />
+            </Pressable>
             <Text
               style={{
-                width: "90%",
+                width: "80%",
                 textAlign: "center",
-                fontSize: 18,
+                fontWeight: "500",
+                fontSize: 25,
               }}
             >
               Alergias
             </Text>
-            <Pressable onPress={closeAllergyModal} style={{ width: "10%" }}>
-              <MaterialIcons name="close" color="#915E36" size={28} />
-            </Pressable>
           </View>
           <View style={styles.modalMain}>
             <FlatList
               data={allergies}
               renderItem={({ item }) => renderAllergy(item)}
             />
+          </View>
+          <View style={styles.button}>
+            <AddButton onPress={closeAllergyModal} />
           </View>
         </View>
       </Modal>
@@ -203,7 +217,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    marginTop: '10%'
+    marginTop: "10%",
   },
   pet: {
     display: "flex",
@@ -239,7 +253,7 @@ const styles = StyleSheet.create({
     paddingTop: 18,
   },
   actionButton: {
-    width: 250,
+    width: 300,
     height: 56,
     display: "flex",
     alignItems: "center",
@@ -247,14 +261,15 @@ const styles = StyleSheet.create({
     borderColor: "#7B4D28",
     color: "#7B4D28",
     borderWidth: 1,
-    borderRadius: 4,
-    marginVertical: 12,
+    borderRadius: 10,
+    marginVertical: 10,
   },
   buttonText: {
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 30,
+    fontWeight: "500",
     color: "#7B4D28",
   },
+
   divisor: {
     width: 200,
     height: 1,
@@ -263,17 +278,27 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     width: "90%",
-    height: "90%",
-    borderRadius: 4,
+    height: "85%",
+    marginBottom: 30,
+    borderRadius: 10,
     backgroundColor: "#fff",
   },
+  
   modalHeader: {
     display: "flex",
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     padding: 8,
   },
-  modalMain: {},
+  modalMain: {
+    flex: 10,
+  },
+
+  button: {
+    alignItems: "center",
+    flex: 1.5,
+  },
 });
 
 export default PetDetails;
