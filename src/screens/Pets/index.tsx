@@ -35,6 +35,10 @@ const ListPets: React.FC = () => {
     navigation.navigate("PetInfo", { petId: pet._id });
   }
 
+  function goRegisterPet(){
+    navigation.navigate("RegisterPet");
+  }
+
   function renderPets(pet: Pet) {
     return (
       <TouchableOpacity onPress={() => onPressPet(pet)}>
@@ -57,10 +61,8 @@ const ListPets: React.FC = () => {
           data={pets}
           renderItem={({ item }) => renderPets(item)}
         />
-        <TouchableOpacity
-          style={styles.accessingButtonRemove}
-        >
-          <Text style={styles.gettingTextRemove}>Remover Item</Text>
+        <TouchableOpacity style={styles.add_button} onPress={goRegisterPet}>
+          <Text style={styles.add_text}>ADICIONAR PET</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -77,26 +79,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  accessingButtonRemove: {
-    flex: 1,
-    backgroundColor: primary,
+  add_button: {
+    backgroundColor: '#7b4d28',
+    height: 56,
     // fontFamily: 'Ubuntu-Bold',
-    fontStyle: "normal",
-    alignItems: "center",
-    textAlign: "center",
-    marginTop: 20,
+    fontStyle: 'normal',
+    alignItems: 'center',
+    textAlign: 'center',
+    marginTop: -5,
     borderRadius: 8,
-    resizeMode: "contain",
+    top: -70,
     marginHorizontal: 30,
-  },
+},
 
-  gettingTextRemove: {
-    flex: 1,
+   add_text: {
     fontSize: 18,
     fontWeight: "bold",
     top: 15,
-    color: background,
-  },
+    color: '#FFFFFF'
+},
+
 });
 
 export default ListPets;

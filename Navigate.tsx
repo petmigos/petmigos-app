@@ -17,6 +17,7 @@ import StorePage from "./src/screens/Stores/StorePage";
 
 import ListPets from "./src/screens/Pets";
 import PetDetails from "./src/screens/PetDetails";
+import RegisterPets from "./src/screens/PetsRegistering";
 
 import Padrinhos from "./src/screens/Padrinhos/Padrinhos";
 import Profile from "./src/screens/Profile";
@@ -157,6 +158,7 @@ function PetStack() {
     >
       <Stack.Screen name="Pets" component={ListPets} />
       <Stack.Screen name="PetInfo" component={PetDetails} />
+      <Stack.Screen name="RegisterPet" component={RegisterPets} />
     </Stack.Navigator>
   );
 }
