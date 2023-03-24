@@ -1,40 +1,30 @@
 import React from "react";
-import { TouchableOpacity, Text, TextInput, View, StyleSheet, FlatList, Dimensions } from "react-native";
+import { TouchableOpacity, Text, TextInput, View, StyleSheet, FlatList, Dimensions, Button } from "react-native";
 import { background, inputBackground, primary } from "../../styles/colors";
 import { useState } from "react";
-import CadastroItemService from "../../services/ItemService";
-import CadastroItem from "../../use_cases/RegisterItemUC";
 import {
   SetImage,
-  result,
 } from "../../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
 import { ButtonGroup } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-import { id_comp } from "../Auth/LoginScreen";
+import { id_user } from "../Auth/LoginScreen";
 import { useNavigation } from "@react-navigation/native";
 import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
-
-var cadastroItem = new CadastroItem(new CadastroItemService());
-
-const image = {
-  test: require("../../../assets/store_test.png"),
-};
-
-const ITEM_WIDTH = Dimensions.get('window').width / 3 - 10;
+import DateField from 'react-native-datefield';
 
 const RegisterPets: React.FC = () => {
   const navigation = useNavigation();
-  const [title, setTitle] = useState("");
-  const companyId = id_comp;
+  const [name, setName] = useState("");
+  const userId = id_user;
   const [showMessageError, setShowMessageError] = useState(false);
   const [messageError, setMessageError] = useState("");
-  const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Acessorios");
-  const [quantity, setQuantity] = useState(0);
+  const [textTag, setTextTag] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [tags, setTags] = useState([]);
   const [tag, setTag] = useState("")
+
 
   const handleAddItem = (tag: string) => {
 
@@ -58,7 +48,7 @@ const RegisterPets: React.FC = () => {
   const ListItem = ({ item }) => {
     return (
       <View style={styles.item}>
-        <Text>{item.name}</Text>
+        <Text style={styles.tagText}>{item.name}</Text>
         <TouchableOpacity onPress={() => handleTagDelete(item)}>
           <Text style={styles.deleteButton}>X</Text>
         </TouchableOpacity>
@@ -87,7 +77,7 @@ const RegisterPets: React.FC = () => {
         <TextInput
           style={styles.input_box}
           placeholder="Nome"
-          onChangeText={(text) => setTitle(text)}
+          onChangeText={(text) => setName(text)}
         ></TextInput>
     
         <View style={styles.picker}>
@@ -103,13 +93,17 @@ const RegisterPets: React.FC = () => {
             <Picker.Item value="Outro" label="Outro" />
           </Picker>
         </View>
+    
+        <Text style={styles.bodyTitle}>Data de Nascimento</Text>
 
-        <TextInput
-          style={styles.input_box}
-          placeholder="Data de Nascimento"
-          onChangeText={(text) => setPrice(Number(text))}
-        ></TextInput>
-
+        <DateField
+         labelDate="Dia"
+         labelMonth="Mês"
+         labelYear="Ano"
+         styleInput={styles.inputDate}
+         onSubmit={(value) => console.log(value)}
+         />
+ 
         <Text style={styles.bodyTitle}>Gênero</Text>
 
         <ButtonGroup
@@ -127,11 +121,12 @@ const RegisterPets: React.FC = () => {
         <TextInput
           style={styles.input_box_tag}
           placeholder="Tag"
-          onChangeText={(text) => setTag(text)}
+          value={`${textTag}`}
+          onChangeText={(text) => {setTag(text), setTextTag(text)}}
         ></TextInput>
         <TouchableOpacity
           style={styles.addTagButton}
-          onPress={() => handleAddItem(tag)}
+          onPress={() => {handleAddItem(tag), setTextTag("")}}
         >
           <Text style={styles.addTagText}>Adicionar</Text>
         </TouchableOpacity>
@@ -294,6 +289,11 @@ const styles = StyleSheet.create({
       
     },
 
+    tagText: {
+      color: "#dba87f",
+      top: 9,
+    },
+
     listContainer: {
       paddingHorizontal: 5,
       paddingVertical: 10,
@@ -315,9 +315,18 @@ const styles = StyleSheet.create({
 
     deleteButton: {
       marginLeft: 90,
-      color: "black",
+      color: "gray",
       bottom: 20,
-    }
+    },
+
+    inputDate: {
+      width: '30%',
+      borderRadius: 8,
+      borderColor: '#cacaca',
+      borderWidth: 1,
+      backgroundColor: inputBackground,
+      marginTop: 40,
+    },
     
 
 });

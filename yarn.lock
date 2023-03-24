@@ -5413,7 +5413,7 @@
   "resolved" "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
   "version" "1.0.4"
 
-"moment@^2.29.4":
+"moment@^2.22.0", "moment@^2.29.4":
   "integrity" "sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w=="
   "resolved" "https://registry.npmjs.org/moment/-/moment-2.29.4.tgz"
   "version" "2.29.4"
@@ -6004,7 +6004,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@*", "prop-types@^15.5.7", "prop-types@^15.7.2":
+"prop-types@*", "prop-types@^15.5.7", "prop-types@^15.7.2", "prop-types@^15.8.1":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -6146,6 +6146,25 @@
     "jscodeshift" "^0.13.1"
     "nullthrows" "^1.1.1"
 
+"react-native-date-picker@^4.2.9":
+  "integrity" "sha512-msx877/ULxaoceqOV3GKx/A93ninYmOp46w5DOCh3pQGPbgL4ZmbglvXJ3mOp2h/j5scuYf9+NetCRLqj1pODA=="
+  "resolved" "https://registry.npmjs.org/react-native-date-picker/-/react-native-date-picker-4.2.9.tgz"
+  "version" "4.2.9"
+  dependencies:
+    "prop-types" "^15.8.1"
+
+"react-native-datefield@^0.3.6":
+  "integrity" "sha512-BPhvNrCeJBRGfW5r0UBq+nnhmmIIjXO9EMkF5bhi/onJUdn6PowU5pbgWmY77C0FL3vyk6EZOQ+9LUhiqM1sLg=="
+  "resolved" "https://registry.npmjs.org/react-native-datefield/-/react-native-datefield-0.3.6.tgz"
+  "version" "0.3.6"
+
+"react-native-datepicker@^1.7.2":
+  "integrity" "sha512-ses0N1y44fYBmlejYwR2i+dGnQQ8v5/gacX2CrbFJiWxbcQaRuxexsZPB9YQuQkAy+uKz5Gti3Lrp3dh9BfkzA=="
+  "resolved" "https://registry.npmjs.org/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz"
+  "version" "1.7.2"
+  dependencies:
+    "moment" "^2.22.0"
+
 "react-native-drop-shadow@^0.0.6":
   "integrity" "sha512-eIFZoU7yhr90xB0/Gfuolt/Eelk0F+ohy3piutuYFA+xJx1xtJ/t9xWaaTPwTGXK+56CTnp8mAX4VPDz464NZg=="
   "resolved" "https://registry.npmjs.org/react-native-drop-shadow/-/react-native-drop-shadow-0.0.6.tgz"
@@ -6286,7 +6305,7 @@
     "prop-types" "^15.7.2"
     "yargs" "^16.1.1"
 
-"react-native@*", "react-native@>= 0.62", "react-native@>=0.20.0", "react-native@>=0.57", "react-native@>=0.59.0", "react-native@>=0.61", "react-native@>=0.61.5", "react-native@0.70.5":
+"react-native@*", "react-native@>= 0.62", "react-native@>= 0.64.3", "react-native@>=0.20.0", "react-native@>=0.57", "react-native@>=0.59.0", "react-native@>=0.61", "react-native@>=0.61.5", "react-native@0.70.5":
   "integrity" "sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.70.5.tgz"
   "version" "0.70.5"
@@ -6337,7 +6356,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>=16", "react@>=16.0", "react@>=16.13", "react@>=17.0.0", "react@18.1.0":
+"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@>= 17.0.1", "react@>=16", "react@>=16.0", "react@>=16.13", "react@>=17.0.0", "react@18.1.0":
   "integrity" "sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.1.0.tgz"
   "version" "18.1.0"
