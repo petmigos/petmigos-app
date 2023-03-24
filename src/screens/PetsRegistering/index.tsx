@@ -1,4 +1,5 @@
-import { Image, TouchableOpacity, Text, TextInput, View, StyleSheet } from "react-native";
+import React from "react";
+import { TouchableOpacity, Text, TextInput, View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { background, inputBackground, primary } from "../../styles/colors";
 import { useState } from "react";
 import CadastroItemService from "../../services/ItemService";
@@ -20,6 +21,8 @@ const image = {
   test: require("../../../assets/store_test.png"),
 };
 
+const ITEM_WIDTH = Dimensions.get('window').width / 3 - 10;
+
 const RegisterPets: React.FC = () => {
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
@@ -32,6 +35,29 @@ const RegisterPets: React.FC = () => {
   const [hasQuantity, setHasQuantity] = useState(true);
   const [quantity, setQuantity] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const tags = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    { id: 3, name: 'Item 3' },
+    { id: 4, name: 'Item 4' },
+    { id: 5, name: 'Item 5' },
+    { id: 6, name: 'Item 6' },
+    { id: 7, name: 'Item 7' },
+    { id: 8, name: 'Item 8' },
+    { id: 9, name: 'Item 9' },
+    { id: 10, name: 'Item 10' },
+    { id: 11, name: 'Item 11' },
+    { id: 12, name: 'Item 12' },
+  ];
+  
+  
+  const ListItem = ({ item }) => {
+    return (
+      <View style={styles.item}>
+        <Text>{item.name}</Text>
+      </View>
+    );
+  };
 
   async function SendData() {
     try {
@@ -62,14 +88,6 @@ const RegisterPets: React.FC = () => {
     }
   }
 
-  function Increment() {
-    setQuantity(quantity + 1);
-  }
-
-  function Decrement() {
-    if (quantity > 0) setQuantity(quantity - 1);
-  }
-
   function CategoryChange(itemValue: string) {
     if (!["Acessorios", "Alimentacao"].some((x) => x == itemValue)) {
       setHasQuantity(false);
@@ -78,6 +96,12 @@ const RegisterPets: React.FC = () => {
       setHasQuantity(true);
     }
     setCategory(itemValue);
+  }
+
+  function AddTag() {
+
+    tags.push()
+    
   }
 
   return (
@@ -95,7 +119,7 @@ const RegisterPets: React.FC = () => {
           placeholder="Nome"
           onChangeText={(text) => setTitle(text)}
         ></TextInput>
-
+    
         <View style={styles.picker}>
           <Picker
             selectedValue={category}
@@ -129,7 +153,21 @@ const RegisterPets: React.FC = () => {
         />
 
         <Text style={styles.bodyTitle}>Tags</Text>
-
+        <View style={styles.tagContainer}>
+        <TextInput
+          style={styles.input_box}
+          placeholder="Tag"
+          onChangeText={(text) => setTitle(text)}
+        ></TextInput>
+        <FlatList
+        data={data}
+        renderItem={({ item }) => <ListItem item={item}/>}
+        keyExtractor={item => item.id.toString()}
+        numColumns={3}
+        contentContainerStyle={styles.listContainer}
+        />
+        </View>
+       
         <TouchableOpacity
           style={styles.accessingButton}
           onPress={() => SendData()}
@@ -213,18 +251,6 @@ const styles = StyleSheet.create({
         marginTop: 20,
       },
     
-      quantity: {
-        flexDirection: "row",
-        backgroundColor: background,
-        marginRight: 20,
-        marginLeft: 20,
-      },
-    
-      quantityText: {
-        fontWeight: "600",
-        fontSize: 17,
-        marginRight: 20,
-      },
     
       pickCategory: {},
     
@@ -250,6 +276,29 @@ const styles = StyleSheet.create({
 
       enable: {
         backgroundColor: primary,
+    },
+
+    tagContainer: {
+      marginTop: 20,
+      marginBottom: 10,
+    },
+
+    listContainer: {
+      paddingHorizontal: 5,
+      paddingVertical: 10,
+    },
+
+    item: {
+      width: 110,
+      height: 35,
+      backgroundColor: '#fff',
+      borderColor: '#dba87f',
+      borderWidth: 2,
+      borderRadius: 7,
+      marginHorizontal: 5,
+      marginVertical: 5,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
 
 });
