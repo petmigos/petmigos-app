@@ -29,79 +29,49 @@ const RegisterPets: React.FC = () => {
   const companyId = id_comp;
   const [showMessageError, setShowMessageError] = useState(false);
   const [messageError, setMessageError] = useState("");
-  const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("Acessorios");
-  const [hasQuantity, setHasQuantity] = useState(true);
   const [quantity, setQuantity] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const tags = [
-    { id: 1, name: 'Item 1' },
-    { id: 2, name: 'Item 2' },
-    { id: 3, name: 'Item 3' },
-    { id: 4, name: 'Item 4' },
-    { id: 5, name: 'Item 5' },
-    { id: 6, name: 'Item 6' },
-    { id: 7, name: 'Item 7' },
-    { id: 8, name: 'Item 8' },
-    { id: 9, name: 'Item 9' },
-    { id: 10, name: 'Item 10' },
-    { id: 11, name: 'Item 11' },
-    { id: 12, name: 'Item 12' },
-  ];
+  const [tags, setTags] = useState([]);
+  const [tag, setTag] = useState("")
+
+  const handleAddItem = (tag: string) => {
+
+    if (tag !== "")
+    {
+      const newTag = { id: tags.length + 1, name: `${tag}` };
+      setTags([...tags, newTag]);
+    }
+
+    console.log(tags);
+
+  };
+
+  const handleTagDelete = (tagToDelete) => {
+    const newTags = tags.filter(tag => tag !== tagToDelete);
+    setTags(newTags);
+  }
+  
   
   
   const ListItem = ({ item }) => {
     return (
       <View style={styles.item}>
         <Text>{item.name}</Text>
+        <TouchableOpacity onPress={() => handleTagDelete(item)}>
+          <Text style={styles.deleteButton}>X</Text>
+        </TouchableOpacity>
       </View>
     );
   };
 
   async function SendData() {
-    try {
-      const source = {
-        uri: result.assets[0].uri,
-        type: `test/${result.assets[0].uri.split(".")[1]}`,
-        name: `test.${result.assets[0].uri.split(".")[1]}`,
-      };
-
-      const image_upl = await cadastroItem.uploadImg(source);
-      const image = image_upl.toString();
-
-      await cadastroItem.execute({
-        companyId,
-        title,
-        description,
-        price,
-        category,
-        quantity,
-        image,
-      });
-      setShowMessageError(false);
-
-      navigation.goBack();
-    } catch (error: any) {
-      setShowMessageError(true);
-      setMessageError(error.message);
-    }
+    console.log("enviou para o banco");
   }
 
   function CategoryChange(itemValue: string) {
-    if (!["Acessorios", "Alimentacao"].some((x) => x == itemValue)) {
-      setHasQuantity(false);
-      setQuantity(0);
-    } else {
-      setHasQuantity(true);
-    }
     setCategory(itemValue);
-  }
-
-  function AddTag() {
-
-    tags.push()
-    
   }
 
   return (
@@ -155,21 +125,27 @@ const RegisterPets: React.FC = () => {
         <Text style={styles.bodyTitle}>Tags</Text>
         <View style={styles.tagContainer}>
         <TextInput
-          style={styles.input_box}
+          style={styles.input_box_tag}
           placeholder="Tag"
-          onChangeText={(text) => setTitle(text)}
+          onChangeText={(text) => setTag(text)}
         ></TextInput>
+        <TouchableOpacity
+          style={styles.addTagButton}
+          onPress={() => handleAddItem(tag)}
+        >
+          <Text style={styles.addTagText}>Adicionar</Text>
+        </TouchableOpacity>
         <FlatList
-        data={data}
+        data={tags}
         renderItem={({ item }) => <ListItem item={item}/>}
         keyExtractor={item => item.id.toString()}
         numColumns={3}
         contentContainerStyle={styles.listContainer}
         />
         </View>
-       
+
         <TouchableOpacity
-          style={styles.accessingButton}
+          style={styles.registerButton}
           onPress={() => SendData()}
         >
           <Text style={styles.gettingText}>Cadastrar</Text>
@@ -230,6 +206,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderColor: "#fff",
       },
+
+      input_box_tag:{
+        marginTop: 20,
+        borderWidth: 1,
+        padding: 10,
+        backgroundColor: inputBackground,
+        borderRadius: 6,
+        opacity: 0.5,
+        fontSize: 18,
+        borderColor: "#fff",
+        width: 200,
+      },
     
       input_box_desc: {
         marginTop: 20,
@@ -254,23 +242,45 @@ const styles = StyleSheet.create({
     
       pickCategory: {},
     
-      accessingButton: {
+      registerButton: {
         backgroundColor: "#915E36",
         height: 56,
         // fontFamily: 'Ubuntu-Bold',
         fontStyle: "normal",
         alignItems: "center",
         textAlign: "center",
-        marginTop: 50,
+        marginTop: 20,
         marginBottom: 60,
         borderRadius: 5,
         resizeMode: "contain",
+      },
+
+      addTagButton: {
+        backgroundColor: "#E29417",
+        height: 45,
+        // fontFamily: 'Ubuntu-Bold',
+        fontStyle: "normal",
+        alignItems: "center",
+        textAlign: "center",
+        width: 150,
+        bottom: 48,
+        left: 210,
+        borderRadius: 5,
+        resizeMode: "contain",
+        marginBottom: -30,
       },
     
       gettingText: {
         fontSize: 18,
         fontWeight: "bold",
         top: 15,
+        color: "#FFFFFF",
+      },
+
+      addTagText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        top: 8.8,
         color: "#FFFFFF",
       },
 
@@ -281,11 +291,13 @@ const styles = StyleSheet.create({
     tagContainer: {
       marginTop: 20,
       marginBottom: 10,
+      
     },
 
     listContainer: {
       paddingHorizontal: 5,
       paddingVertical: 10,
+      bottom: 10,
     },
 
     item: {
@@ -300,6 +312,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+
+    deleteButton: {
+      marginLeft: 90,
+      color: "black",
+      bottom: 20,
+    }
+    
 
 });
 
