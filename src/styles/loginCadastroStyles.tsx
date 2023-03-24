@@ -104,7 +104,8 @@ export default StyleSheet.create({
         fontWeight: 'bold',
         textDecorationLine: 'underline',
         fontSize: 14,
-        marginLeft: 130,
+        marginLeft: 137,
+        bottom: 1,
     },
 
     sign_up_button:

@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { primary } from "./src/styles/colors";
-import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import LoginScreen from "./src/screens/Auth/LoginScreen";
 import PickUpSignUp from "./src/screens/Auth/PickUpSignUp";
@@ -59,15 +59,13 @@ function TabPetOwner() {
         }}
       />
 
-      <Tab.Screen name="Padrinhos" component={Padrinhos} />
-
       <Tab.Screen
         name="PetStack"
         component={PetStack}
         options={{
           tabBarLabel: "Meus Pets",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="home" size={size} color={color} />
+            <MaterialCommunityIcons name="dog" size={size} color={color} />
           ),
         }}
       />
