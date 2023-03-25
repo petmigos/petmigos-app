@@ -1,7 +1,37 @@
 import { Pet } from "../entities/pet";
+import { ip } from "../entities/ip";
 
 export class PetService {
-  async fecthAll(): Promise<Pet[]> {
+
+  async register(newPet: Pet): Promise<Pet> {
+    const { ownerId, name, type, birthday, gender, tags, image, } = newPet;
+    console.log(newPet);
+    const response = await fetch(
+      `http://${ip}:3333/cadastroUser/${ownerId}/pets`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          type: type,
+          birthday: birthday,
+          gender: gender,
+          tags: tags,
+          image: image,
+        }),
+      }
+    );
+
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
+
+  /*async fecthAll(): Promise<Pet[]> {
     return [
       {
         _id: "123",
@@ -24,9 +54,9 @@ export class PetService {
         tags: [],
       },
     ];
-  }
+  }*/
 
-  async findById(id: string): Promise<Pet | undefined> {
+  /*async findById(id: string): Promise<Pet | undefined> {
     return {
       _id: "123",
       birthday: new Date("2022-02-03"),
@@ -37,5 +67,23 @@ export class PetService {
       type: "Gato",
       tags: [],
     };
+  }*/
+
+  async cloudinaryUpload(photo): Promise<string> {
+    const formData = new FormData();
+    formData.append("file", photo);
+    formData.append("upload_preset", "lipjy5de");
+    formData.append("cloud_name", "petmigosimages");
+
+    const response = await fetch(
+      "https://api.cloudinary.com/v1_1/petmigosimages/image/upload",
+      {
+        method: "post",
+        body: formData,
+      }
+    );
+    const data = await response.json();
+    return data.url;
   }
+
 }

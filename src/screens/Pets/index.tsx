@@ -7,14 +7,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import PetCard from "../../components/Cards/PetCard";
 import { Pet } from "../../entities/pet";
 import { PetService } from "../../services/petService";
 import { FetchAll } from "../../use_cases/pets/FetchAll";
 import { PetDetailNavigationProp } from "./navigation";
-import { background, erro, primary, superficie } from "../../styles/colors";
+import { background, erro, primary, superficie, inputBackground } from "../../styles/colors";
+import { Ionicons } from "@expo/vector-icons";
+
 
 const fetchAll = new FetchAll(new PetService());
 
@@ -55,6 +57,18 @@ const ListPets: React.FC = () => {
             Não há pets cadastrados. Considere cadastrar um pet primeiro.
           </Text>
         )}
+        
+        <View>
+          <TextInput
+            style={styles.input_box}
+            placeholder="Pesquisar"
+            textAlign="center"
+          ></TextInput>
+          <View style={styles.searchIcon}>
+            <Ionicons name="search-outline" size={20}></Ionicons>
+          </View>
+        </View>
+
         <FlatList
           contentContainerStyle={{ paddingBottom: 50 }}
           style={styles.pets}
@@ -72,11 +86,13 @@ const ListPets: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: background
   },
   pets: {
     height: 3,
     padding: 16,
     backgroundColor: "#fff",
+    top: 40,
   },
 
   add_button: {
@@ -98,6 +114,32 @@ const styles = StyleSheet.create({
     top: 15,
     color: '#FFFFFF'
 },
+
+   input_box: {
+    marginTop: 20,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: inputBackground,
+    borderRadius: 6,
+    opacity: 0.5,
+    fontSize: 18,
+    borderColor: "#fff",
+    width: 300,
+    left: 55,
+    top: 60,
+  },
+
+  middleScreen: {
+    flex: 2,
+    backgroundColor: background,
+    marginRight: 20,
+    marginLeft: 20,
+  },
+
+  searchIcon: {
+    left: 60,
+    top: 24,
+  }
 
 });
 

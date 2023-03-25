@@ -1,11 +1,15 @@
+import { User } from "./user";
+
 export interface Pet {
   _id?: string;
-  imageURL: string;
+  ownerId: string;
+  owner?: User;
   name: string;
-  birthday: Date;
-  tags: string[];
-  gender: "Male" | "Female";
   type: string;
+  birthday: Date;
+  gender: string;
+  tags: string[];
+  image: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
