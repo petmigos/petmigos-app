@@ -16,6 +16,7 @@ import { FetchAll } from "../../use_cases/pets/FetchAll";
 import { PetDetailNavigationProp } from "./navigation";
 import { background, erro, primary, superficie, inputBackground } from "../../styles/colors";
 import { Ionicons } from "@expo/vector-icons";
+import { id_user } from "../Auth/LoginScreen";
 
 
 const fetchAll = new FetchAll(new PetService());
@@ -26,7 +27,7 @@ const ListPets: React.FC = () => {
 
   useEffect(() => {
     async function fetch() {
-      const allPets = await fetchAll.execute();
+      const allPets = await fetchAll.execute(id_user);
       setPets(allPets);
     }
 
@@ -59,14 +60,14 @@ const ListPets: React.FC = () => {
         )}
         
         <View>
-          <TextInput
+          {/* <TextInput
             style={styles.input_box}
             placeholder="Pesquisar"
             textAlign="center"
           ></TextInput>
           <View style={styles.searchIcon}>
             <Ionicons name="search-outline" size={20}></Ionicons>
-          </View>
+          </View> */}
         </View>
 
         <FlatList
@@ -125,7 +126,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderColor: "#fff",
     width: 300,
-    left: 55,
     top: 60,
   },
 

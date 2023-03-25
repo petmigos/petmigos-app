@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { Pet } from "../../../entities/pet";
 import { formatDate } from "./formatDate";
 
-const PetCard: React.FC<Pet> = ({ birthday, gender, imageURL, name }) => {
+const PetCard: React.FC<Pet> = ({ birthday, gender, image, name }) => {
   return (
     <View style={styles.pet}>
       <View style={styles.pet_image}>
@@ -13,7 +13,7 @@ const PetCard: React.FC<Pet> = ({ birthday, gender, imageURL, name }) => {
           source={{
             width: 62,
             height: 62,
-            uri: imageURL,
+            uri: image,
           }}
         />
       </View>
@@ -22,7 +22,7 @@ const PetCard: React.FC<Pet> = ({ birthday, gender, imageURL, name }) => {
         <Text style={styles.pet_age}>{formatDate(birthday)}</Text>
       </View>
       <View style={styles.pet_gender}>
-        {gender === "Male" ? (
+        {gender === "Macho" ? (
           <Ionicons name="male-outline" size={20} color="#7FB2DB" />
         ) : (
           <Ionicons name="female-outline" size={20} color="#EC0791" />

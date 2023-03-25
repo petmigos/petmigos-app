@@ -1,37 +1,35 @@
 import { Hygiene } from "../entities/hygiene";
+import { ip } from "../entities/ip";
 
 export class HygieneService {
   async create(newHygiene: Hygiene, petId: string): Promise<Hygiene> {
-    return {
-      _id: "123",
-      category: "Banho",
-      date: new Date(2023, 1, 12, 23, 59),
-      description: "Banho do meu bebê",
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+    const { category, description, done, date } = newHygiene;
+    const response = await fetch(`http://${ip}:3333/pets/${petId}/hygienes`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        category: category,
+        description: description,
+        done: done,
+        date: date,
+      }),
+    });
+
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
   }
 
   async findAll(petId: string): Promise<Hygiene[]> {
-    return [
-      {
-        _id: "123",
-        done: false,
-        category: "Banho",
-        date: new Date(2023, 1, 8, 23, 59),
-        description: "Banho do meu bebê",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        _id: "1234",
-        done: true,
-        category: "Banho",
-        date: new Date(2003, 1, 8, 23, 59),
-        description: "Banho do meu bebê",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
+    const response = await fetch(`http://${ip}:3333/pets/${petId}/hygienes`);
+
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
   }
 }

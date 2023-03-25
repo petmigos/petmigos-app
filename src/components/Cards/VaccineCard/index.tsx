@@ -22,9 +22,9 @@ const VaccineCard: React.FC<Props> = ({ vaccine, onPress }) => {
     if (!vaccine.applied && vaccine.date < new Date()) return COLORS.HIGH;
     if (vaccine.applied) return COLORS.LOW;
     if (
-      vaccine.date.getDay() === new Date().getDay() &&
-      vaccine.date.getMonth() === new Date().getMonth() &&
-      vaccine.date.getFullYear() === new Date().getFullYear()
+      new Date(vaccine.date).getDay() === new Date().getDay() &&
+      new Date(vaccine.date).getMonth() === new Date().getMonth() &&
+      new Date(vaccine.date).getFullYear() === new Date().getFullYear()
     )
       return COLORS.ALERT;
     return COLORS.NONE;

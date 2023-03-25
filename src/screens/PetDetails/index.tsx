@@ -1,5 +1,5 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Image, Pressable, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -29,6 +29,8 @@ import { CreateHygiene } from "../../use_cases/hygienes/Create";
 import { CreateVaccine } from "../../use_cases/vaccines/Create";
 import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
+import { id_user } from "../Auth/LoginScreen";
+import { formatDate } from "../../components/Cards/PetCard/formatDate";
 
 const findById = new FindById(new PetService());
 
@@ -42,7 +44,7 @@ const findAllHygienes = new FindAllHygienes(new HygieneService());
 const createHygiene = new CreateHygiene(new HygieneService());
 
 
-const PetDetails: React.FC = () => {
+const PetDetails: React.FC = (props) => {
   const {
     closeModal: closeVaccineModal,
     openModal: openVaccineModal,
@@ -77,6 +79,7 @@ const PetDetails: React.FC = () => {
 
   const route = useRoute<RouteProp<Params, "PetInfo">>();
   const { petId } = route.params;
+
   const [pet, setPet] = useState<Pet>();
   const navigation = useNavigation();
   
@@ -99,21 +102,27 @@ const PetDetails: React.FC = () => {
   const [allergyName, setAllergyName] = useState("");
   const [allergyRisk, setAllergyRisk] = useState<RiskEnum>(RiskEnum.LOW);
 
+  const isFocused = useIsFocused();
+
 
   useEffect(() => {
-    async function fetch(id: string) {
-      const pet = await findById.execute(id);
-      const allergies = await findAllAllergies.execute(id);
-      const hygienes = await findAllHygienes.execute(id);
-      const vaccines = await findAllVaccines.execute(id);
-      setVaccines(vaccines);
-      setAllergies(allergies);
-      setHygienes(hygienes);
-      setPet(pet);
+
+    if(isFocused) {
+      async function fetch(user_id: string, pet_id: string) {
+        const pet = await findById.execute(user_id, pet_id);
+        const allergies = await findAllAllergies.execute(pet_id);
+        const hygienes = await findAllHygienes.execute(pet_id);
+        const vaccines = await findAllVaccines.execute(pet_id);
+        setPet(pet);
+        setVaccines(vaccines);
+        setAllergies(allergies);
+        setHygienes(hygienes);
+      }
+  
+      fetch(id_user, petId);
     }
 
-    fetch(petId);
-  }, []);
+  }, [props, isFocused]);
 
   function renderVaccine(vaccine: Vaccine) {
     return (
@@ -217,14 +226,14 @@ const PetDetails: React.FC = () => {
             width: 62,
             height: 62,
             uri:
-              pet.imageURL ||
+              pet.image ||
               "https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
           }}
         />
         <View style={styles.petDetails}>
           <Text style={styles.petName}>{pet.name}</Text>
           <View style={styles.divisor} />
-          <Text style={styles.petAge}>0 meses</Text>
+          <Text style={styles.petAge}>{formatDate(pet.birthday)}</Text>
         </View>
       </View>
       <View style={styles.actions}>
@@ -324,7 +333,7 @@ const PetDetails: React.FC = () => {
             <TextInput
               style={styles.input_box}
               placeholder="Data (yy-mm-dd)"
-              onChangeText={(date) => setVaccineName(date)}
+              onChangeText={(date) => setVaccineDate(date)}
             ></TextInput>
             <TextInput
               style={styles.input_box}

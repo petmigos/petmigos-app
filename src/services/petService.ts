@@ -7,7 +7,7 @@ export class PetService {
     const { ownerId, name, type, birthday, gender, tags, image, } = newPet;
     console.log(newPet);
     const response = await fetch(
-      `http://${ip}:3333/cadastroUser/${ownerId}/pets`,
+      `http://${ip}:3333/user/${ownerId}/pets`,
       {
         method: "POST",
         headers: {
@@ -31,43 +31,27 @@ export class PetService {
     return responseJSON;
   }
 
-  /*async fecthAll(): Promise<Pet[]> {
-    return [
-      {
-        _id: "123",
-        birthday: new Date("2022-02-03"),
-        gender: "Male",
-        imageURL:
-          "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80",
-        name: "Gatino",
-        type: "Gato",
-        tags: [],
-      },
-      {
-        _id: "1234",
-        birthday: new Date("2023-01-01"),
-        gender: "Female",
-        imageURL:
-          "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80",
-        name: "Gatiena",
-        type: "Gato",
-        tags: [],
-      },
-    ];
-  }*/
+  async fecthAll(id_user: string): Promise<Pet[]> {
+    const response = await fetch(
+      `http://${ip}:3333/user/${id_user}/pets`
+    );
 
-  /*async findById(id: string): Promise<Pet | undefined> {
-    return {
-      _id: "123",
-      birthday: new Date("2022-02-03"),
-      gender: "Male",
-      imageURL:
-        "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=435&q=80",
-      name: "Gatino",
-      type: "Gato",
-      tags: [],
-    };
-  }*/
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
+
+  async findById(id_user: string, id_pet: string): Promise<Pet | undefined> {
+    const response = await fetch(
+      `http://${ip}:3333/user/${id_user}/pets/${id_pet}`
+    );
+
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
 
   async cloudinaryUpload(photo): Promise<string> {
     const formData = new FormData();

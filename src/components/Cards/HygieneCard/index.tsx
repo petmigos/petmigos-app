@@ -23,9 +23,9 @@ const HygieneCard: React.FC<Props> = ({ hygiene, onPress }) => {
     if (!hygiene.done && hygiene.date < new Date()) return COLORS.HIGH;
     if (hygiene.done) return COLORS.LOW;
     if (
-      hygiene.date.getDay() === new Date().getDay() &&
-      hygiene.date.getMonth() === new Date().getMonth() &&
-      hygiene.date.getFullYear() === new Date().getFullYear()
+      new Date(hygiene.date).getDay() === new Date().getDay() &&
+      new Date(hygiene.date).getMonth() === new Date().getMonth() &&
+      new Date(hygiene.date).getFullYear() === new Date().getFullYear()
     )
       return COLORS.ALERT;
     return COLORS.NONE;
