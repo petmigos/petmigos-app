@@ -1,25 +1,46 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Hygiene } from "../../../entities/hygiene";
 import { formatDate } from "./formatDate";
+import { erro } from "../../../styles/colors";
 
 interface Props {
   hygiene: Hygiene;
+  onPress: () => void;
 }
 
-const HygieneCard: React.FC<Props> = ({ hygiene }) => {
+const COLORS = {
+  HIGH: "#D65B5B",
+  ALERT: "#FFAD33",
+  LOW: "#6AA55C",
+  NONE: "#9B9B9B",
+};
+
+const HygieneCard: React.FC<Props> = ({ hygiene, onPress }) => {
+  const colorStatus = getColorStatus(hygiene);
+  function getColorStatus(hygiene: Hygiene): string {
+    if (!hygiene.done && hygiene.date < new Date()) return COLORS.HIGH;
+    if (hygiene.done) return COLORS.LOW;
+    if (
+      hygiene.date.getDay() === new Date().getDay() &&
+      hygiene.date.getMonth() === new Date().getMonth() &&
+      hygiene.date.getFullYear() === new Date().getFullYear()
+    )
+      return COLORS.ALERT;
+    return COLORS.NONE;
+  }
   return (
-    <View style={{ ...styles.container, backgroundColor: "#9B9B9B" }}>
+    <View style={{ ...styles.container, backgroundColor: colorStatus }}>
       <View style={styles.main}>
         <Text style={styles.hygieneName}>{hygiene.category}</Text>
         <Text style={styles.hygieneRisk}>
           Gravidade: {formatDate(hygiene.date)}
         </Text>
       </View>
-      <View style={styles.options}>
-        <MaterialIcons name="more-vert" color="#FFF" size={24} />
-      </View>
+      <TouchableOpacity style={styles.options} onPress={onPress}>
+        <MaterialIcons name="more-vert" color="#FFF" size={30} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -31,7 +52,6 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginVertical: 8,
-    width: "90%",
     height: 72,
     borderRadius: 4,
     display: "flex",
@@ -40,7 +60,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     paddingHorizontal: 12,
   },
-  main: {},
+  main: {
+    flex: 7,
+    justifyContent: "center",
+  },
+
   options: {
     flex: 1,
     display: "flex",
@@ -48,6 +72,7 @@ const styles = StyleSheet.create({
   },
   hygieneName: {
     color: "white",
+    fontSize: 20,
   },
   hygieneRisk: {
     color: "white",

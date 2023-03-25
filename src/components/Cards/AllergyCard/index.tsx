@@ -6,11 +6,14 @@ import { erro } from "../../../styles/colors";
 
 interface Props {
   allergy: Allergy;
+  onPress: () => void;
 }
 
-const AllergyCard: React.FC<Props> = ({ allergy }) => {
+const AllergyCard: React.FC<Props> = ({ allergy, onPress }) => {
   return (
-    <View style={{ ...styles.container, backgroundColor: "#9B9B9B" }}>
+    <View
+      style={{ ...styles.container, backgroundColor: "#9B9B9B" }}
+    >
       <View style={styles.main}>
         <Text style={styles.allergyName}>{allergy.name}</Text>
         <View style={styles.datails}>
@@ -18,7 +21,7 @@ const AllergyCard: React.FC<Props> = ({ allergy }) => {
           <Text style={styles.allergyRisk}>{allergy.risk}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.options}>
+      <TouchableOpacity style={styles.options} onPress={onPress}>
         <MaterialIcons name="more-vert" color="#FFF" size={30} />
       </TouchableOpacity>
     </View>
@@ -31,16 +34,16 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: "auto",
     marginRight: "auto",
-    marginVertical: 5,
-    width: "90%",
+    marginVertical: 8,
     height: 72,
-    borderRadius: 10,
+    borderRadius: 4,
     flexDirection: "row",
     alignItems: "center",
     color: "#fff",
-    paddingHorizontal: 15,
+    paddingHorizontal: 12,
   },
   main: {
+    flex: 7,
     justifyContent: "center",
   },
   options: {
@@ -48,6 +51,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "flex-end",
   },
+
   allergyName: {
     color: "white",
     fontSize: 20,

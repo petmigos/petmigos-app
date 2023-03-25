@@ -1,11 +1,12 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Vaccine } from "../../../entities/vaccine";
 import { formatDate } from "./formatDate";
 
 interface Props {
   vaccine: Vaccine;
+  onPress: () => void;
 }
 
 const COLORS = {
@@ -15,7 +16,7 @@ const COLORS = {
   NONE: "#9B9B9B",
 };
 
-const VaccineCard: React.FC<Props> = ({ vaccine }) => {
+const VaccineCard: React.FC<Props> = ({ vaccine, onPress }) => {
   const colorStatus = getColorStatus(vaccine);
   function getColorStatus(vaccine: Vaccine): string {
     if (!vaccine.applied && vaccine.date < new Date()) return COLORS.HIGH;
@@ -41,9 +42,9 @@ const VaccineCard: React.FC<Props> = ({ vaccine }) => {
           em {vaccine.locale.name}
         </Text>
       </View>
-      <View style={styles.options}>
-        <MaterialIcons name="more-vert" color="#FFF" size={24} />
-      </View>
+      <TouchableOpacity style={styles.options} onPress={onPress}>
+        <MaterialIcons name="more-vert" color="#FFF" size={30} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginVertical: 8,
-    width: "90%",
     height: 72,
     borderRadius: 4,
     display: "flex",
@@ -64,7 +64,10 @@ const styles = StyleSheet.create({
     color: "#fff",
     paddingHorizontal: 12,
   },
-  main: {},
+  main: {
+    flex: 7,
+    justifyContent: "center",
+  },
   options: {
     flex: 1,
     display: "flex",
@@ -72,6 +75,7 @@ const styles = StyleSheet.create({
   },
   vaccineName: {
     color: "white",
+    fontSize: 20,
   },
   vaccineDate: {
     color: "white",

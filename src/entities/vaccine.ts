@@ -11,6 +11,6 @@ export interface Vaccine {
   applied: boolean;
   date: Date;
   pet?: Pet;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

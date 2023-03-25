@@ -11,6 +11,6 @@ export interface Allergy {
   name: string;
   risk: RiskEnum;
   pet?: Pet;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

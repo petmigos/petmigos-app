@@ -1,17 +1,17 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Button, Image, Pressable, StyleSheet, Switch, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import AllergyCard from "../../components/Cards/AllergyCard";
 import HygieneCard from "../../components/Cards/HygieneCard";
 import { Modal } from "../../components/Modal";
 import { Params } from "../Pets/navigation";
 import VaccineCard from "../../components/Cards/VaccineCard";
-import { Allergy } from "../../entities/allergy";
+import { Allergy, RiskEnum } from "../../entities/allergy";
 import { Hygiene } from "../../entities/hygiene";
 import { Pet } from "../../entities/pet";
-import { Vaccine } from "../../entities/vaccine";
+import { Locale, Vaccine } from "../../entities/vaccine";
 import { useModal } from "../../hooks/useModal";
 import { AllergyService } from "../../services/allergyService";
 import { HygieneService } from "../../services/hygieneService";
@@ -21,13 +21,26 @@ import { FindAll as FindAllAllergies } from "../../use_cases/allergies/FindAll";
 import { FindAll as FindAllHygienes } from "../../use_cases/hygienes/FindAll";
 import { FindById } from "../../use_cases/pets/FindById";
 import { FindAll as FindAllVaccines } from "../../use_cases/vaccines/FindAll";
-import { erro } from "../../styles/colors";
+import { alerta, erro, inputBackground, modalText, sucesso } from "../../styles/colors";
 import { AddButton } from "../../components/AddButton";
+import Checkbox from "expo-checkbox";
+import { CreateAllergy } from "../../use_cases/allergies/Create";
+import { CreateHygiene } from "../../use_cases/hygienes/Create";
+import { CreateVaccine } from "../../use_cases/vaccines/Create";
+import DatePicker from "react-native-date-picker";
+import { Picker } from "@react-native-picker/picker";
 
 const findById = new FindById(new PetService());
-const findAllAllergies = new FindAllAllergies(new AllergyService());
-const findAllHygienes = new FindAllHygienes(new HygieneService());
+
 const findAllVaccines = new FindAllVaccines(new VaccineService());
+const createVaccine = new CreateVaccine(new VaccineService());
+
+const findAllAllergies = new FindAllAllergies(new AllergyService());
+const createAllergy = new CreateAllergy(new AllergyService());
+
+const findAllHygienes = new FindAllHygienes(new HygieneService());
+const createHygiene = new CreateHygiene(new HygieneService());
+
 
 const PetDetails: React.FC = () => {
   const {
@@ -46,12 +59,46 @@ const PetDetails: React.FC = () => {
     visible: visibleAllergyModal,
   } = useModal(false);
 
+  const {
+    closeModal: closeVaccineRegisterModal,
+    openModal: openVaccineRegisterModal,
+    visible: visibleVaccineRegisterModal,
+  } = useModal(false);
+  const {
+    closeModal: closeHygieneRegisterModal,
+    openModal: openHygieneRegisterModal,
+    visible: visibleHygieneRegisterModal,
+  } = useModal(false);
+  const {
+    closeModal: closeAllergyRegisterModal,
+    openModal: openAllergyRegisterModal,
+    visible: visibleAllergyRegisterModal,
+  } = useModal(false);
+
   const route = useRoute<RouteProp<Params, "PetInfo">>();
   const { petId } = route.params;
   const [pet, setPet] = useState<Pet>();
+  const navigation = useNavigation();
+  
   const [vaccines, setVaccines] = useState<Vaccine[]>([]);
   const [allergies, setAllergies] = useState<Allergy[]>([]);
   const [hygienes, setHygienes] = useState<Hygiene[]>([]);
+
+  const [vaccineName, setVaccineName] = useState("");
+  const [vaccineDate, setVaccineDate] = useState(Date);
+  const [vaccinePlace, setVaccinePlace] = useState("");
+  const [isVaccineTaken, setVaccineTaken] = useState(false);
+  const toggleVaccineSwitch = () => setVaccineTaken((previousState) => !previousState);
+
+  const [hygieneCategory, setHygieneCategory] = useState("");
+  const [hygieneDescription, setHygieneDescription] = useState("");
+  const [hygieneDate, setHygieneDate] = useState(Date);
+  const [isHygieneTaken, setHygieneTaken] = useState(false);
+  const toggleHygieneSwitch = () => setHygieneTaken((previousState) => !previousState);
+
+  const [allergyName, setAllergyName] = useState("");
+  const [allergyRisk, setAllergyRisk] = useState<RiskEnum>(RiskEnum.LOW);
+
 
   useEffect(() => {
     async function fetch(id: string) {
@@ -69,25 +116,97 @@ const PetDetails: React.FC = () => {
   }, []);
 
   function renderVaccine(vaccine: Vaccine) {
-    return <VaccineCard key={vaccine._id || vaccine.name} vaccine={vaccine} />;
+    return (
+      <VaccineCard
+        key={vaccine._id || vaccine.name}
+        vaccine={vaccine}
+        onPress={Teste}
+      />
+    );
   }
 
   function renderHygiene(hygiene: Hygiene) {
     return (
-      <HygieneCard key={hygiene._id || hygiene.description} hygiene={hygiene} />
+      <HygieneCard
+        key={hygiene._id || hygiene.description}
+        hygiene={hygiene}
+        onPress={Teste}
+      />
     );
   }
 
-  function renderAllergy(allergy: Allergy) {
-    return <AllergyCard key={allergy._id || allergy.name} allergy={allergy} />;
+  function Teste() {
+    console.log("Teste");
   }
 
-  if (pet === undefined)
+  function renderAllergy(allergy: Allergy) {
+    return <AllergyCard 
+      key={allergy._id || allergy.name} 
+      allergy={allergy} 
+      onPress={Teste}/>;
+  }
+
+  if (pet === undefined){
     return (
       <View style={styles.container}>
         <Text>Carregando informações do seu pet...</Text>
       </View>
     );
+  }
+  
+  async function SendData() {
+    if (visibleVaccineRegisterModal) {
+      console.log("Vacina");
+      const vaccinedate: Date = new Date(vaccineDate);
+      const locale: Locale = {
+        name: vaccinePlace,
+      } 
+      const vaccine: Vaccine = {
+        name : vaccineName,
+        locale: locale,
+        applied: isVaccineTaken,
+        date: vaccinedate,
+      };
+      const createdVaccine = await createVaccine.execute(vaccine, petId);
+      Alert.alert("Sucesso!", "Vacina cadastrado!", [
+        {
+          text: "Voltar a Vacinas",
+          onPress: closeVaccineRegisterModal,
+        },
+      ]);
+      
+    } else if (visibleHygieneRegisterModal){
+      console.log("Higiene");
+      const hygienedate: Date = new Date(hygieneDate);
+      const hygiene: Hygiene = {
+        category: hygieneCategory,
+        description: hygieneDescription,
+        done: isHygieneTaken,
+        date: hygienedate,
+      };
+
+      const createdHygiene = await createHygiene.execute(hygiene, petId);
+      Alert.alert("Sucesso!", "Higiene cadastrada!", [
+        {
+          text: "Voltar a Higienes",
+          onPress: closeHygieneRegisterModal,
+        },
+      ]);
+    } else if (visibleAllergyRegisterModal) {
+      console.log("Alergia");
+      const allergy: Allergy = {
+        name: allergyName,
+        risk: allergyRisk,
+      };
+      const createdAllegy = await createAllergy.execute(allergy, petId);
+      Alert.alert("Sucesso!", "Higiene cadastrada!", [
+        {
+          text: "Voltar a Alergias",
+          onPress: closeHygieneRegisterModal,
+        },
+      ]);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -109,38 +228,30 @@ const PetDetails: React.FC = () => {
         </View>
       </View>
       <View style={styles.actions}>
-        <Pressable onPress={openVaccineModal}>
+        <TouchableOpacity onPress={openVaccineModal}>
           <View style={styles.actionButton}>
             <Text style={styles.buttonText}>Vacinas</Text>
           </View>
-        </Pressable>
-        <Pressable onPress={openAllergyModal}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={openAllergyModal}>
           <View style={styles.actionButton}>
             <Text style={styles.buttonText}>Alergias</Text>
           </View>
-        </Pressable>
-        <Pressable onPress={openHygieneModal}>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={openHygieneModal}>
           <View style={styles.actionButton}>
             <Text style={styles.buttonText}>Higienes</Text>
           </View>
-        </Pressable>
+        </TouchableOpacity>
       </View>
+      {/* Show Modal */}
       <Modal visible={visibleVaccineModal}>
         <View style={styles.modalContainer}>
           <View style={styles.modalHeader}>
             <Pressable onPress={closeVaccineModal} style={{ width: "10%" }}>
               <MaterialIcons name="close" color="#915E36" size={28} />
             </Pressable>
-            <Text
-              style={{
-                width: "80%",
-                textAlign: "center",
-                fontWeight: "500",
-                fontSize: 25,
-              }}
-            >
-              Vacinas
-            </Text>
+            <Text style={styles.modalText}>Vacinas</Text>
           </View>
           <View style={styles.modalMain}>
             <FlatList
@@ -149,7 +260,7 @@ const PetDetails: React.FC = () => {
             />
           </View>
           <View style={styles.button}>
-            <AddButton onPress={closeAllergyModal} />
+            <AddButton onPress={openVaccineRegisterModal} />
           </View>
         </View>
       </Modal>
@@ -159,16 +270,7 @@ const PetDetails: React.FC = () => {
             <Pressable onPress={closeHygieneModal} style={{ width: "10%" }}>
               <MaterialIcons name="close" color="#915E36" size={28} />
             </Pressable>
-            <Text
-              style={{
-                width: "80%",
-                textAlign: "center",
-                fontWeight: "500",
-                fontSize: 25,
-              }}
-            >
-              Higiene
-            </Text>
+            <Text style={styles.modalText}>Higiene</Text>
           </View>
           <View style={styles.modalMain}>
             <FlatList
@@ -177,7 +279,7 @@ const PetDetails: React.FC = () => {
             />
           </View>
           <View style={styles.button}>
-            <AddButton onPress={closeAllergyModal} />
+            <AddButton onPress={openHygieneRegisterModal} />
           </View>
         </View>
       </Modal>
@@ -187,16 +289,7 @@ const PetDetails: React.FC = () => {
             <Pressable onPress={closeAllergyModal} style={{ width: "10%" }}>
               <MaterialIcons name="close" color="#915E36" size={28} />
             </Pressable>
-            <Text
-              style={{
-                width: "80%",
-                textAlign: "center",
-                fontWeight: "500",
-                fontSize: 25,
-              }}
-            >
-              Alergias
-            </Text>
+            <Text style={styles.modalText}>Alergias</Text>
           </View>
           <View style={styles.modalMain}>
             <FlatList
@@ -205,7 +298,151 @@ const PetDetails: React.FC = () => {
             />
           </View>
           <View style={styles.button}>
-            <AddButton onPress={closeAllergyModal} />
+            <AddButton onPress={openAllergyRegisterModal} />
+          </View>
+        </View>
+      </Modal>
+
+      {/* Create Modal */}
+      <Modal visible={visibleVaccineRegisterModal}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Pressable
+              onPress={closeVaccineRegisterModal}
+              style={{ width: "10%" }}
+            >
+              <MaterialIcons name="arrow-back" color="#915E36" size={28} />
+            </Pressable>
+            <Text style={styles.modalText}>Adicionar Vacina</Text>
+          </View>
+          <View style={styles.modalMain}>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Nome"
+              onChangeText={(name) => setVaccineName(name)}
+            ></TextInput>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Data (yy-mm-dd)"
+              onChangeText={(date) => setVaccineName(date)}
+            ></TextInput>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Local"
+              onChangeText={(place) => setVaccinePlace(place)}
+            ></TextInput>
+            <View style={styles.check_box_container}>
+              <Switch
+                trackColor={{ false: alerta, true: sucesso }}
+                thumbColor={"#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleVaccineSwitch}
+                value={isVaccineTaken}
+              />
+              {isVaccineTaken == false ? (
+                <Text style={styles.label}>Não tomada</Text>
+              ) : (
+                <Text style={styles.label}>Tomada</Text>
+              )}
+            </View>
+            <TouchableOpacity onPress={SendData}>
+              <View style={styles.actionButtonModal}>
+                <Text style={styles.buttonTextModal}>CADASTRAR VACINA</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={visibleHygieneRegisterModal}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Pressable
+              onPress={closeHygieneRegisterModal}
+              style={{ width: "10%" }}
+            >
+              <MaterialIcons name="arrow-back" color="#915E36" size={28} />
+            </Pressable>
+            <Text style={styles.modalText}>Adicionar Higiene</Text>
+          </View>
+          <View style={styles.modalMain}>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Categoria"
+              onChangeText={(name) => setHygieneCategory(name)}
+            ></TextInput>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Descrição"
+              onChangeText={(date) => setHygieneDescription(date)}
+            ></TextInput>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Data (yy-mm-dd)"
+              onChangeText={(date) => setHygieneDate(date)}
+            ></TextInput>
+            <View style={styles.check_box_container}>
+              <Switch
+                trackColor={{ false: alerta, true: sucesso }}
+                thumbColor={"#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleVaccineSwitch}
+                value={isVaccineTaken}
+              />
+              {isVaccineTaken == false ? (
+                <Text style={styles.label}>A fazer</Text>
+              ) : (
+                <Text style={styles.label}>Feito</Text>
+              )}
+            </View>
+
+            <TouchableOpacity onPress={SendData}>
+              <View style={styles.actionButtonModal}>
+                <Text style={styles.buttonTextModal}>CADASTRAR HIGIENE</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal visible={visibleAllergyRegisterModal}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Pressable
+              onPress={closeAllergyRegisterModal}
+              style={{ width: "10%" }}
+            >
+              <MaterialIcons name="arrow-back" color="#915E36" size={28} />
+            </Pressable>
+            <Text style={styles.modalText}>Adicionar Alergia</Text>
+          </View>
+          <View style={styles.modalMain}>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Alergia"
+              onChangeText={(name) => setAllergyName(name)}
+            ></TextInput>
+            {/* <TextInput
+              style={styles.input_box}
+              placeholder="Gravidade"
+              onChangeText={(date) => setAllergyRisk(date)}
+            ></TextInput> */}
+            <View style={styles.picker}>
+              <Picker
+                selectedValue={allergyRisk}
+                style={styles.pickCategory}
+                onValueChange={(itemValue) => setAllergyRisk(itemValue)}
+              >
+                <Picker.Item value={RiskEnum.LOW} label="Baixo" />
+                <Picker.Item value={RiskEnum.MODERATE} label="Moderado" />
+                <Picker.Item value={RiskEnum.HIGH} label="Alto" />
+              </Picker>
+            </View>
+            <TouchableOpacity onPress={SendData}>
+              <View style={styles.actionButtonModal}>
+                <Text style={styles.buttonTextModal}>CADASTRAR ALERGIA</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -270,6 +507,12 @@ const styles = StyleSheet.create({
     color: "#7B4D28",
   },
 
+  buttonTextModal: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: modalText,
+  },
+
   divisor: {
     width: 200,
     height: 1,
@@ -283,7 +526,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
   },
-  
+
   modalHeader: {
     display: "flex",
     flex: 1,
@@ -293,12 +536,77 @@ const styles = StyleSheet.create({
   },
   modalMain: {
     flex: 10,
+    marginHorizontal: 15,
+  },
+
+  modalText: {
+    width: "80%",
+    textAlign: "center",
+    fontWeight: "500",
+    fontSize: 25,
+    color: modalText,
+  },
+
+  actionButtonModal: {
+    height: 50,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#7B4D28",
+    color: "#7B4D28",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+
+  input_box: {
+    height: 57,
+    marginTop: 20,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: "#DCDCDC",
+    borderRadius: 6,
+    opacity: 0.5,
+    fontSize: 18,
+    borderColor: "#fff",
+  },
+
+  check_box_container: {
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexDirection: "row",
+  },
+
+  label: {
+    margin: 10,
+    fontSize: 20,
+    color: modalText,
+    fontWeight: "bold",
+  },
+
+  checkbox: {
+    alignSelf: "flex-start",
+    margin: 10,
+    width: 30,
+    height: 30,
   },
 
   button: {
     alignItems: "center",
     flex: 1.5,
   },
+
+  picker: {
+    borderRadius: 10,
+    overflow: "hidden",
+    opacity: 0.5,
+    backgroundColor: inputBackground,
+    marginBottom: 20,
+    marginTop: 20,
+  },
+
+  pickCategory: {},
+  
 });
 
 export default PetDetails;
