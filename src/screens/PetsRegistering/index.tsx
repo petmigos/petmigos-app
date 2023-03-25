@@ -4,6 +4,7 @@ import { background, inputBackground, primary } from "../../styles/colors";
 import { useState } from "react";
 import {
   SetImage,
+  result
 } from "../../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
 import { ButtonGroup } from "react-native-elements";
@@ -12,38 +13,57 @@ import { id_user } from "../Auth/LoginScreen";
 import { useNavigation } from "@react-navigation/native";
 import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
 import DateField from 'react-native-datefield';
+import { CreatePet } from "../../use_cases/pets/Create";
+import { PetService } from "../../services/petService";
+
+var cadastroPet = new CreatePet(new PetService());
+
 
 const RegisterPets: React.FC = () => {
   const navigation = useNavigation();
   const [name, setName] = useState("");
-  const userId = id_user;
+  const ownerId = id_user;
   const [showMessageError, setShowMessageError] = useState(false);
   const [messageError, setMessageError] = useState("");
-  const [category, setCategory] = useState("Acessorios");
+  const [type, setType] = useState("Acessorios");
+  const [birthday, setBirthday] = useState(new Date())
   const [textTag, setTextTag] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [tags, setTags] = useState([]);
-  const [tag, setTag] = useState("")
+  const [gender, setGender] = useState("Macho");
+  const [features, setFeatures] = useState([]);
+  const [tag, setTag] = useState("");
 
 
   const handleAddItem = (tag: string) => {
 
     if (tag !== "")
     {
-      const newTag = { id: tags.length + 1, name: `${tag}` };
-      setTags([...tags, newTag]);
+      const newTag = { id: features.length + 1, name: `${tag}` };
+      setFeatures([...features, newTag]);
     }
 
-    console.log(tags);
+    console.log(features);
 
   };
 
   const handleTagDelete = (tagToDelete) => {
-    const newTags = tags.filter(tag => tag !== tagToDelete);
-    setTags(newTags);
+    const newTags = features.filter(tag => tag !== tagToDelete);
+    setFeatures(newTags);
   }
   
-  
+  function petGender() {
+      
+        if (selectedIndex == 0)
+      {
+        setGender("Macho")
+      }
+
+      else
+      {
+        setGender("Fêmea")
+      }
+
+  }
   
   const ListItem = ({ item }) => {
     return (
@@ -57,11 +77,33 @@ const RegisterPets: React.FC = () => {
   };
 
   async function SendData() {
-    console.log("enviou para o banco");
+
+    try {
+      const source = {
+        uri: result.assets[0].uri,
+        type: `test/${result.assets[0].uri.split(".")[1]}`,
+        name: `test.${result.assets[0].uri.split(".")[1]}`,
+      };
+
+      const image_upl = await cadastroPet.uploadImg(source);
+      const image = image_upl.toString();
+      const tags = features.map(item => item.name);
+      console.log(tags);
+    
+      await cadastroPet.execute({
+        ownerId, name, type, birthday, gender, tags, image,
+      });
+      setShowMessageError(false);
+
+      navigation.goBack();
+    } catch (error: any) {
+      setShowMessageError(true);
+      setMessageError(error.message);
+    }
   }
 
-  function CategoryChange(itemValue: string) {
-    setCategory(itemValue);
+  function TypeChange(itemValue: string) {
+    setType(itemValue);
   }
 
   return (
@@ -82,9 +124,9 @@ const RegisterPets: React.FC = () => {
     
         <View style={styles.picker}>
           <Picker
-            selectedValue={category}
+            selectedValue={type}
             style={styles.pickCategory}
-            onValueChange={(itemValue) => CategoryChange(itemValue)}
+            onValueChange={(itemValue) => TypeChange(itemValue)}
           >
             <Picker.Item value="Cachorro" label="Cachorro" />
             <Picker.Item value="Gato" label="Gato" />
@@ -101,7 +143,7 @@ const RegisterPets: React.FC = () => {
          labelMonth="Mês"
          labelYear="Ano"
          styleInput={styles.inputDate}
-         onSubmit={(value) => console.log(value)}
+         onSubmit={(value) => {console.log(value), setBirthday(value)}}
          />
  
         <Text style={styles.bodyTitle}>Gênero</Text>
@@ -131,7 +173,7 @@ const RegisterPets: React.FC = () => {
           <Text style={styles.addTagText}>Adicionar</Text>
         </TouchableOpacity>
         <FlatList
-        data={tags}
+        data={features}
         renderItem={({ item }) => <ListItem item={item}/>}
         keyExtractor={item => item.id.toString()}
         numColumns={3}
