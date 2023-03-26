@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, TextInput, View, StyleSheet, FlatList, Dimensions, Button } from "react-native";
-import { background, inputBackground, primary } from "../../styles/colors";
+import { background, erro, inputBackground, primary } from "../../styles/colors";
 import { useState } from "react";
 import {
   SetImage,
@@ -29,7 +29,7 @@ const RegisterPets: React.FC = () => {
   const [birthday, setBirthday] = useState(new Date())
   const [textTag, setTextTag] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [gender, setGender] = useState("Macho");
+  const [gender, setGender] = useState("Male");
   const [features, setFeatures] = useState([]);
   const [tag, setTag] = useState("");
 
@@ -53,15 +53,15 @@ const RegisterPets: React.FC = () => {
   
   function petGender() {
       
-        if (selectedIndex == 0)
-      {
-        setGender("Macho")
-      }
+    if (selectedIndex == 0)   
+    {
+      setGender("Male")
+    }
 
-      else
-      {
-        setGender("Fêmea")
-      }
+    else
+    {
+      setGender("Female")
+    }
 
   }
   
@@ -88,7 +88,7 @@ const RegisterPets: React.FC = () => {
       const image_upl = await cadastroPet.uploadImg(source);
       const image = image_upl.toString();
       const tags = features.map(item => item.name);
-      console.log(tags);
+      petGender();
     
       await cadastroPet.execute({
         ownerId, name, type, birthday, gender, tags, image,
@@ -109,8 +109,8 @@ const RegisterPets: React.FC = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
-        <SetImage image="../../assets/user_icon.png"/>
-        <Text style={styles.topText}>Informações</Text>
+        <SetImage image="../../assets/user_icon.png" />
+        <Text style={styles.topText}>Informações do Pet</Text>
       </View>
 
       {showMessageError && <ValidationMessage error_text={messageError} />}
@@ -121,7 +121,7 @@ const RegisterPets: React.FC = () => {
           placeholder="Nome"
           onChangeText={(text) => setName(text)}
         ></TextInput>
-    
+
         <View style={styles.picker}>
           <Picker
             selectedValue={type}
@@ -135,17 +135,19 @@ const RegisterPets: React.FC = () => {
             <Picker.Item value="Outro" label="Outro" />
           </Picker>
         </View>
-    
+
         <Text style={styles.bodyTitle}>Data de Nascimento</Text>
 
         <DateField
-         labelDate="Dia"
-         labelMonth="Mês"
-         labelYear="Ano"
-         styleInput={styles.inputDate}
-         onSubmit={(value) => {console.log(value), setBirthday(value)}}
-         />
- 
+          labelDate="Dia"
+          labelMonth="Mês"
+          labelYear="Ano"
+          styleInput={styles.inputDate}
+          onSubmit={(value) => {
+            console.log(value), setBirthday(value);
+          }}
+        />
+
         <Text style={styles.bodyTitle}>Gênero</Text>
 
         <ButtonGroup
@@ -155,31 +157,35 @@ const RegisterPets: React.FC = () => {
           onPress={(value) => {
             setSelectedIndex(value);
           }}
-          containerStyle={{ marginTop: 40}}
+          containerStyle={{ marginTop: 40 }}
         />
 
         <Text style={styles.bodyTitle}>Tags</Text>
         <View style={styles.tagContainer}>
-        <TextInput
-          style={styles.input_box_tag}
-          placeholder="Tag"
-          value={`${textTag}`}
-          onChangeText={(text) => {setTag(text), setTextTag(text)}}
-        ></TextInput>
-        <TouchableOpacity
-          style={styles.addTagButton}
-          onPress={() => {handleAddItem(tag), setTextTag("")}}
-        >
-          <Text style={styles.addTagText}>Adicionar</Text>
-        </TouchableOpacity>
-        <FlatList
-        data={features}
-        renderItem={({ item }) => <ListItem item={item}/>}
-        keyExtractor={item => item.id.toString()}
-        numColumns={3}
-        contentContainerStyle={styles.listContainer}
-        />
+          <TextInput
+            style={styles.input_box_tag}
+            placeholder="Tag"
+            value={`${textTag}`}
+            onChangeText={(text) => {
+              setTag(text), setTextTag(text);
+            }}
+          ></TextInput>
+          <TouchableOpacity
+            style={styles.addTagButton}
+            onPress={() => {
+              handleAddItem(tag), setTextTag("");
+            }}
+          >
+            <Text style={styles.addTagText}>Adicionar</Text>
+          </TouchableOpacity>
         </View>
+        <FlatList
+          data={features}
+          renderItem={({ item }) => <ListItem item={item} />}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={3}
+          contentContainerStyle={styles.listContainer}
+        />
 
         <TouchableOpacity
           style={styles.registerButton}
@@ -193,184 +199,178 @@ const RegisterPets: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: background,
-      },
-    
-      topContainer: {
-        flex: 1.1,
-        backgroundColor: background,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        marginBottom: 10,
-        top: 40,
-      },
+  container: {
+    flex: 1,
+    backgroundColor: background,
+  },
 
-      topText: {
-        fontSize: 25,
-        fontWeight: "bold",
-        marginTop: 40,
-        marginBottom: 0,
-        top: -30,
-        right: 105,
-      },
+  topContainer: {
+    flex: 1.1,
+    backgroundColor: background,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginBottom: 10,
+    marginTop: 30,
+  },
 
-      bodyTitle: {
-        fontSize: 25,
-        fontWeight: "bold",
-        top: 20,
-      },
-    
-      middleScreen: {
-        flex: 2,
-        backgroundColor: background,
-        marginRight: 20,
-        marginLeft: 20,
-      },
-    
-      selectList: {
-        margin: 20,
-      },
-    
-      input_box: {
-        marginTop: 20,
-        borderWidth: 1,
-        padding: 10,
-        backgroundColor: inputBackground,
-        borderRadius: 6,
-        opacity: 0.5,
-        fontSize: 18,
-        borderColor: "#fff",
-      },
+  topText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    marginTop: 40,
+    textAlign: "right",
+  },
 
-      input_box_tag:{
-        marginTop: 20,
-        borderWidth: 1,
-        padding: 10,
-        backgroundColor: inputBackground,
-        borderRadius: 6,
-        opacity: 0.5,
-        fontSize: 18,
-        borderColor: "#fff",
-        width: 200,
-      },
-    
-      input_box_desc: {
-        marginTop: 20,
-        borderWidth: 1,
-        padding: 10,
-        backgroundColor: inputBackground,
-        borderRadius: 6,
-        opacity: 0.5,
-        fontSize: 18,
-        borderColor: "#fff",
-        height: 200,
-      },
-    
-      picker: {
-        borderRadius: 10,
-        overflow: "hidden",
-        opacity: 0.5,
-        backgroundColor: inputBackground,
-        marginTop: 20,
-      },
-    
-    
-      pickCategory: {},
-    
-      registerButton: {
-        backgroundColor: "#915E36",
-        height: 56,
-        // fontFamily: 'Ubuntu-Bold',
-        fontStyle: "normal",
-        alignItems: "center",
-        textAlign: "center",
-        marginTop: 20,
-        marginBottom: 60,
-        borderRadius: 5,
-        resizeMode: "contain",
-      },
+  bodyTitle: {
+    fontSize: 25,
+    fontWeight: "bold",
+    top: 20,
+  },
 
-      addTagButton: {
-        backgroundColor: "#E29417",
-        height: 45,
-        // fontFamily: 'Ubuntu-Bold',
-        fontStyle: "normal",
-        alignItems: "center",
-        textAlign: "center",
-        width: 150,
-        bottom: 48,
-        left: 210,
-        borderRadius: 5,
-        resizeMode: "contain",
-        marginBottom: -30,
-      },
-    
-      gettingText: {
-        fontSize: 18,
-        fontWeight: "bold",
-        top: 15,
-        color: "#FFFFFF",
-      },
+  middleScreen: {
+    flex: 2,
+    backgroundColor: background,
+    marginHorizontal: 20,
+  },
 
-      addTagText: {
-        fontSize: 18,
-        fontWeight: "bold",
-        top: 8.8,
-        color: "#FFFFFF",
-      },
+  selectList: {
+    margin: 20,
+  },
 
-      enable: {
-        backgroundColor: primary,
-    },
+  input_box: {
+    marginTop: 20,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: inputBackground,
+    borderRadius: 6,
+    opacity: 0.5,
+    fontSize: 18,
+    borderColor: "#fff",
+  },
 
-    tagContainer: {
-      marginTop: 20,
-      marginBottom: 10,
-      
-    },
+  tagContainer: {
+    marginVertical: 20,
+    paddingVertical: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    alignContent: "center",
+  },
 
-    tagText: {
-      color: "#dba87f",
-      top: 9,
-    },
+  input_box_tag: {
+    flex: 5,
+    height: 50,
+    borderWidth: 1,
+    backgroundColor: inputBackground,
+    padding: 10,
+    borderRadius: 6,
+    opacity: 0.5,
+    fontSize: 18,
+    borderColor: "#fff",
+  },
 
-    listContainer: {
-      paddingHorizontal: 5,
-      paddingVertical: 10,
-      bottom: 10,
-    },
+  addTagButton: {
+    flex: 3,
+    height: 50,
+    margin: 5,
+    backgroundColor: "#E29417",
+    fontStyle: "normal",
+    alignItems: "center",
+    textAlign: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+  },
 
-    item: {
-      width: 110,
-      height: 35,
-      backgroundColor: '#fff',
-      borderColor: '#dba87f',
-      borderWidth: 2,
-      borderRadius: 7,
-      marginHorizontal: 5,
-      marginVertical: 5,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+  addTagText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
 
-    deleteButton: {
-      marginLeft: 90,
-      color: "gray",
-      bottom: 20,
-    },
+  input_box_desc: {
+    marginTop: 20,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: inputBackground,
+    borderRadius: 6,
+    opacity: 0.5,
+    fontSize: 18,
+    borderColor: "#fff",
+    height: 200,
+  },
 
-    inputDate: {
-      width: '30%',
-      borderRadius: 8,
-      borderColor: '#cacaca',
-      borderWidth: 1,
-      backgroundColor: inputBackground,
-      marginTop: 40,
-    },
-    
+  picker: {
+    borderRadius: 10,
+    overflow: "hidden",
+    opacity: 0.5,
+    backgroundColor: inputBackground,
+    marginTop: 20,
+  },
 
+  pickCategory: {},
+
+  registerButton: {
+    backgroundColor: "#915E36",
+    height: 56,
+    // fontFamily: 'Ubuntu-Bold',
+    fontStyle: "normal",
+    alignItems: "center",
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 60,
+    borderRadius: 5,
+    resizeMode: "contain",
+  },
+
+  gettingText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    top: 15,
+    color: "#FFFFFF",
+  },
+
+  enable: {
+    backgroundColor: primary,
+  },
+
+  tagText: {
+    color: "#dba87f",
+    top: 9,
+  },
+
+  listContainer: {
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+    bottom: 10,
+  },
+
+  item: {
+    width: 110,
+    height: 35,
+    backgroundColor: "#fff",
+    borderColor: "#dba87f",
+    borderWidth: 2,
+    borderRadius: 7,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  deleteButton: {
+    marginLeft: 90,
+    marginTop: 5,
+    color: "gray",
+    bottom: 20,
+  },
+
+  inputDate: {
+    width: "30%",
+    borderRadius: 8,
+    borderColor: "#cacaca",
+    borderWidth: 1,
+    backgroundColor: inputBackground,
+    marginTop: 40,
+  },
 });
 
 export default RegisterPets;

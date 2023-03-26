@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Hygiene } from "../../../entities/hygiene";
 import { formatDate } from "./formatDate";
 import { erro } from "../../../styles/colors";
+import { diff } from "date-arithmetic";
 
 interface Props {
   hygiene: Hygiene;
@@ -11,25 +12,26 @@ interface Props {
 }
 
 const COLORS = {
-  HIGH: "#D65B5B",
-  ALERT: "#FFAD33",
-  LOW: "#6AA55C",
+  DONE: "#6AA55C",
+  LATE: "#D65B5B",
+  COMING: "#FFAD33",
   NONE: "#9B9B9B",
 };
 
 const HygieneCard: React.FC<Props> = ({ hygiene, onPress }) => {
-  const colorStatus = getColorStatus(hygiene);
   function getColorStatus(hygiene: Hygiene): string {
-    if (!hygiene.done && hygiene.date < new Date()) return COLORS.HIGH;
-    if (hygiene.done) return COLORS.LOW;
     if (
-      new Date(hygiene.date).getDay() === new Date().getDay() &&
-      new Date(hygiene.date).getMonth() === new Date().getMonth() &&
-      new Date(hygiene.date).getFullYear() === new Date().getFullYear()
+      !hygiene.done &&
+      new Date(hygiene.date).getDate() < new Date().getDate()
     )
-      return COLORS.ALERT;
+      return COLORS.LATE;
+    if (!hygiene.done && diff(new Date(), new Date(hygiene.date), "day") < 5)
+      return COLORS.COMING;
+    if (hygiene.done) return COLORS.DONE;
     return COLORS.NONE;
-  }
+    }
+    
+  const colorStatus = getColorStatus(hygiene);
   return (
     <View style={{ ...styles.container, backgroundColor: colorStatus }}>
       <View style={styles.main}>

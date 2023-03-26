@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -21,18 +21,21 @@ import { id_user } from "../Auth/LoginScreen";
 
 const fetchAll = new FetchAll(new PetService());
 
-const ListPets: React.FC = () => {
+const ListPets: React.FC = (props) => {
   const navigation = useNavigation<PetDetailNavigationProp>();
   const [pets, setPets] = useState<Pet[]>([]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    async function fetch() {
-      const allPets = await fetchAll.execute(id_user);
-      setPets(allPets);
+    if(isFocused) {
+      async function fetch() {
+        const allPets = await fetchAll.execute(id_user);
+        setPets(allPets);
+      }
+  
+      fetch();
     }
-
-    fetch();
-  }, []);
+  }, [props, isFocused]);
 
   function onPressPet(pet: Pet) {
     navigation.navigate("PetInfo", { petId: pet._id });

@@ -22,7 +22,7 @@ const PetCard: React.FC<Pet> = ({ birthday, gender, image, name }) => {
         <Text style={styles.pet_age}>{formatDate(birthday)}</Text>
       </View>
       <View style={styles.pet_gender}>
-        {gender === "Macho" ? (
+        {gender === "Male" ? (
           <Ionicons name="male-outline" size={20} color="#7FB2DB" />
         ) : (
           <Ionicons name="female-outline" size={20} color="#EC0791" />

@@ -77,6 +77,12 @@ const PetDetails: React.FC = (props) => {
     visible: visibleAllergyRegisterModal,
   } = useModal(false);
 
+  const {
+    closeModal: closeVaccineOptionsModal,
+    openModal: openVaccineOptionsModal,
+    visible: visibleVaccineOptionsModal,
+  } = useModal(false);
+
   const route = useRoute<RouteProp<Params, "PetInfo">>();
   const { petId } = route.params;
 
@@ -88,14 +94,14 @@ const PetDetails: React.FC = (props) => {
   const [hygienes, setHygienes] = useState<Hygiene[]>([]);
 
   const [vaccineName, setVaccineName] = useState("");
-  const [vaccineDate, setVaccineDate] = useState(Date);
+  const [vaccineDate, setVaccineDate] = useState<Date>();
   const [vaccinePlace, setVaccinePlace] = useState("");
   const [isVaccineTaken, setVaccineTaken] = useState(false);
   const toggleVaccineSwitch = () => setVaccineTaken((previousState) => !previousState);
 
   const [hygieneCategory, setHygieneCategory] = useState("");
   const [hygieneDescription, setHygieneDescription] = useState("");
-  const [hygieneDate, setHygieneDate] = useState(Date);
+  const [hygieneDate, setHygieneDate] = useState<Date>();
   const [isHygieneTaken, setHygieneTaken] = useState(false);
   const toggleHygieneSwitch = () => setHygieneTaken((previousState) => !previousState);
 
@@ -124,14 +130,63 @@ const PetDetails: React.FC = (props) => {
 
   }, [props, isFocused]);
 
+  function Teste1() {
+    console.log("Teste 1");
+  }
+
+  function Teste2() {
+    console.log("Teste 2");
+  }
+
   function renderVaccine(vaccine: Vaccine) {
     return (
       <VaccineCard
         key={vaccine._id || vaccine.name}
         vaccine={vaccine}
-        onPress={Teste}
+        onPress={() => VaccineOptionsModal(vaccine._id)}
       />
     );
+  }
+
+  function VaccineOptionsModal(id_vaccine: string) {
+    Alert.alert("Opções", "O que deseja fazer com esta vacina?", [
+      {
+        text: "Deletar",
+        onPress: () => VaccineDeleteModal(id_vaccine),
+      },
+      {
+        text: "Editar Status",
+        onPress: () => VaccineEditModal,
+      },
+    ]);
+  }
+
+  function VaccineDeleteModal(id_vaccine: string) {
+    Alert.alert("Deletar", "Deseja realmente deletar esta vacina?", [
+      {
+        text: "Cancelar",
+        onPress: Teste2,
+        style: "cancel",
+      },
+      {
+        text: "Deletar",
+        onPress: Teste1,
+      },
+    ]);
+  }
+
+  function VaccineEditModal(id_vaccine: string) {
+    Alert.alert("Status da Vacina", "A vacina já foi tomada?", [
+      {
+        text: "Não",
+        onPress: Teste1,
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: Teste2,
+      },
+    ]);
   }
 
   function renderHygiene(hygiene: Hygiene) {
@@ -139,20 +194,19 @@ const PetDetails: React.FC = (props) => {
       <HygieneCard
         key={hygiene._id || hygiene.description}
         hygiene={hygiene}
-        onPress={Teste}
+        onPress={() => Teste1(hygiene._id)}
       />
     );
   }
 
-  function Teste() {
-    console.log("Teste");
-  }
-
   function renderAllergy(allergy: Allergy) {
-    return <AllergyCard 
-      key={allergy._id || allergy.name} 
-      allergy={allergy} 
-      onPress={Teste}/>;
+    return (
+      <AllergyCard
+        key={allergy._id || allergy.name}
+        allergy={allergy}
+        onPress={() => Teste1(allergy._id)}
+      />
+    );
   }
 
   if (pet === undefined){
@@ -165,8 +219,6 @@ const PetDetails: React.FC = (props) => {
   
   async function SendData() {
     if (visibleVaccineRegisterModal) {
-      console.log("Vacina");
-      const vaccinedate: Date = new Date(vaccineDate);
       const locale: Locale = {
         name: vaccinePlace,
       } 
@@ -174,7 +226,7 @@ const PetDetails: React.FC = (props) => {
         name : vaccineName,
         locale: locale,
         applied: isVaccineTaken,
-        date: vaccinedate,
+        date: vaccineDate,
       };
       const createdVaccine = await createVaccine.execute(vaccine, petId);
       Alert.alert("Sucesso!", "Vacina cadastrado!", [
@@ -333,7 +385,9 @@ const PetDetails: React.FC = (props) => {
             <TextInput
               style={styles.input_box}
               placeholder="Data (yy-mm-dd)"
-              onChangeText={(date) => setVaccineDate(date)}
+              onChangeText={(date) =>
+                setVaccineDate(new Date(date + "T23:59:59"))
+              }
             ></TextInput>
             <TextInput
               style={styles.input_box}
@@ -388,7 +442,9 @@ const PetDetails: React.FC = (props) => {
             <TextInput
               style={styles.input_box}
               placeholder="Data (yy-mm-dd)"
-              onChangeText={(date) => setHygieneDate(date)}
+              onChangeText={(date) =>
+                setHygieneDate(new Date(date + "T23:59:59"))
+              }
             ></TextInput>
             <View style={styles.check_box_container}>
               <Switch
@@ -453,6 +509,58 @@ const PetDetails: React.FC = (props) => {
               </View>
             </TouchableOpacity>
           </View>
+        </View>
+      </Modal>
+
+      <Modal visible={visibleVaccineOptionsModal}>
+        <View style={styles.modalOptionsContainer}>
+          <View style={styles.modalOptionsHeader}>
+            <Pressable
+              onPress={closeVaccineOptionsModal}
+              style={{ width: "10%" }}
+            >
+              <MaterialIcons name="arrow-back" color="#915E36" size={28} />
+            </Pressable>
+            <Text style={styles.modalText}>Deletar Vacina</Text>
+          </View>
+          {/* <View style={styles.modalMain}>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Nome"
+              onChangeText={(name) => setVaccineName(name)}
+            ></TextInput>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Data (yy-mm-dd)"
+              onChangeText={(date) =>
+                setVaccineDate(new Date(date + "T23:59:59"))
+              }
+            ></TextInput>
+            <TextInput
+              style={styles.input_box}
+              placeholder="Local"
+              onChangeText={(place) => setVaccinePlace(place)}
+            ></TextInput>
+            <View style={styles.check_box_container}>
+              <Switch
+                trackColor={{ false: alerta, true: sucesso }}
+                thumbColor={"#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={toggleVaccineSwitch}
+                value={isVaccineTaken}
+              />
+              {isVaccineTaken == false ? (
+                <Text style={styles.label}>Não tomada</Text>
+              ) : (
+                <Text style={styles.label}>Tomada</Text>
+              )}
+            </View>
+            <TouchableOpacity onPress={SendData}>
+              <View style={styles.actionButtonModal}>
+                <Text style={styles.buttonTextModal}>CADASTRAR VACINA</Text>
+              </View>
+            </TouchableOpacity>
+          </View> */}
         </View>
       </Modal>
     </View>
@@ -615,7 +723,22 @@ const styles = StyleSheet.create({
   },
 
   pickCategory: {},
-  
+
+  modalOptionsContainer: {
+    width: "90%",
+    height: "85%",
+    marginBottom: 30,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+  },
+
+  modalOptionsHeader: {
+    display: "flex",
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 8,
+  },
 });
 
 export default PetDetails;

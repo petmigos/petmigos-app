@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Vaccine } from "../../../entities/vaccine";
 import { formatDate } from "./formatDate";
+import { diff} from "date-arithmetic";
 
 interface Props {
   vaccine: Vaccine;
@@ -10,32 +11,30 @@ interface Props {
 }
 
 const COLORS = {
-  HIGH: "#D65B5B",
-  ALERT: "#FFAD33",
-  LOW: "#6AA55C",
+  DONE: "#6AA55C",
+  LATE: "#D65B5B",
+  COMING: "#FFAD33",
   NONE: "#9B9B9B",
 };
 
 const VaccineCard: React.FC<Props> = ({ vaccine, onPress }) => {
-  const colorStatus = getColorStatus(vaccine);
-  function getColorStatus(vaccine: Vaccine): string {
-    if (!vaccine.applied && vaccine.date < new Date()) return COLORS.HIGH;
-    if (vaccine.applied) return COLORS.LOW;
-    if (
-      new Date(vaccine.date).getDay() === new Date().getDay() &&
-      new Date(vaccine.date).getMonth() === new Date().getMonth() &&
-      new Date(vaccine.date).getFullYear() === new Date().getFullYear()
-    )
-      return COLORS.ALERT;
-    return COLORS.NONE;
-  }
 
+  function getColorStatus(vaccine: Vaccine): string {
+    if (!vaccine.applied && new Date(vaccine.date).getDate() < new Date().getDate()) return COLORS.LATE;
+    if (!vaccine.applied && diff(new Date(), new Date(vaccine.date), "day") < 5)
+      return COLORS.COMING;
+    if (vaccine.applied) return COLORS.DONE;
+    return COLORS.NONE;
+    }
+    
+  const colorStatus = getColorStatus(vaccine);
+    
   return (
     <View style={{ ...styles.container, backgroundColor: colorStatus }}>
       <View style={styles.main}>
         <Text style={styles.vaccineName}>{vaccine.name}</Text>
         <Text style={styles.vaccineDate}>
-          {colorStatus === COLORS.LOW ? "" : "Aplicar em "}
+          {colorStatus === COLORS.DONE ? "" : "Aplicar em "}
           <Text style={{ fontWeight: "bold" }}>
             {formatDate(vaccine.date)}
           </Text>{" "}
