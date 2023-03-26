@@ -25,7 +25,7 @@ const HygieneCard: React.FC<Props> = ({ hygiene, onPress }) => {
       new Date(hygiene.date).getDate() < new Date().getDate()
     )
       return COLORS.LATE;
-    if (!hygiene.done && diff(new Date(), new Date(hygiene.date), "day") < 5)
+    if (!hygiene.done && diff(new Date(), new Date(hygiene.date), "day") < 7)
       return COLORS.COMING;
     if (hygiene.done) return COLORS.DONE;
     return COLORS.NONE;

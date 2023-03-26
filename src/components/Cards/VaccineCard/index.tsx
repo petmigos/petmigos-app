@@ -21,7 +21,7 @@ const VaccineCard: React.FC<Props> = ({ vaccine, onPress }) => {
 
   function getColorStatus(vaccine: Vaccine): string {
     if (!vaccine.applied && new Date(vaccine.date).getDate() < new Date().getDate()) return COLORS.LATE;
-    if (!vaccine.applied && diff(new Date(), new Date(vaccine.date), "day") < 5)
+    if (!vaccine.applied && diff(new Date(), new Date(vaccine.date), "day") < 7)
       return COLORS.COMING;
     if (vaccine.applied) return COLORS.DONE;
     return COLORS.NONE;

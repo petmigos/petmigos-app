@@ -31,6 +31,8 @@ import DatePicker from "react-native-date-picker";
 import { Picker } from "@react-native-picker/picker";
 import { id_user } from "../Auth/LoginScreen";
 import { formatDate } from "../../components/Cards/PetCard/formatDate";
+import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
+import { DeleteVaccine } from "../../use_cases/vaccines/DeleteVaccine"
 
 const findById = new FindById(new PetService());
 
@@ -98,17 +100,24 @@ const PetDetails: React.FC = (props) => {
   const [vaccinePlace, setVaccinePlace] = useState("");
   const [isVaccineTaken, setVaccineTaken] = useState(false);
   const toggleVaccineSwitch = () => setVaccineTaken((previousState) => !previousState);
+  const removeVaccine = new DeleteVaccine(new VaccineService);
 
   const [hygieneCategory, setHygieneCategory] = useState("");
   const [hygieneDescription, setHygieneDescription] = useState("");
   const [hygieneDate, setHygieneDate] = useState<Date>();
   const [isHygieneTaken, setHygieneTaken] = useState(false);
   const toggleHygieneSwitch = () => setHygieneTaken((previousState) => !previousState);
+  const removeHygiene = new Delete(new HigieneService());
 
   const [allergyName, setAllergyName] = useState("");
   const [allergyRisk, setAllergyRisk] = useState<RiskEnum>(RiskEnum.LOW);
 
   const isFocused = useIsFocused();
+
+  const [messageError, setMessageError] = useState("");
+  const [showMessageError, setShowMessageError] = useState(false);
+
+
 
 
   useEffect(() => {
@@ -129,6 +138,18 @@ const PetDetails: React.FC = (props) => {
     }
 
   }, [props, isFocused]);
+
+  async function DeleteVaccineFunc(petId: string, vaccineId: string) {
+    await removeVaccine.execute(petId, vaccineId);
+  }
+
+  async function DeleteHygieneFunc(petId: string, vaccineId: string) {
+    await removeVaccine.execute(petId, vaccineId);
+  }
+
+  async function DeleteAllergyFunc(petId: string, vaccineId: string) {
+    await removeVaccine.execute(petId, vaccineId);
+  }
 
   function Teste1() {
     console.log("Teste 1");
@@ -170,7 +191,7 @@ const PetDetails: React.FC = (props) => {
       },
       {
         text: "Deletar",
-        onPress: Teste1,
+        onPress: () => DeleteVaccineFunc,
       },
     ]);
   }
@@ -218,54 +239,61 @@ const PetDetails: React.FC = (props) => {
   }
   
   async function SendData() {
-    if (visibleVaccineRegisterModal) {
-      const locale: Locale = {
-        name: vaccinePlace,
-      } 
-      const vaccine: Vaccine = {
-        name : vaccineName,
-        locale: locale,
-        applied: isVaccineTaken,
-        date: vaccineDate,
-      };
-      const createdVaccine = await createVaccine.execute(vaccine, petId);
-      Alert.alert("Sucesso!", "Vacina cadastrado!", [
-        {
-          text: "Voltar a Vacinas",
-          onPress: closeVaccineRegisterModal,
-        },
-      ]);
-      
-    } else if (visibleHygieneRegisterModal){
-      console.log("Higiene");
-      const hygienedate: Date = new Date(hygieneDate);
-      const hygiene: Hygiene = {
-        category: hygieneCategory,
-        description: hygieneDescription,
-        done: isHygieneTaken,
-        date: hygienedate,
-      };
+    try {
+      if (visibleVaccineRegisterModal) {
+        const locale: Locale = {
+          name: vaccinePlace,
+        };
+        const vaccine: Vaccine = {
+          name: vaccineName,
+          locale: locale,
+          applied: isVaccineTaken,
+          date: vaccineDate,
+        };
+        const createdVaccine = await createVaccine.execute(vaccine, petId);
+        Alert.alert("Sucesso!", "Vacina cadastrado!", [
+          {
+            text: "Voltar a Vacinas",
+            onPress: closeVaccineRegisterModal,
+          },
+        ]);
+        setShowMessageError(false);
+      } else if (visibleHygieneRegisterModal) {
+        console.log("Higiene");
+        const hygienedate: Date = new Date(hygieneDate);
+        const hygiene: Hygiene = {
+          category: hygieneCategory,
+          description: hygieneDescription,
+          done: isHygieneTaken,
+          date: hygienedate,
+        };
 
-      const createdHygiene = await createHygiene.execute(hygiene, petId);
-      Alert.alert("Sucesso!", "Higiene cadastrada!", [
-        {
-          text: "Voltar a Higienes",
-          onPress: closeHygieneRegisterModal,
-        },
-      ]);
-    } else if (visibleAllergyRegisterModal) {
-      console.log("Alergia");
-      const allergy: Allergy = {
-        name: allergyName,
-        risk: allergyRisk,
-      };
-      const createdAllegy = await createAllergy.execute(allergy, petId);
-      Alert.alert("Sucesso!", "Higiene cadastrada!", [
-        {
-          text: "Voltar a Alergias",
-          onPress: closeHygieneRegisterModal,
-        },
-      ]);
+        const createdHygiene = await createHygiene.execute(hygiene, petId);
+        Alert.alert("Sucesso!", "Higiene cadastrada!", [
+          {
+            text: "Voltar a Higienes",
+            onPress: closeHygieneRegisterModal,
+          },
+        ]);
+        setShowMessageError(false);
+      } else if (visibleAllergyRegisterModal) {
+        console.log("Alergia");
+        const allergy: Allergy = {
+          name: allergyName,
+          risk: allergyRisk,
+        };
+        const createdAllegy = await createAllergy.execute(allergy, petId);
+        Alert.alert("Sucesso!", "Higiene cadastrada!", [
+          {
+            text: "Voltar a Alergias",
+            onPress: closeHygieneRegisterModal,
+          },
+        ]);
+        setShowMessageError(false);
+      }
+    } catch (error: any) {
+      setShowMessageError(true);
+      setMessageError(error.message);
     }
   }
 
@@ -376,6 +404,7 @@ const PetDetails: React.FC = (props) => {
             </Pressable>
             <Text style={styles.modalText}>Adicionar Vacina</Text>
           </View>
+          {showMessageError && <ValidationMessage error_text={messageError} />}
           <View style={styles.modalMain}>
             <TextInput
               style={styles.input_box}
@@ -428,6 +457,7 @@ const PetDetails: React.FC = (props) => {
             </Pressable>
             <Text style={styles.modalText}>Adicionar Higiene</Text>
           </View>
+          {showMessageError && <ValidationMessage error_text={messageError} />}
           <View style={styles.modalMain}>
             <TextInput
               style={styles.input_box}
@@ -481,6 +511,7 @@ const PetDetails: React.FC = (props) => {
             </Pressable>
             <Text style={styles.modalText}>Adicionar Alergia</Text>
           </View>
+          {showMessageError && <ValidationMessage error_text={messageError} />}
           <View style={styles.modalMain}>
             <TextInput
               style={styles.input_box}
