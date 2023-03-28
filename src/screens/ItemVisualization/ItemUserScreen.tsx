@@ -19,20 +19,20 @@ import { useNavigation } from "@react-navigation/native";
 import { FindById } from "../../use_cases/item/FindById";
 import ItemService from "../../services/ItemService";
 
-var cadastroItem = new CadastroItem(new CadastroItemService());
 
 const image = {
   image: require("../../../assets/store_test.png"),
 };
 
-export default function ItemUserScreen({ route }) {
-  const { item } = route.params;
+export default function ItemUserScreen({ route }: Props) {
+  const { item, storeId } = route.params;
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [image, setImage] = useState("../../../assets/user_icon.png");
+  const navigation = useNavigation()
 
   const findById = new FindById(new ItemService());
 
@@ -47,6 +47,10 @@ export default function ItemUserScreen({ route }) {
   // });
 
 
+  const handleBuyButon = () =>{
+    navigation.navigate("PurchaseItemScreen", { item, storeId })
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.image_holder}>
@@ -59,11 +63,8 @@ export default function ItemUserScreen({ route }) {
         <Text style={styles.descricao}>{item.description}</Text>
       </View>
       <View style={styles.buyButtons}>
-        <TouchableOpacity style={styles.accessingButton}>
+        <TouchableOpacity style={styles.accessingButton} onPress={handleBuyButon}>
           <Text style={styles.gettingText}>Comprar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.accessingButton}>
-          <Text style={styles.gettingText}>Adicionar ao Carrinho</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -102,7 +103,8 @@ const styles = StyleSheet.create({
   },
 
   informacoes: {
-    marginTop: 30,
+    marginTop: 50,
+    marginBottom: 20,
     fontSize: 20,
     fontWeight: "bold",
     marginLeft: 20,
@@ -116,8 +118,9 @@ const styles = StyleSheet.create({
 
   descricao: {
     textAlign: "justify",
-    fontSize: 20,
+    fontSize: 16,
     marginLeft: 20,
+    marginRight: 20
   },
 
   buyButtons: {

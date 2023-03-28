@@ -42,7 +42,10 @@ const StorePage = ({ route }) =>{
         };
 
     function onPressItem(item: any) {
-        navigation.navigate("ItemUserScreen", { item })
+        const storeId = store._id 
+        const test = item + storeId
+        console.log(test.storeId)
+        navigation.navigate("ItemUserScreen", { item, storeId })
     }
 
     function renderProducts(item: any) {

@@ -11,7 +11,7 @@ class Company{
   public password: string;
   public signature: string;
 
-  constructor(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address) {
+  constructor(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address, imagem: string) {
     this.cnpj = cnpj;
     this.name = name;
     this.email = email;
@@ -24,7 +24,7 @@ class Company{
 
 export class CompanyService {
 
-  public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
+  public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address, imagem: string): Promise<Company>{
     const response = await fetch(`http://${ip}:3333/cadastroCompany`, {
             method: 'POST',
             headers: {

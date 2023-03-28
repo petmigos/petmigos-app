@@ -14,11 +14,11 @@ import CadastroScreen from "./src/screens/CadastroScreen";
 import PetStoreScreen from "./src/screens/PetStoreScreen";
 import StoreList from "./src/screens/Stores/StoreList";
 import StorePage from "./src/screens/Stores/StorePage";
+import PurchaseItemScreen from "./src/screens/ItemVisualization/PurchaseItemScreen";
 
 import ListPets from "./src/screens/Pets";
 import PetDetails from "./src/screens/PetDetails";
 
-import Padrinhos from "./src/screens/Padrinhos/Padrinhos";
 import Profile from "./src/screens/Profile";
 
 // --- TELAS DE EMPRESA
@@ -57,9 +57,6 @@ function TabPetOwner() {
           ),
         }}
       />
-
-      <Tab.Screen name="Padrinhos" component={Padrinhos} />
-
       <Tab.Screen
         name="PetStack"
         component={PetStack}
@@ -187,6 +184,8 @@ function StoreStack() {
       <Stack.Screen name="StoreList" component={StoreList} />
       <Stack.Screen name="StorePage" component={StorePage} />
       <Stack.Screen name="ItemUserScreen" component={ItemUserScreen} />
+      <Stack.Screen name="PurchaseItemScreen" component={PurchaseItemScreen}/>
+
     </Stack.Navigator>
   );
 }
@@ -195,7 +194,7 @@ export default function NavigateTo() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Auth"
           component={AuthStack}
           options={{ headerShown: false }}
@@ -219,7 +218,7 @@ export default function NavigateTo() {
           name="PetStoreStack"
           component={PetStoreStack}
           options={{ headerShown: false }}
-        /> */}
+        /> 
         <Stack.Screen
           name="StoreStack"
           component={StoreStack}

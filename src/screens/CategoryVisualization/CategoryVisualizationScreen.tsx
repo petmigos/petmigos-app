@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import ItemService from "../../services/ItemService";
 import { Item } from "../../entities/item";
 import { ScrollView } from "react-native-gesture-handler";
-import { FetchAll } from "../../use_cases/item/FetchAll";
+import { FetchAll } from "../../use_cases/item/Fetchall";
 
 
 export default function CategoryVisualizationScreen({ route, navigation }) {

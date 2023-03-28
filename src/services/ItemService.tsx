@@ -116,5 +116,43 @@ export default class ItemService {
     return data.url;
   }
 
+  async buy(item): Promise<string> {
+    // const {
+    //   companyId: companyId,
+    //   itemId: itemId,
+    //   title: title,
+    //   price,
+    //   quantity,
+    // } = item;
+    // console.log("LOJA: " + companyId + "    item: " + itemId);
+    // const response = await fetch(
+    //   `http://${ip}:3333//companies/${companyId}/items/${itemId}/buy`,
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       Accept: "application/json",
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       title: title,
+    //       price: price,
+    //       quantity: quantity,
+    //     }),
+    //   })
+
+    //   const responseJSON = await response.json();
+    //   const responseStatus = response.status;
+    //   if (responseStatus !== 200) throw new Error(responseJSON.message);
+    //   return responseJSON;
+
+    const responseJSON = JSON.stringify({
+      _id: 123,
+      url: "https://www1.uea.edu.br",
+    });
+
+
+    return responseJSON;
+  }
+
   
 }

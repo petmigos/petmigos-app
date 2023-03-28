@@ -119,16 +119,6 @@ export default function PetStoreScreen(props) {
         <PetStoreItem
           onPress={() => {
             navigation.navigate("CategoryVisualizationScreen", {
-              category: "Padrinhos",
-            });
-          }}
-          title="Padrinhos"
-          image={images.home}
-          size={{ width: 23, height: 23 }}
-        />
-        <PetStoreItem
-          onPress={() => {
-            navigation.navigate("CategoryVisualizationScreen", {
               category: "Alimentação",
             });
           }}
