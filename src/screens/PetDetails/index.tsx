@@ -33,6 +33,8 @@ import { id_user } from "../Auth/LoginScreen";
 import { formatDate } from "../../components/Cards/PetCard/formatDate";
 import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
 import { DeleteVaccine } from "../../use_cases/vaccines/DeleteVaccine"
+import { DeleteHygiene } from "../../use_cases/allergies/DeleteAllergy";
+import { DeleteAllergy } from "../../use_cases/hygienes/DeleteHygiene";
 
 const findById = new FindById(new PetService());
 
@@ -46,7 +48,7 @@ const findAllHygienes = new FindAllHygienes(new HygieneService());
 const createHygiene = new CreateHygiene(new HygieneService());
 
 
-const PetDetails: React.FC = (props) => {
+const PetDetails: React.FC = () => {
   const {
     closeModal: closeVaccineModal,
     openModal: openVaccineModal,
@@ -90,39 +92,42 @@ const PetDetails: React.FC = (props) => {
 
   const [pet, setPet] = useState<Pet>();
   const navigation = useNavigation();
-  
+
+  // Pet Infos
   const [vaccines, setVaccines] = useState<Vaccine[]>([]);
   const [allergies, setAllergies] = useState<Allergy[]>([]);
   const [hygienes, setHygienes] = useState<Hygiene[]>([]);
 
+  // Vaccine
   const [vaccineName, setVaccineName] = useState("");
   const [vaccineDate, setVaccineDate] = useState<Date>();
   const [vaccinePlace, setVaccinePlace] = useState("");
   const [isVaccineTaken, setVaccineTaken] = useState(false);
-  const toggleVaccineSwitch = () => setVaccineTaken((previousState) => !previousState);
-  const removeVaccine = new DeleteVaccine(new VaccineService);
+  const toggleVaccineSwitch = () =>
+    setVaccineTaken((previousState) => !previousState);
+  const removeVaccine = new DeleteVaccine(new VaccineService());
 
+  // Hygiene
   const [hygieneCategory, setHygieneCategory] = useState("");
   const [hygieneDescription, setHygieneDescription] = useState("");
   const [hygieneDate, setHygieneDate] = useState<Date>();
   const [isHygieneTaken, setHygieneTaken] = useState(false);
-  const toggleHygieneSwitch = () => setHygieneTaken((previousState) => !previousState);
-  const removeHygiene = new Delete(new HigieneService());
+  const toggleHygieneSwitch = () =>
+    setHygieneTaken((previousState) => !previousState);
+  const removeHygiene = new DeleteHygiene(new HygieneService());
 
+  // Allergy
   const [allergyName, setAllergyName] = useState("");
   const [allergyRisk, setAllergyRisk] = useState<RiskEnum>(RiskEnum.LOW);
+  const removeAllergy = new DeleteAllergy(new AllergyService());
 
   const isFocused = useIsFocused();
 
   const [messageError, setMessageError] = useState("");
   const [showMessageError, setShowMessageError] = useState(false);
 
-
-
-
   useEffect(() => {
-
-    if(isFocused) {
+    if (isFocused) {
       async function fetch(user_id: string, pet_id: string) {
         const pet = await findById.execute(user_id, pet_id);
         const allergies = await findAllAllergies.execute(pet_id);
@@ -133,22 +138,39 @@ const PetDetails: React.FC = (props) => {
         setAllergies(allergies);
         setHygienes(hygienes);
       }
-  
+
       fetch(id_user, petId);
     }
-
-  }, [props, isFocused]);
+  }, [isFocused]);
 
   async function DeleteVaccineFunc(petId: string, vaccineId: string) {
     await removeVaccine.execute(petId, vaccineId);
+    Alert.alert("Sucesso!", "Vacina deletada!", [
+      {
+        text: "Voltar a Vacinas",
+        onPress: closeVaccineRegisterModal,
+      },
+    ]);
   }
 
-  async function DeleteHygieneFunc(petId: string, vaccineId: string) {
-    await removeVaccine.execute(petId, vaccineId);
+  async function DeleteHygieneFunc(petId: string, hygieneId: string) {
+    await removeHygiene.execute(petId, hygieneId);
+    Alert.alert("Sucesso!", "Higiene deletada!", [
+      {
+        text: "Voltar a Higienes",
+        onPress: closeVaccineRegisterModal,
+      },
+    ]);
   }
 
-  async function DeleteAllergyFunc(petId: string, vaccineId: string) {
-    await removeVaccine.execute(petId, vaccineId);
+  async function DeleteAllergyFunc(petId: string, allergyId: string) {
+    await removeAllergy.execute(petId, allergyId);
+    Alert.alert("Sucesso!", "Alergia deletada!", [
+      {
+        text: "Voltar a Alergias",
+        onPress: closeVaccineRegisterModal,
+      },
+    ]);
   }
 
   function Teste1() {
@@ -159,20 +181,13 @@ const PetDetails: React.FC = (props) => {
     console.log("Teste 2");
   }
 
-  function renderVaccine(vaccine: Vaccine) {
-    return (
-      <VaccineCard
-        key={vaccine._id || vaccine.name}
-        vaccine={vaccine}
-        onPress={() => VaccineOptionsModal(vaccine._id)}
-      />
-    );
-  }
+  
+  // Vaccine Options
 
   function VaccineOptionsModal(id_vaccine: string) {
     Alert.alert("Opções", "O que deseja fazer com esta vacina?", [
       {
-        text: "Deletar",
+        text: "Excluir",
         onPress: () => VaccineDeleteModal(id_vaccine),
       },
       {
@@ -181,21 +196,21 @@ const PetDetails: React.FC = (props) => {
       },
     ]);
   }
-
+  
   function VaccineDeleteModal(id_vaccine: string) {
-    Alert.alert("Deletar", "Deseja realmente deletar esta vacina?", [
+    Alert.alert("Deletar", "Deseja realmente excluir esta vacina?", [
       {
         text: "Cancelar",
         onPress: Teste2,
         style: "cancel",
       },
       {
-        text: "Deletar",
-        onPress: () => DeleteVaccineFunc,
+        text: "Excluir",
+        onPress: () => DeleteVaccineFunc(petId, id_vaccine),
       },
     ]);
   }
-
+  
   function VaccineEditModal(id_vaccine: string) {
     Alert.alert("Status da Vacina", "A vacina já foi tomada?", [
       {
@@ -210,14 +225,94 @@ const PetDetails: React.FC = (props) => {
     ]);
   }
 
+  function renderVaccine(vaccine: Vaccine) {
+    return (
+      <VaccineCard
+        key={vaccine._id || vaccine.name}
+        vaccine={vaccine}
+        onPress={() => VaccineOptionsModal(vaccine._id)}
+      />
+    );
+  }
+
+  // Hygiene Options
+  function HygieneOptionsModal(id_vaccine: string) {
+    Alert.alert("Opções", "O que deseja fazer com esta higiene?", [
+      {
+        text: "Excluir",
+        onPress: () => HygieneDeleteModal(id_vaccine),
+      },
+      {
+        text: "Editar Status",
+        onPress: () => HygieneEditModal,
+      },
+    ]);
+  }
+
+  function HygieneDeleteModal(id_vaccine: string) {
+    Alert.alert("Deletar", "Deseja realmente excluir esta higiene?", [
+      {
+        text: "Cancelar",
+        onPress: Teste2,
+        style: "cancel",
+      },
+      {
+        text: "Excluir",
+        onPress: () => DeleteHygieneFunc(petId, id_vaccine),
+      },
+    ]);
+  }
+
+  function HygieneEditModal(id_vaccine: string) {
+    Alert.alert("Status da Higiene", "A higiene já foi realizada?", [
+      {
+        text: "Não",
+        onPress: Teste1,
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: Teste2,
+      },
+    ]);
+  }
+  
   function renderHygiene(hygiene: Hygiene) {
     return (
       <HygieneCard
         key={hygiene._id || hygiene.description}
         hygiene={hygiene}
-        onPress={() => Teste1(hygiene._id)}
+        onPress={() => HygieneOptionsModal(hygiene._id)}
       />
     );
+  }
+
+  // Allergy Options
+  function AllergyOptionsModal(id_vaccine: string) {
+    Alert.alert("Opções", "O que deseja fazer com esta alergia?", [
+      {
+        text: "Excluir",
+        onPress: () => AllergyDeleteModal(id_vaccine),
+      },
+      {
+        text: "Cancelar",
+        onPress: () => Teste1,
+      },
+    ]);
+  }
+
+  function AllergyDeleteModal(id_vaccine: string) {
+    Alert.alert("Deletar", "Deseja realmente excluir esta alergia?", [
+      {
+        text: "Cancelar",
+        onPress: Teste2,
+        style: "cancel",
+      },
+      {
+        text: "Excluir",
+        onPress: () => DeleteAllergyFunc(petId, id_vaccine),
+      },
+    ]);
   }
 
   function renderAllergy(allergy: Allergy) {
@@ -225,19 +320,19 @@ const PetDetails: React.FC = (props) => {
       <AllergyCard
         key={allergy._id || allergy.name}
         allergy={allergy}
-        onPress={() => Teste1(allergy._id)}
+        onPress={() => AllergyOptionsModal(allergy._id)}
       />
     );
   }
 
-  if (pet === undefined){
+  if (pet === undefined) {
     return (
       <View style={styles.container}>
         <Text>Carregando informações do seu pet...</Text>
       </View>
     );
   }
-  
+
   async function SendData() {
     try {
       if (visibleVaccineRegisterModal) {

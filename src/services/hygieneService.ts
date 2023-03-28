@@ -32,4 +32,24 @@ export class HygieneService {
     if (responseStatus !== 200) throw new Error(responseJSON.message);
     return responseJSON;
   }
+
+  async delete(petId: string, hygieneId: string): Promise<string> {
+    const response = await fetch(
+      `http://${ip}:3333/pets/${petId}/hygienes/${hygieneId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: hygieneId,
+        }),
+      }
+    );
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
 }
