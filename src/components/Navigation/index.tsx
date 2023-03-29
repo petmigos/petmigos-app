@@ -4,7 +4,7 @@ import { View } from "react-native";
 import Petnet from "../../screens/Petnet";
 import ListPetsNavigations from "../../screens/Pets/navigation";
 import PetStore from "../../screens/PetStore";
-import Profile from "../../screens/Profile";
+import Profile from "../../screens/Profile/Profile";
 
 const Tab = createBottomTabNavigator();
 

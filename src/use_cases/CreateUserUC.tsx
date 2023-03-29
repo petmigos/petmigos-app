@@ -9,14 +9,15 @@ export default class Cadastro {
       this.cadastroService = loginService
    }
 
-   async execute(username: string, email: string, password: string, confPassword: string): Promise<User> {
+   async execute(name: string, email: string, password: string, confPassword: string, image): Promise<User> {
+      console.log(image)
       if (!this.isValidField(password)) throw new Error("Preencha o campo de senha.");
       if(!this.isValidPassword(password)) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
       if (!this.isPasswordEqual(password, confPassword)) throw new Error("As senhas não coincidem");
-      if (!this.isValidField(username)) throw new Error("Preencha o campo de nome.");
+      if (!this.isValidField(name)) throw new Error("Preencha o campo de nome.");
       if (!this.isValidEmail(email)) throw new Error("Insira um email válido.");
 
-      const createdUser = await this.cadastroService.create(username, email, password);
+      const createdUser = await this.cadastroService.register({name, email, password, image});
 
       return createdUser;
    }
@@ -41,4 +42,9 @@ export default class Cadastro {
       }
       return false;
    }
+
+   async uploadImg(photo): Promise<string> {
+      const img = await this.cadastroService.cloudinaryUpload(photo);
+      return img;
+    }
 }

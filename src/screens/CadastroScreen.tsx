@@ -7,13 +7,20 @@ import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
 import CadastroService from '../services/CadastroUserService';
 import Cadastro from '../use_cases/CreateUserUC';
 import React from 'react';
+import {
+    SetImage,
+    result,
+  } from "../components/PetStoreComponents/SetImage/SetImage";
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { StackActions, useNavigation } from '@react-navigation/native';
-import * as LoginScreen from './LoginScreen';
+import { ScrollView } from 'react-native-gesture-handler';
 
 var cadastroServ = new CadastroService;
 var cadastro = new Cadastro(cadastroServ);
 
+const image = {
+    test: require("../../assets/store_test.png"),
+  };
 
 export default function CadastroScreen() {
 
@@ -42,7 +49,16 @@ export default function CadastroScreen() {
     async function SendData() {
 
         try {
-            const createduser = await cadastro.execute(username, email, password, confPassword);
+            const source = {
+                uri: result.assets[0].uri,
+                type: `test/${result.assets[0].uri.split(".")[1]}`,
+                name: `test.${result.assets[0].uri.split(".")[1]}`,
+              };
+          
+              const image_upl = await cadastro.uploadImg(source);
+              const image = image_upl.toString();
+
+            const createduser = await cadastro.execute(username, email, password, confPassword, image);
             setShowMessageError(false);
             Alert.alert(
                 "Sucesso!",
@@ -58,9 +74,14 @@ export default function CadastroScreen() {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={{height: "100%"}}>
+        <View style={styles.container_cadastro}>
 
-            <TopInitScreen title="Cadastro" />
+        <View style={styles.topContainer}>
+            <TopInitScreen title='Cadastro'/>
+            <SetImage image="../../assets/user_icon.png" />
+        </View>
+    
             {showMessageError && <ValidationMessage error_text={messageError} />}
             <View style={styles.middle_screen}>
                 <TextInput style={styles.input_box}
@@ -110,6 +131,6 @@ export default function CadastroScreen() {
 
             <StatusBar style="auto" />
         </View>
-
+        </ScrollView>
     );
 }

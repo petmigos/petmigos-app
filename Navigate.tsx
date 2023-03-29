@@ -19,7 +19,7 @@ import PurchaseItemScreen from "./src/screens/ItemVisualization/PurchaseItemScre
 import ListPets from "./src/screens/Pets";
 import PetDetails from "./src/screens/PetDetails";
 
-import Profile from "./src/screens/Profile";
+import Profile from "./src/screens/Profile/Profile";
 
 // --- TELAS DE EMPRESA
 import CompanyHomeScreen from "./src/screens/CompanyHomeScreen";
@@ -63,7 +63,7 @@ function TabPetOwner() {
         options={{
           tabBarLabel: "Meus Pets",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="home" size={size} color={color} />
+            <MaterialIcons name="pets" size={size} color={color} />
           ),
         }}
       />

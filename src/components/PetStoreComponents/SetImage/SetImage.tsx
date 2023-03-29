@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
 },
 
 image: {
-	marginTop: 10,
-	backgroundColor: superficie,
+	  marginTop: 10,
+	  backgroundColor: "#a89a8c",
     flex: 1,
     borderRadius: 250,
     height: 200,

@@ -12,10 +12,14 @@ import { useNavigation } from '@react-navigation/native';
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { ButtonGroup } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
+import { User } from '../entities/user';
+import { Company } from '../entities/company';
 
 
 const loginUser = new LoginUser(new LoginUserService());
 const loginCompany = new LoginCompany(new CompanyService());
+export let loggeduser: User;
+export let loggedcompany: Company;
 
 // This variable is saving the user id, based on their password, after logging
 export let id_user = "";
@@ -66,14 +70,15 @@ export default function LoginScreen() {
 
         try {
             if (selectedIndex == 0) {
-                const loggeduser = await loginUser.execute(username, password);
+                loggeduser = await loginUser.execute(username, password);
                 save_id(loggeduser.password, loggeduser._id);
                 id_user = await getValueFor(password);
+                console.log("id: " + id_user)
                 setShowMessageError(false);
                 navigation.navigate('TabPetOwner');
             }
             else {
-                const loggedcompany = await loginCompany.execute(username, password);
+                loggedcompany = await loginCompany.execute(username, password);
                 save_id(loggedcompany.password, loggedcompany._id);
                 id_comp = await getValueFor(password)
                 setShowMessageError(false);

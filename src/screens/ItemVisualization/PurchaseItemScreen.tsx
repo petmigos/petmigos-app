@@ -18,11 +18,14 @@ const PurchaseItemScreen = ({route}) =>{
     const navigation = useNavigation();
 
     const handleOpenBrowser = async (url: string) => {
-        // Check if the user's device can open the specified URL
         const supported = await Linking.canOpenURL(url);
       
-        if (supported) await Linking.openURL(url);
-        else console.log(`Não foi possível abrir a URL: ${url}`);
+        if (supported) {
+            await Linking.openURL(url).then(() => {
+                navigation.goBack();
+              });
+        }
+        else {console.log(`Não foi possível abrir a URL: ${url}`);}
         
       };
       
@@ -45,8 +48,6 @@ const PurchaseItemScreen = ({route}) =>{
             const purchase: any = await buyItem.execute({storeId, itemId, title, unitPrice, quantity})
             const purchaseObject = JSON.parse(purchase);
             handleOpenBrowser(purchaseObject.url)
-            navigation.goBack();
-
         }
         catch(erro: any){
             console.log(erro.message)
