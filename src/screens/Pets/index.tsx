@@ -18,6 +18,7 @@ import { background, erro, primary, superficie, inputBackground } from "../../st
 import { Ionicons } from "@expo/vector-icons";
 import { id_user } from "../Auth/LoginScreen";
 import { UpdatePet } from "../../use_cases/pets/Update";
+import { TitleScreenComp } from "../../components/TitleScreen/TitleScreenComp";
 
 
 
@@ -27,6 +28,8 @@ const fetchAll = new FetchAll(new PetService());
 const ListPets: React.FC = (props) => {
   const navigation = useNavigation<PetDetailNavigationProp>();
   const [pets, setPets] = useState<Pet[]>([]);
+  const [searchText, setSearchText] = useState("");
+  const [filteredItems, setFilteredData] = useState(pets);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -34,11 +37,23 @@ const ListPets: React.FC = (props) => {
       async function fetch() {
         const allPets = await fetchAll.execute(id_user);
         setPets(allPets);
+        setFilteredData(allPets);
       }
   
       fetch();
     }
   }, [props, isFocused]);
+
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+
+    const filteredData = pets.filter((pet) => {
+      const petName = pet.name.toLowerCase();
+      const searchTextLower = text.toLowerCase();
+      return petName.includes(searchTextLower);
+    });
+    setFilteredData(filteredData);
+  };
 
   function onPressPet(pet: Pet) {
     navigation.navigate("PetInfo", { petId: pet._id });
@@ -46,12 +61,6 @@ const ListPets: React.FC = (props) => {
 
   function goRegisterPet(){
     navigation.navigate("RegisterPet");
-  }
-
-  async function updatePet(pet_id: string){
-    
-    return await updated.execute(pet_id, {ownerId, name, type, birthday, gender, tags, image,})
-    
   }
 
   function renderPets(pet: Pet) {
@@ -65,27 +74,27 @@ const ListPets: React.FC = (props) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {pets.length === 0 && (
-          <Text>
-            Não há pets cadastrados. Considere cadastrar um pet primeiro.
-          </Text>
-        )}
+        <TitleScreenComp title="Meus Pets" />
+          {pets.length === 0 && (
+            <Text>
+              Não há pets cadastrados. Considere cadastrar um pet primeiro.
+            </Text>
+          )}
 
         <View>
-          {/* <TextInput
-            style={styles.input_box}
+          <TextInput
             placeholder="Pesquisar"
-            textAlign="center"
-          ></TextInput>
-          <View style={styles.searchIcon}>
-            <Ionicons name="search-outline" size={20}></Ionicons>
-          </View> */}
+            placeholderTextColor="#BDBCBC"
+            onChangeText={handleSearch}
+            value={searchText}
+            style={styles.searchBar}
+          />
         </View>
 
         <FlatList
           contentContainerStyle={{ paddingBottom: 50 }}
           style={styles.pets}
-          data={pets}
+          data={filteredItems}
           renderItem={({ item }) => renderPets(item)}
         />
         <TouchableOpacity style={styles.add_button} onPress={goRegisterPet}>
@@ -99,47 +108,40 @@ const ListPets: React.FC = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: background
+    backgroundColor: background,
   },
   pets: {
     height: 3,
     padding: 16,
     backgroundColor: "#fff",
-    top: 40,
+  },
+  list: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "wrap",
   },
 
   add_button: {
-    backgroundColor: '#7b4d28',
+    backgroundColor: "#7b4d28",
     height: 56,
     // fontFamily: 'Ubuntu-Bold',
-    fontStyle: 'normal',
-    alignItems: 'center',
-    textAlign: 'center',
+    fontStyle: "normal",
+    alignItems: "center",
+    textAlign: "center",
     marginTop: -5,
     borderRadius: 8,
     top: -70,
     marginHorizontal: 30,
-},
+  },
 
-   add_text: {
+  add_text: {
     fontSize: 18,
     fontWeight: "bold",
     top: 15,
-    color: '#FFFFFF'
-},
-
-   input_box: {
-    marginTop: 20,
-    borderWidth: 1,
-    padding: 10,
-    backgroundColor: inputBackground,
-    borderRadius: 6,
-    opacity: 0.5,
-    fontSize: 18,
-    borderColor: "#fff",
-    width: 300,
-    top: 60,
+    color: "#FFFFFF",
   },
+
 
   middleScreen: {
     flex: 2,
@@ -151,8 +153,17 @@ const styles = StyleSheet.create({
   searchIcon: {
     left: 60,
     top: 24,
-  }
+  },
 
+  searchBar: {
+    padding: 8,
+    borderRadius: 8,
+    margin: 20,
+    fontSize: 18,
+    borderColor: "#fff",
+    color: "#BDBCBC",
+    backgroundColor: inputBackground,
+  },
 });
 
 export default ListPets;

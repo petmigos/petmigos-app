@@ -17,6 +17,7 @@ export const TitleScreenComp = (props: TitleProps) => {
 const styles = StyleSheet.create({
 
     header: {
+        marginTop: 10,
         display: 'flex',
         marginLeft: '8%',
         //fontFamily: 'Ubuntu'
