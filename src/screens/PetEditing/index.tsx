@@ -164,7 +164,6 @@ const EditPets: React.FC = (props) => {
         type: type,
         birthday: birthday,
         gender: gender,
-        tags: tags,
         image: image,
       };
       await updatePet.execute(petId, editedPet);
@@ -235,25 +234,6 @@ const EditPets: React.FC = (props) => {
           }}
           containerStyle={{ marginTop: 40 }}
         />
-        <Text style={styles.bodyTitle}>Tags</Text>
-        <View style={styles.tagContainer}>
-          <TextInput
-            style={styles.input_box_tag}
-            placeholder="Tag"
-            value={`${textTag}`}
-            onChangeText={(text) => {
-              setTag(text), setTextTag(text);
-            }}
-          ></TextInput>
-          <TouchableOpacity
-            style={styles.addTagButton}
-            onPress={() => {
-              handleAddItem(tag), setTextTag("");
-            }}
-          >
-            <Text style={styles.addTagText}>Adicionar</Text>
-          </TouchableOpacity>
-        </View>
 
         <FlatList
           data={features}

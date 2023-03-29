@@ -18,7 +18,6 @@ import { PetService } from "../../services/petService";
 
 var cadastroPet = new CreatePet(new PetService());
 
-
 const RegisterPets: React.FC = () => {
   const navigation = useNavigation();
   const [name, setName] = useState("");
@@ -188,15 +187,6 @@ const styles = StyleSheet.create({
     borderColor: "#fff",
   },
 
-  tagContainer: {
-    marginVertical: 20,
-    paddingVertical: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
-  },
-
   input_box_tag: {
     flex: 5,
     height: 50,
@@ -207,24 +197,6 @@ const styles = StyleSheet.create({
     opacity: 0.5,
     fontSize: 18,
     borderColor: "#fff",
-  },
-
-  addTagButton: {
-    flex: 3,
-    height: 50,
-    margin: 5,
-    backgroundColor: "#E29417",
-    fontStyle: "normal",
-    alignItems: "center",
-    textAlign: "center",
-    justifyContent: "center",
-    borderRadius: 5,
-  },
-
-  addTagText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFFFFF",
   },
 
   input_box_desc: {

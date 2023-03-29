@@ -32,7 +32,7 @@ export const PadrinhoAds = (props: PadrinhoAdsProps) => {
 const styles = StyleSheet.create({
   component: {
     flex: 1,
-    backgroundColor: padrinhoAds,
+    backgroundColor: "gray",
     margin: 25,
     flexDirection: "row",
     borderRadius: 15,
@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    backgroundColor: alerta,
+    backgroundColor: "gray",
     borderRadius: 10,
     padding: 7,
     marginRight: 10,
     marginLeft: 10,
     marginTop: 15,
-    width: '80%'
+    width: '85%'
   },
 
   buttonText: {
