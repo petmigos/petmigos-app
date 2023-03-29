@@ -20,7 +20,6 @@ import ListPets from "./src/screens/Pets";
 import PetDetails from "./src/screens/PetDetails";
 import RegisterPets from "./src/screens/PetsRegistering";
 
-import Profile from "./src/screens/Profile/Profile";
 
 // --- TELAS DE EMPRESA
 import CompanyHomeScreen from "./src/screens/Company/CompanyHomeScreen";
@@ -32,6 +31,7 @@ import ItemCompanyScreen from "./src/screens/ItemVisualization/ItemCompanyScreen
 import EditarProdutoScreen from "./src/screens/Company/EditarProdutoScreen";
 import CategoryVisualizationScreen from "./src/screens/CategoryVisualization/CategoryVisualizationScreen";
 import EditPets from "./src/screens/PetEditing";
+import Profile from "./src/screens/Profile/Profile";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();

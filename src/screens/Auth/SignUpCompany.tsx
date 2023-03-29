@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import Input from '../components/Input';
-import { compSignUpStyle } from '../styles/signCompanyStyle';
+import Input from '../../components/Input';
+import { compSignUpStyle } from '../../styles/signCompanyStyle';
 import { View, Text, ScrollView, Alert } from 'react-native';
-import Title from '../components/Title';
-import BrownButton from '../components/BrownButton';
-import SignatureCard from '../components/SignatureCard';
+import Title from '../../components/Title';
+import BrownButton from '../../components/BrownButton';
+import SignatureCard from '../../components/SignatureCard';
 import { Picker } from '@react-native-picker/picker';
-import { Address } from '../entities/address';
+import { Address } from '../../entities/address';
 import { cnpj } from 'cpf-cnpj-validator';
-import { CompanyService } from '../services/company/companyService';
-import CreateCompany from '../use_cases/CreateCompany';
-import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
-import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
+import { CompanyService } from '../../services/company/companyService';
+import CreateCompany from '../../use_cases/CreateCompany';
+import { TopInitScreen } from '../../components/TopInitScreen/TopInitScreen';
+import { ValidationMessage } from '../../components/ValidationMessages/ValidationMessage';
 import { useNavigation, StackActions } from '@react-navigation/native';
-import PasswordField from '../components/Password/PasswordField';
-import PasswordCheckbox from '../components/Password/PasswordCheckbox';
-import { uploadImg } from '../services/imageService';
-import { SetImage, result } from '../components/PetStoreComponents/SetImage/SetImage';
+import PasswordField from '../../components/Password/PasswordField';
+import PasswordCheckbox from '../../components/Password/PasswordCheckbox';
+import { uploadImg } from '../../services/imageService';
+import { SetImage, result } from '../../components/PetStoreComponents/SetImage/SetImage';
 
 let service = new CompanyService();
 let company = new CreateCompany(service);
 
 const image = {
-  test: require("../../assets/store_test.png"),
+  test: require("../../../assets/store_test.png"),
 };
 
 const SignUpCompany: React.FC = () => {

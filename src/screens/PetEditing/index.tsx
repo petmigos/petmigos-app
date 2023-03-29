@@ -41,7 +41,7 @@ const EditPets: React.FC = (props) => {
   const [gender, setGender] = useState("Male");
   const [features, setFeatures] = useState([]);
   const [tag, setTag] = useState("");
-  const [image, setImage] = useState("")
+  const [image, setImage] = useState<string>()
   const isFocused = useIsFocused();
 
   const deletePet = new Delete(new PetService());
@@ -60,6 +60,7 @@ const EditPets: React.FC = (props) => {
           setSelectedIndex(1);
         }
         setGender(pet.gender);
+        setImage(pet.image);
         
       }
 
@@ -185,7 +186,7 @@ const EditPets: React.FC = (props) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.topContainer}>
-        <SetImage image="../../assets/user_icon.png" />
+        <SetImage image={"../../../assets/addFoto.png"} />
         <Text style={styles.topText}>Editar Informações</Text>
       </View>
 

@@ -12,8 +12,8 @@ import { QuantButton } from "../../components/PetStoreComponents/QuantButton/Qua
 import { ScrollView } from "react-native-gesture-handler";
 import { id_comp } from "../Auth/LoginScreen";
 import { useNavigation } from "@react-navigation/native";
-import { ValidationMessage } from "../components/ValidationMessages/ValidationMessage";
-import { uploadImg } from "../services/imageService";
+import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
+import { uploadImg } from "../../services/imageService";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
