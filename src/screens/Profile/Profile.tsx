@@ -5,8 +5,8 @@ import { background, erro, primary } from "../../styles/colors";
 import * as SecureStore from 'expo-secure-store';
 import { useNavigation, StackActions, useIsFocused } from "@react-navigation/native";
 import { id_user } from "../Auth/LoginScreen";
-import { FindById } from "../../use_cases/user/FindById";
 import UserService from "../../services/userService";
+import { FindById } from "../../use_cases/user/FindById";
 
 const findById = new FindById(new UserService())
 

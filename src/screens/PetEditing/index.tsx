@@ -131,7 +131,9 @@ const EditPets: React.FC = (props) => {
         type: `test/${result.assets[0].uri.split(".")[1]}`,
         name: `test.${result.assets[0].uri.split(".")[1]}`,
       };
-
+      console.log("ref " + genderRef.current);
+      const genero = genderRef.current;
+      console.log("ge: " + typeof(genero));
       const image_upl = await cadastroPet.uploadImg(source);
       const image = image_upl.toString();
       const editedPet: Pet = {
@@ -139,7 +141,7 @@ const EditPets: React.FC = (props) => {
         name: name,
         type: type,
         birthday: birthday,
-        gender: genderRef.current,
+        gender: genero,
         image: image,
       };
       await updatePet.execute(petId, editedPet);
