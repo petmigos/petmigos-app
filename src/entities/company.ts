@@ -9,6 +9,7 @@ export interface Company{
     password: string;
     signature: string;
     address: Address;
+    key: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

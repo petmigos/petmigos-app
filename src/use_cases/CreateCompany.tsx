@@ -10,13 +10,14 @@ export default class CreateCompany {
   }
 
   async execute(newCompany): Promise<Company> {
-    const {currentCNPJ, selectedCategory, name, email, password, confPassword, signature, address, image} = newCompany;
+    const {currentCNPJ, selectedCategory, name, email, password, confPassword, signature, address, image, key} = newCompany;
     const formatCNPJ = cnpj.format(currentCNPJ)
     const isEmpty =
       (this.isEmpty(formatCNPJ) || this.isEmpty(selectedCategory) ||
         this.isEmpty(name) || this.isEmpty(email) ||
         this.isEmpty(confPassword) || this.isEmpty(password) ||
-        this.isEmpty(address.unidade) || this.isEmpty(address.cep))
+        this.isEmpty(address.unidade) || this.isEmpty(address.cep) ||
+        this.isEmpty(key))
 
     if (isEmpty) throw new Error("Preencha todos os campos obrigatórios sinalizados por *.")
     if (!this.isValidEmail(email)) throw new Error("Preencha o campo de E-mail corretamente.")
@@ -24,8 +25,9 @@ export default class CreateCompany {
     if (!this.isValidPassword(password)) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
     if (!this.isPasswordEqual(password, confPassword)) throw new Error("As senhas não coincidem.")
     if (!this.hasSignature(signature)) throw new Error("É preciso escolher seu plano de assinatura.")
+    if(!this.hasImage(image)) throw new Error("É preciso escolher uma imagem")
 
-    const createdCompany = await this.companyService.create({formatCNPJ, selectedCategory, name, email, password, signature, address, image})
+    const createdCompany = await this.companyService.create({formatCNPJ, selectedCategory, name, email, password, signature, address, image, key})
     return createdCompany;
   }
 
@@ -41,7 +43,7 @@ export default class CreateCompany {
   }
 
   private isEmpty(field: string) {
-    if (field === undefined) return true
+    if (field === undefined || field === null) return true
     return field.trim().length === 0 || field === null
 
   }
@@ -51,11 +53,15 @@ export default class CreateCompany {
   }
 
   private hasSignature(signature: string) {
-    return signature !== null
+    return signature !== null && signature !== undefined
   }
 
   private isValidCNPJ(currentCNPJ: string) {
     return cnpj.isValid(currentCNPJ)
+  }
+
+  private hasImage(image: string){
+    return image !== null && image !== undefined
   }
 }
 

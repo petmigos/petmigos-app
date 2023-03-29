@@ -10,7 +10,6 @@ import { id_user } from "../LoginScreen";
 
 
 const Profile: React.FC = () => {
-  const created = loggeduser.createdAt;
   const navigation = useNavigation()
 
   async function handleLogout() {

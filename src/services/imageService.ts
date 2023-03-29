@@ -16,6 +16,10 @@ export async function cloudinaryUpload(photo): Promise<string> {
   }
 
 export async function uploadImg(photo): Promise<string> {
-    const img = await cloudinaryUpload(photo);
-    return img;
+    if(photo !== undefined){
+      const img = await cloudinaryUpload(photo);
+      return img
+    }
+    else
+      return undefined;
   }

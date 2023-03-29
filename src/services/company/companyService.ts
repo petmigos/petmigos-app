@@ -1,31 +1,12 @@
 import axios from 'axios';
 import { Address } from '../../entities/address';
 import { ip } from "../../entities/ip"
-
-class Company{
-  public cnpj: string;
-  public category: string;
-  public name: string;
-  public email: string;
-  public address: Address;
-  public password: string;
-  public signature: string;
-
-  constructor(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address, imagem: string) {
-    this.cnpj = cnpj;
-    this.name = name;
-    this.email = email;
-    this.category = category;
-    this.address = address;
-    this.password = password;
-    this.signature = signature;
-  }
-}
+import { Company } from '../../entities/company';
 
 export class CompanyService {
 
   public async create(newCompany): Promise<Company>{
-    const {formatCNPJ, selectedCategory, name, email, password, signature, address, image} = newCompany;
+    const {formatCNPJ, selectedCategory, name, email, password, signature, address, image, key} = newCompany;
     const response = await fetch(`http://${ip}:3333/cadastroCompany`, {
             method: 'POST',
             headers: {
@@ -45,8 +26,8 @@ export class CompanyService {
               address_cidade: address.localidade,
               address_logradouro: address.logradouro,
               address_numero: address.unidade,
-              address_complemento: address.complemento
-
+              address_complemento: address.complemento,
+              key: key
             })
         })
         

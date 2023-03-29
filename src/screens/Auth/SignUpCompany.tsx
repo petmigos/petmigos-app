@@ -21,9 +21,10 @@ import { SetImage, result } from '../../components/PetStoreComponents/SetImage/S
 let service = new CompanyService();
 let company = new CreateCompany(service);
 
-const image = {
-  test: require("../../../assets/store_test.png"),
-};
+let image;
+
+let image_upl;
+let source;
 
 const SignUpCompany: React.FC = () => {
   const navigation = useNavigation();
@@ -39,6 +40,7 @@ const SignUpCompany: React.FC = () => {
   const [showMessageError, setShowMessageError] = useState(false);
   const [messageError, setMessageError] = useState("");
   const [addressNumber, setAddressNumber] = useState<Address | null>(null);
+  const [key, setKey] = useState(null)
   const [address, setAddress] = useState<Address>({
     cep: "",
     logradouro: "Logradouro",
@@ -85,23 +87,29 @@ const SignUpCompany: React.FC = () => {
 
   async function SendData() {
     try {
-      const source = {
+      setShowMessageError(false)
+      if(result.assets == null){
+        throw new Error("Escolha uma foto de perfil")
+      }
+      else{
+      source = {
         uri: result.assets[0].uri,
         type: `test/${result.assets[0].uri.split(".")[1]}`,
         name: `test.${result.assets[0].uri.split(".")[1]}`,
       };
-  
-      const image_upl = await uploadImg(source);
-      const image = image_upl.toString();
+      
+      image_upl = await uploadImg(source);
+      if(image_upl !== undefined) image = image_upl.toString();
+      console.log("img: " + image)
 
-
-      const createdCompany = await company.execute({currentCNPJ, selectedCategory, name, email, password, confPassword, signature, address, image})
+      const createdCompany = await company.execute({currentCNPJ, selectedCategory, name, email, password, confPassword, signature, address, image, key})
       setShowMessageError(false);
       Alert.alert(
         "Sucesso!",
         "Você agora é oficialmente parte da PetMigos! Entre na sua nova conta e descubra todos os nossos recursos!",
         [{ text: "FAZER LOGIN", onPress: handleOKButton }]
       );
+      }
     } catch (error: any) {
       setShowMessageError(true);
       setMessageError(error.message);
@@ -201,9 +209,19 @@ const SignUpCompany: React.FC = () => {
             selected={signature === "PetMigo Suave"}
           />
         </View>
+        <View>
+        <Title message="Chave no mercado pago *" fontSize={20}/>
+        <Input 
+          message='Chave'
+          value={key}
+          changeText={setKey}
+          />
+      </View>
         {showMessageError && <ValidationMessage error_text={messageError} />}
         <BrownButton onPress={SendData} title="CADASTRAR" margin={20} />
+
       </View>
+     
     </ScrollView>
   );
 };
