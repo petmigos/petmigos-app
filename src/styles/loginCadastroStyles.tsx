@@ -13,13 +13,11 @@ export default StyleSheet.create({
     },
 
     container_cadastro: {
-        display: "flex",
-        flexDirection: "column",
+        height: "100%",
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: background,
-         height: "100%",
-         paddingBottom: 10
+        paddingBottom: 20    
     },
 
     middle_screen: {
@@ -156,20 +154,20 @@ export default StyleSheet.create({
 
     topContainer: {
         display: "flex",
-        height: "45%",
+        height: "35%",
         backgroundColor: background,
         justifyContent: "flex-start",
         alignItems: "center",
         marginBottom: 10,
       },
     
-      topText: {
+    topText: {
         fontSize: 25,
         fontWeight: "bold",
         marginTop: 40,
         marginBottom: 0,
         
-      },
+    },
 
 
 

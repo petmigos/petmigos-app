@@ -16,6 +16,7 @@ export default class Cadastro {
       if (!this.isPasswordEqual(password, confPassword)) throw new Error("As senhas não coincidem");
       if (!this.isValidField(name)) throw new Error("Preencha o campo de nome.");
       if (!this.isValidEmail(email)) throw new Error("Insira um email válido.");
+      if(!this.hasImage(image)) throw new Error("Escolha uma foto de perfil")
 
       const createdUser = await this.cadastroService.register({name, email, password, image});
 
@@ -41,5 +42,9 @@ export default class Cadastro {
          return true;
       }
       return false;
+   }
+
+   private hasImage(image: string){
+      return image !== undefined && image !== null
    }
 }

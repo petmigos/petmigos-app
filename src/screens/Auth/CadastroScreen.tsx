@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { TouchableOpacity, Text, TextInput, View, Alert } from "react-native";
+import { TouchableOpacity, Text, TextInput, View, Alert, ScrollView, ActivityIndicator } from "react-native";
 import Checkbox from "expo-checkbox";
 import styles from "../../styles/loginCadastroStyles";
 import { TopInitScreen } from "../../components/TopInitScreen/TopInitScreen";
@@ -9,10 +9,14 @@ import Cadastro from "../../use_cases/CreateUserUC";
 import React from "react";
 import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
 import { StackActions, useNavigation } from "@react-navigation/native";
-import * as LoginScreen from "./LoginScreen";
+import { SetImage, result } from "../../components/PetStoreComponents/SetImage/SetImage";
+import { uploadImg } from "../../services/imageService";
 
 var cadastroServ = new CadastroService();
 var cadastro = new Cadastro(cadastroServ);
+let image;
+let image_upl;
+let source;
 
 export default function CadastroScreen() {
   const [email, setEmail] = useState("");
@@ -24,9 +28,11 @@ export default function CadastroScreen() {
   const [messageError, setMessageError] = useState("");
   const navigation = useNavigation();
 
+
   const handleOkButton = () => {
     navigation.dispatch(StackActions.popToTop());
   };
+
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -37,16 +43,34 @@ export default function CadastroScreen() {
 
   async function SendData() {
     try {
-      const createduser = await cadastro.execute(
-        username,
-        email,
-        password,
-        confPassword
-      );
-      setShowMessageError(false);
-      Alert.alert("Sucesso!", "Usuário cadastrado!", [
-        { text: "FAZER LOGIN", onPress: handleOkButton },
-      ]);
+      console.log("result: " + result)
+        setShowMessageError(false)
+        if(result !== undefined && result !== null){
+          source = {
+            uri: result.assets[0].uri,
+            type: `test/${result.assets[0].uri.split(".")[1]}`,
+            name: `test.${result.assets[0].uri.split(".")[1]}`,
+          };
+          
+          image_upl = await uploadImg(source);
+          if(image_upl !== undefined) image = image_upl.toString();
+          console.log("img: " + image)
+
+          await cadastro.execute(
+            username,
+            email,
+            password,
+            confPassword,
+            image
+          );
+
+          Alert.alert("Sucesso!", "Usuário cadastrado!", [
+            { text: "FAZER LOGIN", onPress: handleOkButton },
+          ]);
+        }
+        else{
+          throw new Error("Escolha uma foto de perfil")
+        }
     } catch (error: any) {
       setShowMessageError(true);
       setMessageError(error.message);
@@ -54,10 +78,16 @@ export default function CadastroScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <TopInitScreen title="Cadastro" />
-      {showMessageError && <ValidationMessage error_text={messageError} />}
+    <ScrollView style={{height: "100%"}}>
+  
+      <View style={styles.container_cadastro}>
+      <View style={styles.topContainer}>
+              <TopInitScreen title='Cadastro'/>
+              <SetImage image="../../assets/user_icon.png" />
+      </View>
+        
       <View style={styles.middle_screen}>
+
         <TextInput
           style={styles.input_box}
           placeholder="Email"
@@ -89,6 +119,7 @@ export default function CadastroScreen() {
           />
           <Text style={styles.label}>Mostrar senha</Text>
         </View>
+        {showMessageError && <ValidationMessage error_text={messageError} />}
         <TouchableOpacity style={styles.acessing_button} onPress={SendData}>
           <Text style={styles.getin_text}>CADASTRO</Text>
         </TouchableOpacity>
@@ -106,8 +137,8 @@ export default function CadastroScreen() {
           </TouchableOpacity>
         </Text>
       </View>
-
       <StatusBar style="auto" />
-    </View>
+      </View>
+    </ScrollView>
   );
 }

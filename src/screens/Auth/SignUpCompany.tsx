@@ -22,7 +22,6 @@ let service = new CompanyService();
 let company = new CreateCompany(service);
 
 let image;
-
 let image_upl;
 let source;
 
