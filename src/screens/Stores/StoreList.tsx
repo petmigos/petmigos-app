@@ -17,9 +17,9 @@ import { Company } from "../../entities/company";
 import { CompanyService } from "../../services/company/companyService";
 
 const StoreList: React.FC = () => {
-  const navigation = useNavigation();
-  const [stores, setStores] = useState([]);
-  const company = new CompanyService();
+    const navigation = useNavigation();
+    const [stores, setStores] = useState<Company[]>([]);
+    const company = new CompanyService();
 
   useEffect(() => {
     company.fetchCompanies().then((data) => {
@@ -39,22 +39,25 @@ const StoreList: React.FC = () => {
     );
   }
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <View>
-        <View>
-          <TitleScreenComp title="Lojas" />
-        </View>
-        <View>
-          <FlatList
-            data={stores}
-            renderItem={({ item }) => renderStores(item)}
-            keyExtractor={(item) => item._id}
-          />
-        </View>
-      </View>
-    </SafeAreaView>
-  );
-};
+    return(
+        <SafeAreaView style={styles.container}>
+              <TitleScreenComp title="Lojas"/>
+                <View>
+                {stores.length > 0 ? (
+                  <FlatList
+                    data={stores}
+                    renderItem={({ item }) => renderStores(item)}
+                    keyExtractor={item => item._id}
+                  />
+                ) : (
+                  <View style={styles.warning_container}>
+                  <Text style={styles.warning}>Não existem lojas cadastradas</Text>
+                  </View>
+                )}
+                </View>
+        
+        </SafeAreaView>
+    )
+}
 
 export default StoreList;

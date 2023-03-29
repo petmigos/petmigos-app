@@ -52,7 +52,7 @@ export default function CadastroProdutoScreen({ route }) {
       name: `test.${result.assets[0].uri.split(".")[1]}`,
     };
 
-    const image_upl = await cadastroItem.uploadImg(source);
+    const image_upl = await uploadImg(source);
     const image = image_upl.toString();
 
     await cadastroItem.execute({

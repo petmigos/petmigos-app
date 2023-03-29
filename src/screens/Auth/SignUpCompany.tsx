@@ -1,23 +1,29 @@
-import React, { useState, useEffect } from "react";
-import Input from "../../components/Input";
-import { compSignUpStyle } from "../../styles/signCompanyStyle";
-import { View, Text, ScrollView, Alert } from "react-native";
-import Title from "../../components/Title";
-import BrownButton from "../../components/BrownButton";
-import SignatureCard from "../../components/SignatureCard";
-import { Picker } from "@react-native-picker/picker";
-import { Address } from "../../entities/address";
-import { cnpj } from "cpf-cnpj-validator";
-import { CompanyService } from "../../services/company/companyService";
-import CreateCompany from "../../use_cases/CreateCompany";
-import { TopInitScreen } from "../../components/TopInitScreen/TopInitScreen";
-import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
-import { useNavigation, StackActions } from "@react-navigation/native";
-import PasswordField from "../../components/Password/PasswordField";
-import PasswordCheckbox from "../../components/Password/PasswordCheckbox";
+import React, { useState, useEffect } from 'react';
+import Input from '../components/Input';
+import { compSignUpStyle } from '../styles/signCompanyStyle';
+import { View, Text, ScrollView, Alert } from 'react-native';
+import Title from '../components/Title';
+import BrownButton from '../components/BrownButton';
+import SignatureCard from '../components/SignatureCard';
+import { Picker } from '@react-native-picker/picker';
+import { Address } from '../entities/address';
+import { cnpj } from 'cpf-cnpj-validator';
+import { CompanyService } from '../services/company/companyService';
+import CreateCompany from '../use_cases/CreateCompany';
+import { TopInitScreen } from '../components/TopInitScreen/TopInitScreen';
+import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
+import { useNavigation, StackActions } from '@react-navigation/native';
+import PasswordField from '../components/Password/PasswordField';
+import PasswordCheckbox from '../components/Password/PasswordCheckbox';
+import { uploadImg } from '../services/imageService';
+import { SetImage, result } from '../components/PetStoreComponents/SetImage/SetImage';
 
 let service = new CompanyService();
 let company = new CreateCompany(service);
+
+const image = {
+  test: require("../../assets/store_test.png"),
+};
 
 const SignUpCompany: React.FC = () => {
   const navigation = useNavigation();
@@ -62,7 +68,6 @@ const SignUpCompany: React.FC = () => {
   }, [cep]);
 
   const handleAdressNumberChange = (text: string) => {
-    console.log("number:" + text);
     setAddress({
       ...address,
       unidade: text,
@@ -80,15 +85,17 @@ const SignUpCompany: React.FC = () => {
 
   async function SendData() {
     try {
-      const createdCompany = await company.execute(
-        currentCNPJ,
-        selectedCategory,
-        name,
-        email,
-        [password, confPassword],
-        signature,
-        address
-      );
+      const source = {
+        uri: result.assets[0].uri,
+        type: `test/${result.assets[0].uri.split(".")[1]}`,
+        name: `test.${result.assets[0].uri.split(".")[1]}`,
+      };
+  
+      const image_upl = await uploadImg(source);
+      const image = image_upl.toString();
+
+
+      const createdCompany = await company.execute({currentCNPJ, selectedCategory, name, email, password, confPassword, signature, address, image})
       setShowMessageError(false);
       Alert.alert(
         "Sucesso!",
@@ -102,11 +109,15 @@ const SignUpCompany: React.FC = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ paddingTop: 20, paddingBottom: 20 }}>
       <View style={compSignUpStyle.container}>
-        <TopInitScreen title="Cadastro" marginBottom={25} />
-        <Input
-          message="CNPJ*"
+
+        <View style={compSignUpStyle.topContainer}>
+              <TopInitScreen title='Cadastro'/>
+              <SetImage image="../../assets/user_icon.png" />
+        </View>
+      
+        <Input message="CNPJ*"
           changeText={setCNPJ}
           value={cnpj.format(currentCNPJ)}
           marginBtm={20}
@@ -185,17 +196,9 @@ const SignUpCompany: React.FC = () => {
           <SignatureCard
             logo={require("../../../assets/signatureSoftLogo.png")}
             title="PetMigo Suave"
-            description="Um valor de 4% é cobrado em cima do valor de cada uma das transações através do aplicativo."
+            description="Um valor de 3,5% é cobrado em cima do valor de cada uma das compras feitas através do app."
             onPress={() => setSignature("PetMigo Suave")}
             selected={signature === "PetMigo Suave"}
-          />
-
-          <SignatureCard
-            logo={require("../../../assets/signatureIdealLogo.png")}
-            title="PetMigo Ideal"
-            description="Um valor de 5% é cobrado em cima do valor das transações pelo aplicativo, e +2% são cobrados para anunciar sua loja em destaque no app. "
-            onPress={() => setSignature("PetMigo Ideal")}
-            selected={signature === "PetMigo Ideal"}
           />
         </View>
         {showMessageError && <ValidationMessage error_text={messageError} />}

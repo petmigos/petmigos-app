@@ -12,7 +12,8 @@ import { QuantButton } from "../../components/PetStoreComponents/QuantButton/Qua
 import { ScrollView } from "react-native-gesture-handler";
 import { id_comp } from "../Auth/LoginScreen";
 import { useNavigation } from "@react-navigation/native";
-import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
+import { ValidationMessage } from "../components/ValidationMessages/ValidationMessage";
+import { uploadImg } from "../services/imageService";
 
 var cadastroItem = new CadastroItem(new CadastroItemService());
 
@@ -39,8 +40,8 @@ export default function CadastroProdutoScreen() {
         type: `test/${result.assets[0].uri.split(".")[1]}`,
         name: `test.${result.assets[0].uri.split(".")[1]}`,
       };
-
-      const image_upl = await cadastroItem.uploadImg(source);
+  
+      const image_upl = await uploadImg(source);
       const image = image_upl.toString();
 
       await cadastroItem.execute({

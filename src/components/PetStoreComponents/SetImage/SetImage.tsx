@@ -58,12 +58,12 @@ export const SetImage = ({ image }: SetImageProps) => {
 
 const styles = StyleSheet.create({
   component: {
-    flex: 1,
+    flex: 1.1,
 },
 
 image: {
-	marginTop: 10,
-	backgroundColor: superficie,
+	  marginTop: 10,
+	  backgroundColor: "#a89a8c",
     flex: 1,
     borderRadius: 250,
     height: 200,

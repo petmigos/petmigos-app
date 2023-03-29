@@ -19,77 +19,53 @@ import { useNavigation } from "@react-navigation/native";
 import { FindById } from "../../use_cases/item/FindById";
 import ItemService from "../../services/ItemService";
 
-var cadastroItem = new CadastroItem(new CadastroItemService());
 
 const image = {
   image: require("../../../assets/store_test.png"),
 };
 
 export default function ItemUserScreen({ route }) {
-  const { itemId } = route.params;
+  const { item, storeId } = route.params;
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [image, setImage] = useState("../../../assets/user_icon.png");
+  const navigation = useNavigation()
 
   const findById = new FindById(new ItemService());
 
-  useEffect(() => {
-    findById.execute(itemId).then((data) => {
-      console.log("Teste" +  itemId);
-      setTitle(data.title);
-      setDescription(data.description);
-      setImage(data.image);
-      setQuantity(data.quantity);
-      setPrice(data.price);
-    });
-  });
+  // useEffect(() => {
+  //   findById.execute(id_comp, itemId).then((data) => {
+  //     setTitle(data.title);
+  //     setDescription(data.description);
+  //     setImage(data.image);
+  //     setQuantity(data.quantity);
+  //     setPrice(data.price);
+  //   });
+  // });
 
-  const pickImage = async () => {
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    console.log(typeof result);
-
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
-  const uploadImage = () => {
-    console.log(typeof image);
-  };
+  const handleBuyButon = () =>{
+    console.log(image)
+    navigation.navigate("PurchaseItemScreen", { item, storeId })
+  }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.imageButton}
-        onPress={() => {
-          pickImage();
-          uploadImage();
-        }}
-      >
-        <Image source={{ uri: image }} style={styles.image} />
-      </TouchableOpacity>
+      <View style={styles.image_holder}>
+        <Image source={{ uri: item.image }} style={styles.image} />
+      </View>
       <View style={styles.info}>
-        <Text style={styles.tituloItem}>{title}</Text>
+        <Text style={styles.tituloItem}>{item.title}</Text>
         <Text style={styles.informacoes}>Informações</Text>
-        <Text style={styles.preco}>R$ {price}</Text>
-        <Text style={styles.descricao}>{description}</Text>
+        <Text style={styles.preco}>R$ {item.price}</Text>
+        <Text style={styles.descricao}>{item.description !== undefined ? item.description: "Sem descrição"}</Text>
       </View>
       <View style={styles.buyButtons}>
-        <TouchableOpacity style={styles.accessingButton}>
+        <TouchableOpacity style={styles.accessingButton} onPress={handleBuyButon}>
           <Text style={styles.gettingText}>Comprar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.accessingButton}>
-          <Text style={styles.gettingText}>Adicionar ao Carrinho</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -102,8 +78,8 @@ const styles = StyleSheet.create({
     backgroundColor: background,
   },
 
-  imageButton: {
-    flex: 4,
+  image_holder: {
+    flex: 3,
     backgroundColor: superficie,
     justifyContent: "center",
     alignItems: "center",
@@ -128,7 +104,8 @@ const styles = StyleSheet.create({
   },
 
   informacoes: {
-    marginTop: 30,
+    marginTop: 10,
+    marginBottom: 20,
     fontSize: 20,
     fontWeight: "bold",
     marginLeft: 20,
@@ -142,8 +119,9 @@ const styles = StyleSheet.create({
 
   descricao: {
     textAlign: "justify",
-    fontSize: 20,
+    fontSize: 16,
     marginLeft: 20,
+    marginRight: 20
   },
 
   buyButtons: {

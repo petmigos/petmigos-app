@@ -13,7 +13,7 @@ import { Text, View, Image, ImageSourcePropType } from "react-native";
 import { StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
 import { Float } from "react-native/Libraries/Types/CodegenTypes";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { Item } from "../../../entities/item";
 import { err } from "react-native-svg/lib/typescript/xml";
 
@@ -34,9 +34,7 @@ export const CardUser = ({ item}: CardUserProps) => {
         </View>
 
         <View style={styles.botComponent}>
-          <View style={styles.botLeftComponent}>
-            <Text style={styles.furnisher}>{item.company.name}</Text>
-          </View>
+          
           <View style={styles.botRightComponent}>
             <Text style={styles.priceTag}>R$ </Text>
             <Text style={styles.price}>{item.price.toFixed(2)}</Text>
@@ -115,8 +113,8 @@ const styles = StyleSheet.create({
 
   botRightComponent: {
     borderRadius: 5,
-    borderColor: superficie,
-    borderWidth: 3,
+    //borderColor: superficie,
+    //borderWidth: 3,
     backgroundColor: background,
     flexDirection: "row",
     alignText: "flex-end",

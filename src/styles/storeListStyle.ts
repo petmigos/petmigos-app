@@ -1,4 +1,6 @@
 import { StyleSheet, StatusBar } from "react-native";
+import { ScreenHeight } from "react-native-elements/dist/helpers";
+import { desabilitado } from "./colors";
 
 export const styles = StyleSheet.create({
     container: {
@@ -14,4 +16,15 @@ export const styles = StyleSheet.create({
     title: {
       fontSize: 32,
     },
+    warning_container:{
+      display: 'flex',
+      height: ScreenHeight,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    warning: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: desabilitado
+    }
   });

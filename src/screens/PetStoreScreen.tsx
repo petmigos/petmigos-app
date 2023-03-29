@@ -21,8 +21,7 @@ import { useIsFocused, useNavigation } from "@react-navigation/native";
 import ItemService from "../services/ItemService";
 import { useEffect, useState } from "react";
 import { Item } from "../entities/item";
-import { FetchAll } from "../use_cases/item/FetchAll"
-
+import { FetchAll } from "../use_cases/item/FetchAll";
 
 const images = {
   heart: require("../../assets/petstoreitems/heart.png"),
@@ -66,7 +65,8 @@ export default function PetStoreScreen(props) {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("ItemUserScreen", {
-            itemId: item._id,
+            item: item,
+            storeId: item.companyId
           });
         }}
       >
@@ -117,7 +117,6 @@ export default function PetStoreScreen(props) {
           image={images.medical}
           size={{ width: 24, height: 26 }}
         />
-        
         <PetStoreItem
           onPress={() => {
             navigation.navigate("CategoryVisualizationScreen", {

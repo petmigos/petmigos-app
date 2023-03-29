@@ -1,23 +1,34 @@
 import {Text, View, TextInput, Image, StyleSheet, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
-import ItemCard from '../../components/Cards/ItemCard/ItemCard';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { inputBackground } from '../../styles/colors';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Item } from '../../entities/item';
+import { FetchAllByCompany } from '../../use_cases/item/FetchAllByCompany';
+import ItemService from '../../services/ItemService';
+import ItemCard from '../../components/Cards/ItemCard/ItemCard';
 
 const StorePage = ({ route }) =>{
     const navigation = useNavigation()
     const { store } = route.params;
+    const isFocused = useIsFocused();
     const [searchText, setSearchText] = useState('');
-    const [items, setData] = useState([
-    { id: '1', title: 'Coleira', price: '45.99' },
-    { id: '2', title: 'Ração Pedigree 2kg', price: '89.00' },
-    { id: '3', title: 'Caminha de gato', price: '276.99' },
-    { id: '4', title: 'Ração 10kg', price: '132.50' },
-    { id: '5', title: 'Arranhador p/ gato', price: '341.00' },
-    ]);
+    const [items, setData] = useState([]);
     const [filteredItems, setFilteredData] = useState(items);
+    const fetchAllByCompany = new FetchAllByCompany(new ItemService());
+
+    useEffect(() => {
+        getItems()
+      }, []);
+
+    const getItems = () => {
+        if(isFocused){
+            fetchAllByCompany.execute(store._id).then((data) => {
+              setData(data);
+              setFilteredData(data)
+            });
+          }
+    }
 
     const handleSearch = (text: string) => {
         setSearchText(text);
@@ -28,7 +39,6 @@ const StorePage = ({ route }) =>{
             return itemName.includes(searchTextLower);
         });
         setFilteredData(filteredData)
-        console.log(filteredData)
         };
 
     function onPressItem(item: any) {
@@ -60,13 +70,14 @@ const StorePage = ({ route }) =>{
                 style={styles.searchBar}
             />
             <View style={styles.list}>
-            {filteredItems.map(item => (   
+            {items !== undefined? filteredItems.map(item => (   
                 <TouchableOpacity
-                    key={item.id || item.title}
+                    key={item._id || item.title}
                 >
-                    <ItemCard {...item} onPress={() => onPressItem(item)}/>
+                    <ItemCard {...item} onPress={() => onPressItem(item)} image={item.image}/>
                 </TouchableOpacity>
-            ))}
+            )) : (<Text>NAO TEM ITEM</Text>)
+            }
 
             </View>
         </ScrollView>
@@ -96,7 +107,8 @@ const styles = StyleSheet.create(
         icon:{
             width: 90,
             height: 90,
-            borderRadius: 20
+            borderRadius: 20,
+            
         },
         description:{
             marginLeft: 10,

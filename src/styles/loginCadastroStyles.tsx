@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { erro, primary } from './colors';
+import { erro, primary, background } from './colors';
 
 
 export default StyleSheet.create({
@@ -8,6 +8,18 @@ export default StyleSheet.create({
         flex: 0,
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: background,
+        height: "100%"
+    },
+
+    container_cadastro: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: background,
+         height: "100%",
+         paddingBottom: 10
     },
 
     middle_screen: {
@@ -140,7 +152,24 @@ export default StyleSheet.create({
 
     enable: {
         backgroundColor: primary,
-    }
+    },
+
+    topContainer: {
+        display: "flex",
+        height: "45%",
+        backgroundColor: background,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        marginBottom: 10,
+      },
+    
+      topText: {
+        fontSize: 25,
+        fontWeight: "bold",
+        marginTop: 40,
+        marginBottom: 0,
+        
+      },
 
 
 

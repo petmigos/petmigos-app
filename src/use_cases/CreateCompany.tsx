@@ -9,23 +9,23 @@ export default class CreateCompany {
     this.companyService = companyService;
   }
 
-  async execute(currentCNPJ: string, category: string, name: string, email: string, password: string[], signature: string, address: Address): Promise<Company> {
-    currentCNPJ = cnpj.format(currentCNPJ)
-    console.log("numero: " + address.unidade + " cep: " + address.cep)
+  async execute(newCompany): Promise<Company> {
+    const {currentCNPJ, selectedCategory, name, email, password, confPassword, signature, address, image} = newCompany;
+    const formatCNPJ = cnpj.format(currentCNPJ)
     const isEmpty =
-      (this.isEmpty(currentCNPJ) || this.isEmpty(category) ||
+      (this.isEmpty(formatCNPJ) || this.isEmpty(selectedCategory) ||
         this.isEmpty(name) || this.isEmpty(email) ||
-        this.isEmpty(password[0]) || this.isEmpty(password[1]) ||
+        this.isEmpty(confPassword) || this.isEmpty(password) ||
         this.isEmpty(address.unidade) || this.isEmpty(address.cep))
 
     if (isEmpty) throw new Error("Preencha todos os campos obrigatórios sinalizados por *.")
     if (!this.isValidEmail(email)) throw new Error("Preencha o campo de E-mail corretamente.")
-    if (!this.isValidCNPJ(currentCNPJ)) throw new Error("CNPJ inválido.")
-    if (!this.isValidPassword(password[0])) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
-    if (!this.isPasswordEqual(password[0], password[1])) throw new Error("As senhas não coincidem.")
+    if (!this.isValidCNPJ(formatCNPJ)) throw new Error("CNPJ inválido.")
+    if (!this.isValidPassword(password)) throw new Error("A senha deve possuir entre 8 e 20 caracteres, contendo números e letras maiúscula e minusculas.")
+    if (!this.isPasswordEqual(password, confPassword)) throw new Error("As senhas não coincidem.")
     if (!this.hasSignature(signature)) throw new Error("É preciso escolher seu plano de assinatura.")
 
-    const createdCompany = await this.companyService.create(currentCNPJ, category, name, email, password[0], signature, address)
+    const createdCompany = await this.companyService.create({formatCNPJ, selectedCategory, name, email, password, signature, address, image})
     return createdCompany;
   }
 

@@ -11,7 +11,7 @@ class Company{
   public password: string;
   public signature: string;
 
-  constructor(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address) {
+  constructor(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address, imagem: string) {
     this.cnpj = cnpj;
     this.name = name;
     this.email = email;
@@ -24,7 +24,8 @@ class Company{
 
 export class CompanyService {
 
-  public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address): Promise<Company>{
+  public async create(newCompany): Promise<Company>{
+    const {formatCNPJ, selectedCategory, name, email, password, signature, address, image} = newCompany;
     const response = await fetch(`http://${ip}:3333/cadastroCompany`, {
             method: 'POST',
             headers: {
@@ -32,9 +33,10 @@ export class CompanyService {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              cnpj: cnpj,
+              image: image,
+              cnpj: formatCNPJ,
               name: name,
-              category: category,
+              category: selectedCategory,
               email: email,
               password: password,
               signature: signature,
@@ -78,7 +80,6 @@ export class CompanyService {
     try {
       const response = await fetch(`http://${ip}:3333/companies`);
       const data = await response.json();
-      console.log("data: "+ data)
       return data.map(company => ({ name: company.name, _id: company._id, category: company.category }));
     } catch (error) {
       console.error("ERROR: " + error);

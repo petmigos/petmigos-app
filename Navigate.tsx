@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { primary } from "./src/styles/colors";
-import { MaterialIcons, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 
 import LoginScreen from "./src/screens/Auth/LoginScreen";
 import PickUpSignUp from "./src/screens/Auth/PickUpSignUp";
@@ -14,13 +14,13 @@ import CadastroScreen from "./src/screens/Auth/CadastroScreen";
 import PetStoreScreen from "./src/screens/PetStoreScreen";
 import StoreList from "./src/screens/Stores/StoreList";
 import StorePage from "./src/screens/Stores/StorePage";
+import PurchaseItemScreen from "./src/screens/ItemVisualization/PurchaseItemScreen";
 
 import ListPets from "./src/screens/Pets";
 import PetDetails from "./src/screens/PetDetails";
 import RegisterPets from "./src/screens/PetsRegistering";
 
-import Padrinhos from "./src/screens/Padrinhos/Padrinhos";
-import Profile from "./src/screens/Profile";
+import Profile from "./src/screens/Profile/Profile";
 
 // --- TELAS DE EMPRESA
 import CompanyHomeScreen from "./src/screens/Company/CompanyHomeScreen";
@@ -35,6 +35,8 @@ import EditPets from "./src/screens/PetEditing";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
 
 function TabPetOwner() {
   return (
@@ -59,14 +61,13 @@ function TabPetOwner() {
           ),
         }}
       />
-
       <Tab.Screen
         name="PetStack"
         component={PetStack}
         options={{
           tabBarLabel: "Meus Pets",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="dog" size={size} color={color} />
+            <MaterialIcons name="pets" size={size} color={color} />
           ),
         }}
       />
@@ -115,6 +116,9 @@ function TabCompany() {
         component={MyStore}
         options={{
           tabBarLabel: "Minha Loja",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="store" size={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -122,6 +126,9 @@ function TabCompany() {
         component={OrdersScreen}
         options={{
           tabBarLabel: "Pedidos",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="clipboard-list" size={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -176,6 +183,7 @@ function PetStoreStack() {
         component={CategoryVisualizationScreen}
       />
       <Stack.Screen name="ItemUserScreen" component={ItemUserScreen} />
+      <Stack.Screen name="PurchaseItemScreen" component={PurchaseItemScreen}/>
     </Stack.Navigator>
   );
 }
@@ -189,6 +197,8 @@ function StoreStack() {
       <Stack.Screen name="StoreList" component={StoreList} />
       <Stack.Screen name="StorePage" component={StorePage} />
       <Stack.Screen name="ItemUserScreen" component={ItemUserScreen} />
+      <Stack.Screen name="PurchaseItemScreen" component={PurchaseItemScreen}/>
+
     </Stack.Navigator>
   );
 }
@@ -221,7 +231,7 @@ export default function NavigateTo() {
           name="PetStoreStack"
           component={PetStoreStack}
           options={{ headerShown: false }}
-        />
+        /> 
         <Stack.Screen
           name="StoreStack"
           component={StoreStack}

@@ -19,11 +19,11 @@ export const QuantButton = (props: QuantityProps) => {
   return (
     <View style={styles.component}>
       <TouchableOpacity style={styles.btn} onPress={props.decrement}>
-        <Text>-</Text>
+        <Text style={styles.txt}>-</Text>
       </TouchableOpacity>
       <Text style={styles.qtd}>{props.quantity}</Text>
       <TouchableOpacity style={styles.btn} onPress={props.increment}>
-        <Text>+</Text>
+        <Text style={styles.txt}>+</Text>
       </TouchableOpacity>
     </View>
   );
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   component: {
     backgroundColor: background,
     borderColor: primary,
-    borderWidth: 2,
+    borderWidth: 0,
     flex: 0.4,
     height: 28,
     flexDirection: "row",
@@ -55,4 +55,8 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
   },
+
+  txt:{
+    color: "white"
+  }
 });
