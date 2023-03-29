@@ -58,6 +58,7 @@ const PurchaseItemScreen = ({route}) =>{
 
     return(
         <View style={styles.container}>
+            
                 <Text style={styles.title}>Comprando <Text style={styles.bold}>{item.title}</Text></Text>
                 <Image source={{ uri: item.image }} style={styles.image} />
                 <Text style={styles.originalPrice}>R$ {currentPrice}</Text>

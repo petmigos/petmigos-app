@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { primary } from "./src/styles/colors";
-import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 
 import LoginScreen from "./src/screens/LoginScreen";
 import PickUpSignUp from "./src/screens/PickUpSignUp";
@@ -114,6 +114,9 @@ function TabCompany() {
         component={MyStore}
         options={{
           tabBarLabel: "Minha Loja",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="store" size={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -121,6 +124,9 @@ function TabCompany() {
         component={OrdersScreen}
         options={{
           tabBarLabel: "Pedidos",
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome5 name="clipboard-list" size={size} color={color} />
+          ),
         }}
       />
       <Tab.Screen

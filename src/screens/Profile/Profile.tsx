@@ -2,12 +2,32 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import UserService from "../../services/userService";
 import { User } from "../../entities/user";
-import { loggeduser } from "../LoginScreen";
+import { id_comp, loggeduser } from "../LoginScreen";
 import { primary } from "../../styles/colors";
+import * as SecureStore from 'expo-secure-store';
+import { useNavigation, StackActions } from "@react-navigation/native";
+import { id_user } from "../LoginScreen";
 
 
 const Profile: React.FC = () => {
   const created = loggeduser.createdAt;
+  const navigation = useNavigation()
+
+  async function handleLogout() {
+    try {
+     
+      await SecureStore.deleteItemAsync(id_user).then(
+          () => navigation.reset({
+            index: 0,
+            routes: [{ name: "Auth" }]
+          })
+      );
+    } catch (error) {
+      console.log('Error while logging out:', error);
+    }
+  }
+
+
   return (
     <View style={styles.container}>
       <Image source={{ uri: loggeduser.image }} style={styles.img}/>
@@ -22,6 +42,10 @@ const Profile: React.FC = () => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.compras}>
         <Text>Minhas compras</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => handleLogout()}>
+        <Text>SAIR</Text>
       </TouchableOpacity>
     </View>
   );

@@ -61,7 +61,7 @@ export default function ItemUserScreen({ route }) {
         <Text style={styles.tituloItem}>{item.title}</Text>
         <Text style={styles.informacoes}>Informações</Text>
         <Text style={styles.preco}>R$ {item.price}</Text>
-        <Text style={styles.descricao}>{item.description}</Text>
+        <Text style={styles.descricao}>{item.description !== undefined ? item.description: "Sem descrição"}</Text>
       </View>
       <View style={styles.buyButtons}>
         <TouchableOpacity style={styles.accessingButton} onPress={handleBuyButon}>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   },
 
   informacoes: {
-    marginTop: 50,
+    marginTop: 10,
     marginBottom: 20,
     fontSize: 20,
     fontWeight: "bold",
