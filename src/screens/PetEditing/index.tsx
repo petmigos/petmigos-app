@@ -78,7 +78,7 @@ const EditPets: React.FC = (props) => {
   }
 
   function PetDelete() {
-    Alert.alert("Deletar", "Deseja realmente excluir esta vacina? Você perderá todos os dados referentes a este Pet!", [
+    Alert.alert("Deletar", "Deseja realmente excluir esta Pet? Você perderá todos os dados referentes a ele!!", [
       {
         text: "Cancelar",
         style: "cancel",
@@ -98,23 +98,6 @@ const EditPets: React.FC = (props) => {
         onPress: () => navigation.goBack(),
       },
     ]);
-  }
-
-  function PetEdit() {
-    Alert.alert(
-      "Deletar",
-      "Deseja realmente excluir esta vacina? Você perderá todos os dados referentes a este Pet!",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Excluir",
-          onPress: () => DeletePetFunc(petId),
-        },
-      ]
-    );
   }
 
   async function EditPetFunc() {
