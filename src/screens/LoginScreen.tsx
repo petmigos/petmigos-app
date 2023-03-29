@@ -18,8 +18,7 @@ import { Company } from '../entities/company';
 
 const loginUser = new LoginUser(new LoginUserService());
 const loginCompany = new LoginCompany(new CompanyService());
-export let loggeduser: User;
-export let loggedcompany: Company;
+export let user;
 
 // This variable is saving the user id, based on their password, after logging
 export let id_user = "";
@@ -49,6 +48,12 @@ export default function LoginScreen() {
     async function save_id(password, ident) {
         await SecureStore.setItemAsync(password, ident);
     }
+
+    async function save_user(userLogged){
+        user = userLogged;
+        console.log("logged: " + userLogged)
+        console.log("user: " + user)
+    }
     
     // Implementation of Secure Store Api
     async function getValueFor(password): Promise<string> {
@@ -69,19 +74,21 @@ export default function LoginScreen() {
     async function SendData() {
 
         try {
+            setShowMessageError(false);
             if (selectedIndex == 0) {
-                loggeduser = await loginUser.execute(username, password);
+                const loggeduser = await loginUser.execute(username, password);
+                save_user(loggeduser)
                 save_id(loggeduser.password, loggeduser._id);
                 id_user = await getValueFor(password);
                 console.log("id: " + id_user)
-                setShowMessageError(false);
                 navigation.navigate('TabPetOwner');
             }
             else {
-                loggedcompany = await loginCompany.execute(username, password);
+
+                const loggedcompany = await loginCompany.execute(username, password);
+                save_user(loggedcompany)
                 save_id(loggedcompany.password, loggedcompany._id);
                 id_comp = await getValueFor(password)
-                setShowMessageError(false);
                 navigation.navigate('TabCompany');
             }
 
