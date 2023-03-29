@@ -17,9 +17,14 @@ import { PetDetailNavigationProp } from "./navigation";
 import { background, erro, primary, superficie, inputBackground } from "../../styles/colors";
 import { Ionicons } from "@expo/vector-icons";
 import { id_user } from "../Auth/LoginScreen";
+import { UpdatePet } from "../../use_cases/pets/Update";
+
+
 
 
 const fetchAll = new FetchAll(new PetService());
+
+var updated = new UpdatePet(new PetService());
 
 const ListPets: React.FC = (props) => {
   const navigation = useNavigation<PetDetailNavigationProp>();
@@ -43,6 +48,19 @@ const ListPets: React.FC = (props) => {
 
   function goRegisterPet(){
     navigation.navigate("RegisterPet");
+  }
+
+  async function updatePet(pet_id: string){
+    
+    const ownerId = id_user;
+    const name = "Doguinho";
+    const type = "Cachorro";
+    const gender = "Male";
+    const birthday = (new Date());
+    const image = "http://res.cloudinary.com/petmigosimages/image/upload/v1680039418/dw5ipnbsgqmgublpgptg.jpg";
+    const tags = ["gente boa", "amigo"]
+    return await updated.execute(pet_id, {ownerId, name, type, birthday, gender, tags, image,})
+    
   }
 
   function renderPets(pet: Pet) {
@@ -79,7 +97,8 @@ const ListPets: React.FC = (props) => {
           data={pets}
           renderItem={({ item }) => renderPets(item)}
         />
-        <TouchableOpacity style={styles.add_button} onPress={goRegisterPet}>
+        <TouchableOpacity style={styles.add_button} onPress={event => 
+          {goRegisterPet(), console.log(updatePet())}}>
           <Text style={styles.add_text}>ADICIONAR PET</Text>
         </TouchableOpacity>
       </View>
