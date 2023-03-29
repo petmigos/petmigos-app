@@ -36,11 +36,8 @@ const EditPets: React.FC = (props) => {
   const [messageError, setMessageError] = useState("");
   const [type, setType] = useState("Acessorios");
   const [birthday, setBirthday] = useState(new Date());
-  const [textTag, setTextTag] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [gender, setGender] = useState("Male");
-  const [features, setFeatures] = useState([]);
-  const [tag, setTag] = useState("");
   const [image, setImage] = useState<string>()
   const isFocused = useIsFocused();
 
@@ -68,20 +65,6 @@ const EditPets: React.FC = (props) => {
     }
   }, [props, isFocused]);
 
-  const handleAddItem = (tag: string) => {
-    if (tag !== "") {
-      const newTag = { id: features.length + 1, name: `${tag}` };
-      setFeatures([...features, newTag]);
-    }
-
-    console.log(features);
-  };
-
-  const handleTagDelete = (tagToDelete) => {
-    const newTags = features.filter((tag) => tag !== tagToDelete);
-    setFeatures(newTags);
-  };
-
   function petGender() {
     if (selectedIndex == 0) {
       setGender("Male");
@@ -89,17 +72,6 @@ const EditPets: React.FC = (props) => {
       setGender("Female");
     }
   }
-
-  const ListItem = ({ item }) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.tagText}>{item.name}</Text>
-        <TouchableOpacity onPress={() => handleTagDelete(item)}>
-          <Text style={styles.deleteButton}>X</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   function TypeChange(itemValue: string) {
     setType(itemValue);
@@ -156,7 +128,6 @@ const EditPets: React.FC = (props) => {
   
       const image_upl = await cadastroPet.uploadImg(source);
       const image = image_upl.toString();
-      const tags = features.map((item) => item.name);
       petGender();
       const editedPet: Pet = {
         ownerId: ownerId,
@@ -164,7 +135,6 @@ const EditPets: React.FC = (props) => {
         type: type,
         birthday: birthday,
         gender: gender,
-        tags: tags,
         image: image,
       };
       await updatePet.execute(petId, editedPet);
@@ -234,33 +204,6 @@ const EditPets: React.FC = (props) => {
             setSelectedIndex(value);
           }}
           containerStyle={{ marginTop: 40 }}
-        />
-        <Text style={styles.bodyTitle}>Tags</Text>
-        <View style={styles.tagContainer}>
-          <TextInput
-            style={styles.input_box_tag}
-            placeholder="Tag"
-            value={`${textTag}`}
-            onChangeText={(text) => {
-              setTag(text), setTextTag(text);
-            }}
-          ></TextInput>
-          <TouchableOpacity
-            style={styles.addTagButton}
-            onPress={() => {
-              handleAddItem(tag), setTextTag("");
-            }}
-          >
-            <Text style={styles.addTagText}>Adicionar</Text>
-          </TouchableOpacity>
-        </View>
-
-        <FlatList
-          data={features}
-          renderItem={({ item }) => <ListItem item={item} />}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={3}
-          contentContainerStyle={styles.listContainer}
         />
 
         <TouchableOpacity style={styles.editButton} onPress={() => EditPetFunc()}>

@@ -4,7 +4,7 @@ import { id_user } from "../screens/Auth/LoginScreen";
 
 export class PetService {
   async register(newPet: Pet): Promise<Pet> {
-    const { ownerId, name, type, birthday, gender, tags, image } = newPet;
+    const { ownerId, name, type, birthday, gender, image } = newPet;
     console.log(newPet);
     const response = await fetch(`http://${ip}:3333/user/${ownerId}/pets`, {
       method: "POST",
@@ -17,7 +17,6 @@ export class PetService {
         type: type,
         birthday: birthday,
         gender: gender,
-        tags: tags,
         image: image,
       }),
     });
@@ -52,7 +51,7 @@ export class PetService {
     id_pet: string,
     updatedPet: Pet
   ): Promise<Pet | undefined> {
-    const { name, type, birthday, gender, tags, image } = updatedPet;
+    const { name, type, birthday, gender, image } = updatedPet;
     const response = await fetch(
       `http://${ip}:3333/user/${id_user}/pets/${id_pet}`,
       {
@@ -66,7 +65,6 @@ export class PetService {
           type: type,
           birthday: birthday,
           gender: gender,
-          tags: tags,
           image: image,
         }),
       }
