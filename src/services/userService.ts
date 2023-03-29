@@ -15,4 +15,15 @@ export default class UserService {
         if (responseStatus !== 200) throw new Error(responseJSON.message);
         return responseJSON;
     }
+
+    async findById(): Promise<User | null> {
+      const response = await fetch(
+        `http://${ip}:3333/user/${id_user}`
+      );
+
+      const responseJSON = await response.json();
+      const responseStatus = response.status;
+      if (responseStatus !== 200) throw new Error(responseJSON.message);
+      return responseJSON;
+    }
 }
