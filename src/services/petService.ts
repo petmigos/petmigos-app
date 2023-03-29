@@ -55,6 +55,12 @@ export class PetService {
       `http://${ip}:3333/user/${id_user}/pets/${id_pet}`,
       {
         method: "DELETE",
+  async findByIdAndUpdate(id_pet: string, updatedPet: Pet): Promise<Pet | undefined> {
+    const { name, type, birthday, gender, tags, image, } = updatedPet;
+    const response = await fetch(
+      `http://${ip}:3333/user/${id_user}/pets/${id_pet}`,
+      {
+        method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -64,6 +70,16 @@ export class PetService {
         }),
       }
     );
+          name: name,
+          type: type,
+          birthday: birthday,
+          gender: gender,
+          tags: tags,
+          image: image,
+        }),
+      }
+    );
+
     const responseJSON = await response.json();
     const responseStatus = response.status;
     if (responseStatus !== 200) throw new Error(responseJSON.message);
