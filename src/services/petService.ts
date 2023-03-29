@@ -48,15 +48,11 @@ export class PetService {
     return responseJSON;
   }
 
-  async delete(id_pet: string): Promise<string> {
-    const companyId = id_user;
-
-    const response = await fetch(
-      `http://${ip}:3333/user/${id_user}/pets/${id_pet}`,
-      {
-        method: "DELETE",
-  async findByIdAndUpdate(id_pet: string, updatedPet: Pet): Promise<Pet | undefined> {
-    const { name, type, birthday, gender, tags, image, } = updatedPet;
+  async findByIdAndUpdate(
+    id_pet: string,
+    updatedPet: Pet
+  ): Promise<Pet | undefined> {
+    const { name, type, birthday, gender, tags, image } = updatedPet;
     const response = await fetch(
       `http://${ip}:3333/user/${id_user}/pets/${id_pet}`,
       {
@@ -66,10 +62,6 @@ export class PetService {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: id_pet,
-        }),
-      }
-    );
           name: name,
           type: type,
           birthday: birthday,
@@ -80,6 +72,27 @@ export class PetService {
       }
     );
 
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
+
+  async delete(id_pet: string): Promise<string> {
+
+    const response = await fetch(
+      `http://${ip}:3333/user/${id_user}/pets/${id_pet}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: id_pet,
+        }),
+      }
+    );
     const responseJSON = await response.json();
     const responseStatus = response.status;
     if (responseStatus !== 200) throw new Error(responseJSON.message);

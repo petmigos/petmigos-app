@@ -24,8 +24,6 @@ import { UpdatePet } from "../../use_cases/pets/Update";
 
 const fetchAll = new FetchAll(new PetService());
 
-var updated = new UpdatePet(new PetService());
-
 const ListPets: React.FC = (props) => {
   const navigation = useNavigation<PetDetailNavigationProp>();
   const [pets, setPets] = useState<Pet[]>([]);
@@ -52,13 +50,6 @@ const ListPets: React.FC = (props) => {
 
   async function updatePet(pet_id: string){
     
-    const ownerId = id_user;
-    const name = "Doguinho";
-    const type = "Cachorro";
-    const gender = "Male";
-    const birthday = (new Date());
-    const image = "http://res.cloudinary.com/petmigosimages/image/upload/v1680039418/dw5ipnbsgqmgublpgptg.jpg";
-    const tags = ["gente boa", "amigo"]
     return await updated.execute(pet_id, {ownerId, name, type, birthday, gender, tags, image,})
     
   }
@@ -79,7 +70,7 @@ const ListPets: React.FC = (props) => {
             Não há pets cadastrados. Considere cadastrar um pet primeiro.
           </Text>
         )}
-        
+
         <View>
           {/* <TextInput
             style={styles.input_box}
@@ -97,8 +88,7 @@ const ListPets: React.FC = (props) => {
           data={pets}
           renderItem={({ item }) => renderPets(item)}
         />
-        <TouchableOpacity style={styles.add_button} onPress={event => 
-          {goRegisterPet(), console.log(updatePet())}}>
+        <TouchableOpacity style={styles.add_button} onPress={goRegisterPet}>
           <Text style={styles.add_text}>ADICIONAR PET</Text>
         </TouchableOpacity>
       </View>

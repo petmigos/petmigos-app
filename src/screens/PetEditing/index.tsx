@@ -19,6 +19,8 @@ import { FindById } from "../../use_cases/pets/FindById";
 import { Params } from "../Pets/navigation";
 import { err } from "react-native-svg/lib/typescript/xml";
 import { Delete } from "../../use_cases/pets/Delete";
+import { UpdatePet } from "../../use_cases/pets/Update";
+import { Pet } from "../../entities/pet";
 
 var cadastroPet = new CreatePet(new PetService());
 const findById = new FindById(new PetService());
@@ -30,7 +32,6 @@ const EditPets: React.FC = (props) => {
   const ownerId = id_user;
   const route = useRoute<RouteProp<Params, "PetInfo">>();
   const { petId } = route.params;
-  console.log(petId);
   const [showMessageError, setShowMessageError] = useState(false);
   const [messageError, setMessageError] = useState("");
   const [type, setType] = useState("Acessorios");
@@ -44,6 +45,7 @@ const EditPets: React.FC = (props) => {
   const isFocused = useIsFocused();
 
   const deletePet = new Delete(new PetService());
+  var updatePet = new UpdatePet(new PetService());
 
   useEffect(() => {
     if (isFocused) {
@@ -99,37 +101,6 @@ const EditPets: React.FC = (props) => {
     );
   };
 
-  async function SendData() {
-    try {
-      const source = {
-        uri: result.assets[0].uri,
-        type: `test/${result.assets[0].uri.split(".")[1]}`,
-        name: `test.${result.assets[0].uri.split(".")[1]}`,
-      };
-
-      const image_upl = await cadastroPet.uploadImg(source);
-      const image = image_upl.toString();
-      const tags = features.map((item) => item.name);
-      petGender();
-
-      await cadastroPet.execute({
-        ownerId,
-        name,
-        type,
-        birthday,
-        gender,
-        tags,
-        image,
-      });
-      setShowMessageError(false);
-
-      navigation.goBack();
-    } catch (error: any) {
-      setShowMessageError(true);
-      setMessageError(error.message);
-    }
-  }
-
   function TypeChange(itemValue: string) {
     setType(itemValue);
   }
@@ -152,9 +123,46 @@ const EditPets: React.FC = (props) => {
     Alert.alert("Concluido!", "Seu pet foi deletado!", [
       {
         text: "Voltar a Meus Pets",
+        onPress: () => navigation.goBack(),
       },
     ]);
-    navigation.goBack();
+  }
+
+  function PetEdit() {
+    Alert.alert(
+      "Deletar",
+      "Deseja realmente excluir esta vacina? Você perderá todos os dados referentes a este Pet!",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          onPress: () => DeletePetFunc(petId),
+        },
+      ]
+    );
+  }
+
+  async function EditPetFunc() {
+    const editedPet: Pet = {
+      ownerId: ownerId,
+      name: name,
+      type: type,
+      birthday: birthday,
+      gender: gender,
+      tags: features,
+      image: image,
+    };
+    await updatePet.execute(petId, editedPet);
+    Alert.alert("Concluido!", "As informações do seu pet foram editadas!", [
+      {
+        text: "Voltar a Meus Pets",
+        onPress: () => navigation.goBack(),
+      },
+    ]);
+    
   }
 
 
@@ -197,9 +205,7 @@ const EditPets: React.FC = (props) => {
           labelMonth="Mês"
           labelYear="Ano"
           styleInput={styles.inputDate}
-          onSubmit={(value) => {
-            console.log(value), setBirthday(value);
-          }}
+          onSubmit={(value) => { setBirthday(value); }}
         />
 
         <Text style={styles.bodyTitle}>Gênero</Text>
@@ -241,7 +247,7 @@ const EditPets: React.FC = (props) => {
           contentContainerStyle={styles.listContainer}
         />
 
-        <TouchableOpacity style={styles.editButton} onPress={() => SendData()}>
+        <TouchableOpacity style={styles.editButton} onPress={() => EditPetFunc()}>
           <Text style={styles.gettingTextEdit}>Atualizar Informações</Text>
         </TouchableOpacity>
         <TouchableOpacity
