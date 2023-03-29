@@ -27,29 +27,9 @@ const RegisterPets: React.FC = () => {
   const [messageError, setMessageError] = useState("");
   const [type, setType] = useState("Acessorios");
   const [birthday, setBirthday] = useState(new Date())
-  const [textTag, setTextTag] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [gender, setGender] = useState("Male");
-  const [features, setFeatures] = useState([]);
-  const [tag, setTag] = useState("");
 
-
-  const handleAddItem = (tag: string) => {
-
-    if (tag !== "")
-    {
-      const newTag = { id: features.length + 1, name: `${tag}` };
-      setFeatures([...features, newTag]);
-    }
-
-    console.log(features);
-
-  };
-
-  const handleTagDelete = (tagToDelete) => {
-    const newTags = features.filter(tag => tag !== tagToDelete);
-    setFeatures(newTags);
-  }
   
   function petGender() {
       
@@ -64,17 +44,6 @@ const RegisterPets: React.FC = () => {
     }
 
   }
-  
-  const ListItem = ({ item }) => {
-    return (
-      <View style={styles.item}>
-        <Text style={styles.tagText}>{item.name}</Text>
-        <TouchableOpacity onPress={() => handleTagDelete(item)}>
-          <Text style={styles.deleteButton}>X</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   async function SendData() {
 
@@ -87,11 +56,10 @@ const RegisterPets: React.FC = () => {
 
       const image_upl = await cadastroPet.uploadImg(source);
       const image = image_upl.toString();
-      const tags = features.map(item => item.name);
       petGender();
     
       await cadastroPet.execute({
-        ownerId, name, type, birthday, gender, tags, image,
+        ownerId, name, type, birthday, gender, image,
       });
       setShowMessageError(false);
 
@@ -158,33 +126,6 @@ const RegisterPets: React.FC = () => {
             setSelectedIndex(value);
           }}
           containerStyle={{ marginTop: 40 }}
-        />
-
-        <Text style={styles.bodyTitle}>Tags</Text>
-        <View style={styles.tagContainer}>
-          <TextInput
-            style={styles.input_box_tag}
-            placeholder="Tag"
-            value={`${textTag}`}
-            onChangeText={(text) => {
-              setTag(text), setTextTag(text);
-            }}
-          ></TextInput>
-          <TouchableOpacity
-            style={styles.addTagButton}
-            onPress={() => {
-              handleAddItem(tag), setTextTag("");
-            }}
-          >
-            <Text style={styles.addTagText}>Adicionar</Text>
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          data={features}
-          renderItem={({ item }) => <ListItem item={item} />}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={3}
-          contentContainerStyle={styles.listContainer}
         />
 
         <TouchableOpacity

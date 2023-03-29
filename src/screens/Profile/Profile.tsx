@@ -54,15 +54,9 @@ const Profile: React.FC = () => {
         <Text style={styles.buttonText}>Editar Perfil</Text>
       </TouchableOpacity>
       
-      <View style={styles.middleScreen}>
-        <TouchableOpacity style={styles.myItemsButton}>
-          <Text style={styles.gettingMyItems}>Minhas compras</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity style={styles.logoutButton}onPress={() => handleLogout()}>
           <Text style={styles.gettingTextlogout}> SAIR</Text>
         </TouchableOpacity>
-      </View>
       </>
       ):(
         <><Text>Carregando...</Text></>
@@ -112,8 +106,10 @@ const styles = StyleSheet.create({
 
   middleScreen: {
     flex: 2,
+    marginTop: 40,
     backgroundColor: background,
     marginHorizontal: 30,
+    width: "30%",
   },
 
   compras:{
@@ -134,29 +130,21 @@ const styles = StyleSheet.create({
   },
 
   logoutButton: {
-    backgroundColor: erro,
-    height: 56,
-    // fontFamily: 'Ubuntu-Bold',
-    fontStyle: "normal",
-    alignItems: "center",
-    textAlign: "center",
-    marginBottom: 60,
-    borderRadius: 5,
-    resizeMode: "contain",
+    marginTop: 40,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: "red",
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 20,
+    paddingRight: 20
   },
 
-  gettingMyItems: {
-    fontSize: 18,
-    fontWeight: "bold",
-    top: 15,
-    color: "#FFFFFF",
-  },
 
   gettingTextlogout: {
     fontSize: 18,
     fontWeight: "bold",
-    top: 15,
-    color: "#FFFFFF",
+    color: "red",
   },
 
 })
