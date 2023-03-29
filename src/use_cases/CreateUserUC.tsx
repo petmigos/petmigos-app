@@ -42,9 +42,4 @@ export default class Cadastro {
       }
       return false;
    }
-
-   async uploadImg(photo): Promise<string> {
-      const img = await this.cadastroService.cloudinaryUpload(photo);
-      return img;
-    }
 }

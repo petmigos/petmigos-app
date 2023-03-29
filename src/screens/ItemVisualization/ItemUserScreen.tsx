@@ -24,7 +24,7 @@ const image = {
   image: require("../../../assets/store_test.png"),
 };
 
-export default function ItemUserScreen({ route }: Props) {
+export default function ItemUserScreen({ route }) {
   const { item, storeId } = route.params;
   const [title, setTitle] = useState("Teste");
   const [description, setDescription] = useState("Teste");
@@ -48,6 +48,7 @@ export default function ItemUserScreen({ route }: Props) {
 
 
   const handleBuyButon = () =>{
+    console.log(image)
     navigation.navigate("PurchaseItemScreen", { item, storeId })
   }
 
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
 
   image_holder: {
-    flex: 2,
+    flex: 3,
     backgroundColor: superficie,
     justifyContent: "center",
     alignItems: "center",

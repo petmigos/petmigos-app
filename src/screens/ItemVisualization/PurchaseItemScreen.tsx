@@ -4,11 +4,12 @@ import { QuantButton } from "../../components/PetStoreComponents/QuantButton/Qua
 import ItemService from "../../services/ItemService";
 import { Buy } from "../../use_cases/item/Buy";
 import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
+import BrownButton from "../../components/BrownButton";
+import { useNavigation } from "@react-navigation/native";
 
 const buyItem = new Buy(new ItemService())
 
-import BrownButton from "../../components/BrownButton";
-import { useNavigation } from "@react-navigation/native";
+
 const PurchaseItemScreen = ({route}) =>{
     const { item, storeId } = route.params;
     const [quantity, setQuantity] = useState(1);

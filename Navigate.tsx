@@ -34,6 +34,8 @@ import CategoryVisualizationScreen from "./src/screens/CategoryVisualization/Cat
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+
+
 function TabPetOwner() {
   return (
     <Tab.Navigator
@@ -171,6 +173,7 @@ function PetStoreStack() {
         component={CategoryVisualizationScreen}
       />
       <Stack.Screen name="ItemUserScreen" component={ItemUserScreen} />
+      <Stack.Screen name="PurchaseItemScreen" component={PurchaseItemScreen}/>
     </Stack.Navigator>
   );
 }

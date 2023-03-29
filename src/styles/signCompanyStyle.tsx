@@ -9,13 +9,10 @@ export const compSignUpStyle = StyleSheet.create({
     },
 
     container:{
+        display: "flex",
+        flexDirection: "column",
         alignItems: 'center',
         backgroundColor: background,
-    },
-    img:{
-        width: 112,
-        height: 94,
-        margin: 10
     },
     errorMsg:{
         color: '#FF0000',
@@ -52,5 +49,14 @@ export const compSignUpStyle = StyleSheet.create({
     label: {
         margin: 10,
         fontWeight: 'normal'
+    },
+
+    topContainer: {
+        display: "flex",
+        height: "22%",
+        backgroundColor: background,
+        justifyContent: "flex-start",
+        alignItems: "center",
+        marginBottom: "25%"
     },
 })

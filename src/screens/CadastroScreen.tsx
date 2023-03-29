@@ -14,6 +14,7 @@ import {
 import { ValidationMessage } from '../components/ValidationMessages/ValidationMessage';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { uploadImg } from '../services/imageService';
 
 var cadastroServ = new CadastroService;
 var cadastro = new Cadastro(cadastroServ);
@@ -39,13 +40,6 @@ export default function CadastroScreen() {
         );
     };
 
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            console.log('Refreshed!');
-        });
-        return unsubscribe;
-    }, [navigation]);
-
     async function SendData() {
 
         try {
@@ -55,7 +49,7 @@ export default function CadastroScreen() {
                 name: `test.${result.assets[0].uri.split(".")[1]}`,
               };
           
-              const image_upl = await cadastro.uploadImg(source);
+              const image_upl = await uploadImg(source);
               const image = image_upl.toString();
 
             const createduser = await cadastro.execute(username, email, password, confPassword, image);

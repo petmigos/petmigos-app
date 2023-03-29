@@ -8,7 +8,8 @@ export default StyleSheet.create({
         flex: 0,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: background
+        backgroundColor: background,
+        height: "100%"
     },
 
     container_cadastro: {
@@ -17,7 +18,8 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: background,
-         height: "100%"
+         height: "100%",
+         paddingBottom: 10
     },
 
     middle_screen: {

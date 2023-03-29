@@ -28,9 +28,4 @@ export default class CadastroItem {
   private isValidFieldNumber(field: number): boolean {
     return field !== 0;
   }
-
-  async uploadImg(photo): Promise<string> {
-    const img = await this.cadastroItemService.cloudinaryUpload(photo);
-    return img;
-  }
 }

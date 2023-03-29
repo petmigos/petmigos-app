@@ -65,7 +65,8 @@ export default function PetStoreScreen(props) {
       <TouchableOpacity
         onPress={() => {
           navigation.navigate("ItemUserScreen", {
-            itemId: item._id,
+            item: item,
+            storeId: item.companyId
           });
         }}
       >

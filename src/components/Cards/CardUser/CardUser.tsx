@@ -34,9 +34,7 @@ export const CardUser = ({ item}: CardUserProps) => {
         </View>
 
         <View style={styles.botComponent}>
-          <View style={styles.botLeftComponent}>
-            <Text style={styles.furnisher}>Petmigos</Text>
-          </View>
+          
           <View style={styles.botRightComponent}>
             <Text style={styles.priceTag}>R$ </Text>
             <Text style={styles.price}>{item.price.toFixed(2)}</Text>
@@ -115,8 +113,8 @@ const styles = StyleSheet.create({
 
   botRightComponent: {
     borderRadius: 5,
-    borderColor: superficie,
-    borderWidth: 3,
+    //borderColor: superficie,
+    //borderWidth: 3,
     backgroundColor: background,
     flexDirection: "row",
     alignText: "flex-end",

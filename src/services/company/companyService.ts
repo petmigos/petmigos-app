@@ -24,7 +24,8 @@ class Company{
 
 export class CompanyService {
 
-  public async create(cnpj: string, category:string, name:string, email: string, password: string, signature: string, address: Address, imagem: string): Promise<Company>{
+  public async create(newCompany): Promise<Company>{
+    const {formatCNPJ, selectedCategory, name, email, password, signature, address, image} = newCompany;
     const response = await fetch(`http://${ip}:3333/cadastroCompany`, {
             method: 'POST',
             headers: {
@@ -32,9 +33,10 @@ export class CompanyService {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              cnpj: cnpj,
+              image: image,
+              cnpj: formatCNPJ,
               name: name,
-              category: category,
+              category: selectedCategory,
               email: email,
               password: password,
               signature: signature,
