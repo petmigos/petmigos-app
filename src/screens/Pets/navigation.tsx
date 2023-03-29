@@ -11,6 +11,7 @@ export type Params = {
     petId: string;
   };
   RegisterPet: undefined;
+  
 };
 
 export type PetDetailNavigationProp = StackNavigationProp<Params, "PetInfo">;

@@ -6,7 +6,7 @@ import { FlatList } from "react-native-gesture-handler";
 import AllergyCard from "../../components/Cards/AllergyCard";
 import HygieneCard from "../../components/Cards/HygieneCard";
 import { Modal } from "../../components/Modal";
-import { Params } from "../Pets/navigation";
+import { Params, PetDetailNavigationProp } from "../Pets/navigation";
 import VaccineCard from "../../components/Cards/VaccineCard";
 import { Allergy, RiskEnum } from "../../entities/allergy";
 import { Hygiene } from "../../entities/hygiene";
@@ -21,7 +21,7 @@ import { FindAll as FindAllAllergies } from "../../use_cases/allergies/FindAll";
 import { FindAll as FindAllHygienes } from "../../use_cases/hygienes/FindAll";
 import { FindById } from "../../use_cases/pets/FindById";
 import { FindAll as FindAllVaccines } from "../../use_cases/vaccines/FindAll";
-import { alerta, erro, inputBackground, modalText, sucesso } from "../../styles/colors";
+import { alerta, complementar1, complementar2, erro, inputBackground, modalText, primary, secondary, secondary_v2, sucesso } from "../../styles/colors";
 import { AddButton } from "../../components/AddButton";
 import Checkbox from "expo-checkbox";
 import { CreateAllergy } from "../../use_cases/allergies/Create";
@@ -48,7 +48,7 @@ const findAllHygienes = new FindAllHygienes(new HygieneService());
 const createHygiene = new CreateHygiene(new HygieneService());
 
 
-const PetDetails: React.FC = () => {
+const PetDetails: React.FC = (props) => {
   const {
     closeModal: closeVaccineModal,
     openModal: openVaccineModal,
@@ -141,7 +141,7 @@ const PetDetails: React.FC = () => {
 
       fetch(id_user, petId);
     }
-  }, [isFocused]);
+  }, [props, isFocused]);
 
   async function DeleteVaccineFunc(petId: string, vaccineId: string) {
     await removeVaccine.execute(petId, vaccineId);
@@ -333,6 +333,10 @@ const PetDetails: React.FC = () => {
     );
   }
 
+  function EditPetInfo(petId: string){
+    navigation.navigate("EditPets", { petId: petId });
+  }
+
   async function SendData() {
     try {
       if (visibleVaccineRegisterModal) {
@@ -405,13 +409,22 @@ const PetDetails: React.FC = () => {
               "https://images.unsplash.com/photo-1505628346881-b72b27e84530?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
           }}
         />
+
         <View style={styles.petDetails}>
           <Text style={styles.petName}>{pet.name}</Text>
           <View style={styles.divisor} />
           <Text style={styles.petAge}>{formatDate(pet.birthday)}</Text>
         </View>
       </View>
+      <TouchableOpacity onPress={() => EditPetInfo(petId)}>
+        <View style={styles.editButton}>
+          <Text style={styles.editButtonText}>Editar Informações</Text>
+        </View>
+      </TouchableOpacity>
       <View style={styles.actions}>
+        {/* <View style={styles.header}>
+          <Text style={styles.header_text}>CUIDADOS</Text>
+        </View> */}
         <TouchableOpacity onPress={openVaccineModal}>
           <View style={styles.actionButton}>
             <Text style={styles.buttonText}>Vacinas</Text>
@@ -428,6 +441,7 @@ const PetDetails: React.FC = () => {
           </View>
         </TouchableOpacity>
       </View>
+
       {/* Show Modal */}
       <Modal visible={visibleVaccineModal}>
         <View style={styles.modalContainer}>
@@ -748,6 +762,34 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "500",
     color: "#7B4D28",
+  },
+
+  // header: {
+  //   textAlign: "flex-start",
+  // },
+
+  // header_text: {
+  //   fontSize: 30,
+  //   fontWeight: "bold",
+  // },
+
+  editButton: {
+    width: 200,
+    height: 40,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: secondary_v2,
+    color: secondary,
+    borderWidth: 1,
+    borderRadius: 10,
+    marginTop: 20,
+    marginLeft: 30,
+  },
+  editButtonText: {
+    fontSize: 20,
+    fontWeight: "500",
+    color: secondary,
   },
 
   buttonTextModal: {

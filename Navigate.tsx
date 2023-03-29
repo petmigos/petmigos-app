@@ -31,6 +31,7 @@ import CadastroProdutoScreen from "./src/screens/Company/CadastroProdutoScreen";
 import ItemCompanyScreen from "./src/screens/ItemVisualization/ItemCompanyScreen";
 import EditarProdutoScreen from "./src/screens/Company/EditarProdutoScreen";
 import CategoryVisualizationScreen from "./src/screens/CategoryVisualization/CategoryVisualizationScreen";
+import EditPets from "./src/screens/PetEditing";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -157,6 +158,7 @@ function PetStack() {
       <Stack.Screen name="Pets" component={ListPets} />
       <Stack.Screen name="PetInfo" component={PetDetails} />
       <Stack.Screen name="RegisterPet" component={RegisterPets} />
+      <Stack.Screen name="EditPets" component={EditPets} />
     </Stack.Navigator>
   );
 }
