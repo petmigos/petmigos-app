@@ -33,6 +33,35 @@ export class VaccineService {
     return responseJSON;
   }
 
+  async findByIdAndUpdate(
+    petId: string,
+    vaccineId: string,
+    updatedVaccine: Vaccine
+  ): Promise<Vaccine | undefined> {
+    const { name, locale, applied, date } = updatedVaccine;
+    const response = await fetch(
+      `http://${ip}:3333/pets/${petId}/vaccines/${vaccineId}`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          locale: locale,
+          applied: applied,
+          date: date,
+        }),
+      }
+    );
+
+    const responseJSON = await response.json();
+    const responseStatus = response.status;
+    if (responseStatus !== 200) throw new Error(responseJSON.message);
+    return responseJSON;
+  }
+
   async delete(petId: string, vaccineId: string): Promise<string> {
 
     const response = await fetch(

@@ -35,6 +35,9 @@ import { ValidationMessage } from "../../components/ValidationMessages/Validatio
 import { DeleteVaccine } from "../../use_cases/vaccines/DeleteVaccine"
 import { DeleteHygiene } from "../../use_cases/allergies/DeleteAllergy";
 import { DeleteAllergy } from "../../use_cases/hygienes/DeleteHygiene";
+import { UpdateVaccine } from "../../use_cases/vaccines/UpdateVaccine";
+import { UpdateHygiene } from "../../use_cases/hygienes/UpdateHygiene";
+import DateField from "react-native-datefield";
 
 const findById = new FindById(new PetService());
 
@@ -106,6 +109,7 @@ const PetDetails: React.FC = (props) => {
   const toggleVaccineSwitch = () =>
     setVaccineTaken((previousState) => !previousState);
   const removeVaccine = new DeleteVaccine(new VaccineService());
+  const updateVaccine = new UpdateVaccine(new VaccineService());
 
   // Hygiene
   const [hygieneCategory, setHygieneCategory] = useState("");
@@ -115,6 +119,7 @@ const PetDetails: React.FC = (props) => {
   const toggleHygieneSwitch = () =>
     setHygieneTaken((previousState) => !previousState);
   const removeHygiene = new DeleteHygiene(new HygieneService());
+  const updateHygiene = new UpdateHygiene(new HygieneService());
 
   // Allergy
   const [allergyName, setAllergyName] = useState("");
@@ -153,12 +158,57 @@ const PetDetails: React.FC = (props) => {
     ]);
   }
 
+  async function EditVaccineFunc(petId: string, vaccineId: string) {
+    var result = vaccines.find(item => item._id === vaccineId);
+    if(result.applied){
+      result.applied = false;
+    } else {
+      result.applied = true;
+    }
+
+    const editedVaccine: Vaccine = {
+      name: result.name,
+      locale: result.locale,
+      applied: result.applied,
+      date: result.date
+    };
+    await updateVaccine.execute(petId, vaccineId, editedVaccine);
+    Alert.alert("Sucesso!", "Status da vacina modificado!", [
+      {
+        text: "Voltar a Vacinas",
+        onPress:() => closeVaccineRegisterModal,
+      },
+    ]);
+  }
+
   async function DeleteHygieneFunc(petId: string, hygieneId: string) {
     await removeHygiene.execute(petId, hygieneId);
     Alert.alert("Sucesso!", "Higiene deletada!", [
       {
         text: "Voltar a Higienes",
-        onPress: closeVaccineRegisterModal,
+        onPress: closeHygieneRegisterModal,
+      },
+    ]);
+  }
+
+  async function EditHygieneFunc(petId: string, hygieneId: string) {
+    var result = hygienes.find((item) => item._id === hygieneId);
+    if (result.done) {
+      result.done = false;
+    } else {
+      result.done = true;
+    }
+    const editedVaccine: Hygiene = {
+      category: result.category,
+      description: result.description,
+      done: result.done,
+      date: result.date,
+    };
+    await updateHygiene.execute(petId, hygieneId, editedVaccine);
+    Alert.alert("Sucesso!", "Status da hygiene modificado!", [
+      {
+        text: "Voltar a Hygienes",
+        onPress:() => closeHygieneRegisterModal,
       },
     ]);
   }
@@ -168,7 +218,7 @@ const PetDetails: React.FC = (props) => {
     Alert.alert("Sucesso!", "Alergia deletada!", [
       {
         text: "Voltar a Alergias",
-        onPress: closeVaccineRegisterModal,
+        onPress: closeAllergyRegisterModal,
       },
     ]);
   }
@@ -187,12 +237,16 @@ const PetDetails: React.FC = (props) => {
   function VaccineOptionsModal(id_vaccine: string) {
     Alert.alert("Opções", "O que deseja fazer com esta vacina?", [
       {
+        text: "Voltar",
+        style: "cancel",
+      },
+      {
         text: "Excluir",
         onPress: () => VaccineDeleteModal(id_vaccine),
       },
       {
         text: "Editar Status",
-        onPress: () => VaccineEditModal,
+        onPress: () => VaccineEditModal(id_vaccine),
       },
     ]);
   }
@@ -201,7 +255,6 @@ const PetDetails: React.FC = (props) => {
     Alert.alert("Deletar", "Deseja realmente excluir esta vacina?", [
       {
         text: "Cancelar",
-        onPress: Teste2,
         style: "cancel",
       },
       {
@@ -212,17 +265,34 @@ const PetDetails: React.FC = (props) => {
   }
   
   function VaccineEditModal(id_vaccine: string) {
-    Alert.alert("Status da Vacina", "A vacina já foi tomada?", [
-      {
-        text: "Não",
-        onPress: Teste1,
-        style: "cancel",
-      },
-      {
-        text: "Sim",
-        onPress: Teste2,
-      },
-    ]);
+    var result = vaccines.find((item) => item._id === id_vaccine);
+    if(result.applied){
+      Alert.alert("Status da Vacina", "Marcar status da vacina como não tomada?", [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: () => EditVaccineFunc(petId, id_vaccine),
+        },
+      ]);
+    } else {
+      Alert.alert(
+        "Status da Vacina",
+        "Marcar status da vacina como tomada?",
+        [
+          {
+            text: "Não",
+            style: "cancel",
+          },
+          {
+            text: "Sim",
+            onPress: () => EditVaccineFunc(petId, id_vaccine),
+          },
+        ]
+      );
+    }
   }
 
   function renderVaccine(vaccine: Vaccine) {
@@ -236,45 +306,61 @@ const PetDetails: React.FC = (props) => {
   }
 
   // Hygiene Options
-  function HygieneOptionsModal(id_vaccine: string) {
+  function HygieneOptionsModal(id_hygiene: string) {
     Alert.alert("Opções", "O que deseja fazer com esta higiene?", [
       {
+        text: "Voltar",
+        style: "cancel",
+      },
+      {
         text: "Excluir",
-        onPress: () => HygieneDeleteModal(id_vaccine),
+        onPress: () => HygieneDeleteModal(id_hygiene),
       },
       {
         text: "Editar Status",
-        onPress: () => HygieneEditModal,
+        onPress: () => HygieneEditModal(id_hygiene),
       },
     ]);
   }
 
-  function HygieneDeleteModal(id_vaccine: string) {
+  function HygieneDeleteModal(id_hygiene: string) {
     Alert.alert("Deletar", "Deseja realmente excluir esta higiene?", [
       {
         text: "Cancelar",
-        onPress: Teste2,
         style: "cancel",
       },
       {
         text: "Excluir",
-        onPress: () => DeleteHygieneFunc(petId, id_vaccine),
+        onPress: () => DeleteHygieneFunc(petId, id_hygiene),
       },
     ]);
   }
 
-  function HygieneEditModal(id_vaccine: string) {
-    Alert.alert("Status da Higiene", "A higiene já foi realizada?", [
-      {
-        text: "Não",
-        onPress: Teste1,
-        style: "cancel",
-      },
-      {
-        text: "Sim",
-        onPress: Teste2,
-      },
-    ]);
+  function HygieneEditModal(id_hygiene: string) {
+    var result = hygienes.find((item) => item._id === id_hygiene);
+    if(result.done){
+      Alert.alert("Status da Higiene", "Marcar higiene como não realizada?", [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: () => EditHygieneFunc(petId, id_hygiene),
+        },
+      ]);
+    } else {
+      Alert.alert("Status da Higiene", "Marcar higiene como realizada?", [
+        {
+          text: "Não",
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: () => EditHygieneFunc(petId, id_hygiene),
+        },
+      ]);
+    }
   }
   
   function renderHygiene(hygiene: Hygiene) {
@@ -288,11 +374,11 @@ const PetDetails: React.FC = (props) => {
   }
 
   // Allergy Options
-  function AllergyOptionsModal(id_vaccine: string) {
+  function AllergyOptionsModal(id_allergy: string) {
     Alert.alert("Opções", "O que deseja fazer com esta alergia?", [
       {
         text: "Excluir",
-        onPress: () => AllergyDeleteModal(id_vaccine),
+        onPress: () => AllergyDeleteModal(id_allergy),
       },
       {
         text: "Cancelar",
@@ -301,7 +387,7 @@ const PetDetails: React.FC = (props) => {
     ]);
   }
 
-  function AllergyDeleteModal(id_vaccine: string) {
+  function AllergyDeleteModal(id_allergy: string) {
     Alert.alert("Deletar", "Deseja realmente excluir esta alergia?", [
       {
         text: "Cancelar",
@@ -310,7 +396,7 @@ const PetDetails: React.FC = (props) => {
       },
       {
         text: "Excluir",
-        onPress: () => DeleteAllergyFunc(petId, id_vaccine),
+        onPress: () => DeleteAllergyFunc(petId, id_allergy),
       },
     ]);
   }
@@ -520,18 +606,21 @@ const PetDetails: React.FC = (props) => {
               placeholder="Nome"
               onChangeText={(name) => setVaccineName(name)}
             ></TextInput>
-            <TextInput
-              style={styles.input_box}
-              placeholder="Data (yy-mm-dd)"
-              onChangeText={(date) =>
-                setVaccineDate(new Date(date + "T23:59:59"))
-              }
-            ></TextInput>
+
             <TextInput
               style={styles.input_box}
               placeholder="Local"
               onChangeText={(place) => setVaccinePlace(place)}
             ></TextInput>
+            <DateField
+              labelDate="Dia"
+              labelMonth="Mês"
+              labelYear="Ano"
+              styleInput={styles.inputDate}
+              onSubmit={(value) => {
+                setVaccineDate(value);
+              }}
+            />
             <View style={styles.check_box_container}>
               <Switch
                 trackColor={{ false: alerta, true: sucesso }}
@@ -578,13 +667,15 @@ const PetDetails: React.FC = (props) => {
               placeholder="Descrição"
               onChangeText={(date) => setHygieneDescription(date)}
             ></TextInput>
-            <TextInput
-              style={styles.input_box}
-              placeholder="Data (yy-mm-dd)"
-              onChangeText={(date) =>
-                setHygieneDate(new Date(date + "T23:59:59"))
-              }
-            ></TextInput>
+            <DateField
+              labelDate="Dia"
+              labelMonth="Mês"
+              labelYear="Ano"
+              styleInput={styles.inputDate}
+              onSubmit={(value) => {
+                setHygieneDate(value);
+              }}
+            />
             <View style={styles.check_box_container}>
               <Switch
                 trackColor={{ false: alerta, true: sucesso }}
@@ -649,58 +740,6 @@ const PetDetails: React.FC = (props) => {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
-      </Modal>
-
-      <Modal visible={visibleVaccineOptionsModal}>
-        <View style={styles.modalOptionsContainer}>
-          <View style={styles.modalOptionsHeader}>
-            <Pressable
-              onPress={closeVaccineOptionsModal}
-              style={{ width: "10%" }}
-            >
-              <MaterialIcons name="arrow-back" color="#915E36" size={28} />
-            </Pressable>
-            <Text style={styles.modalText}>Deletar Vacina</Text>
-          </View>
-          {/* <View style={styles.modalMain}>
-            <TextInput
-              style={styles.input_box}
-              placeholder="Nome"
-              onChangeText={(name) => setVaccineName(name)}
-            ></TextInput>
-            <TextInput
-              style={styles.input_box}
-              placeholder="Data (yy-mm-dd)"
-              onChangeText={(date) =>
-                setVaccineDate(new Date(date + "T23:59:59"))
-              }
-            ></TextInput>
-            <TextInput
-              style={styles.input_box}
-              placeholder="Local"
-              onChangeText={(place) => setVaccinePlace(place)}
-            ></TextInput>
-            <View style={styles.check_box_container}>
-              <Switch
-                trackColor={{ false: alerta, true: sucesso }}
-                thumbColor={"#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleVaccineSwitch}
-                value={isVaccineTaken}
-              />
-              {isVaccineTaken == false ? (
-                <Text style={styles.label}>Não tomada</Text>
-              ) : (
-                <Text style={styles.label}>Tomada</Text>
-              )}
-            </View>
-            <TouchableOpacity onPress={SendData}>
-              <View style={styles.actionButtonModal}>
-                <Text style={styles.buttonTextModal}>CADASTRAR VACINA</Text>
-              </View>
-            </TouchableOpacity>
-          </View> */}
         </View>
       </Modal>
     </View>
@@ -906,6 +945,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     padding: 8,
+  },
+
+  inputDate: {
+    width: "30%",
+    borderRadius: 8,
+    borderColor: "#cacaca",
+    borderWidth: 1,
+    backgroundColor: inputBackground,
+    marginTop: 20,
   },
 });
 

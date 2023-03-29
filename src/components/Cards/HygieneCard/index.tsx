@@ -37,7 +37,9 @@ const HygieneCard: React.FC<Props> = ({ hygiene, onPress }) => {
       <View style={styles.main}>
         <Text style={styles.hygieneName}>{hygiene.category}</Text>
         <Text style={styles.hygieneRisk}>
-          Gravidade: {formatDate(hygiene.date)}
+          <Text style={{ fontWeight: "bold" }}>{formatDate(hygiene.date)}</Text>
+          {" | "}
+          {hygiene.description}
         </Text>
       </View>
       <TouchableOpacity style={styles.options} onPress={onPress}>

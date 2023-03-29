@@ -31,6 +31,7 @@ export class AllergyService {
     return responseJSON;
   }
 
+
   async delete(petId: string, allergyId: string): Promise<string> {
     const response = await fetch(
       `http://${ip}:3333/pets/${petId}/allergies/${allergyId}`,

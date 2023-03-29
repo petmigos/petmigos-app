@@ -59,7 +59,6 @@ const EditPets: React.FC = (props) => {
         } else {
           setSelectedIndex(1);
         }
-        console.log(pet.tags);
         setGender(pet.gender);
         
       }
@@ -146,16 +145,32 @@ const EditPets: React.FC = (props) => {
   }
 
   async function EditPetFunc() {
-    const editedPet: Pet = {
-      ownerId: ownerId,
-      name: name,
-      type: type,
-      birthday: birthday,
-      gender: gender,
-      tags: features,
-      image: image,
-    };
-    await updatePet.execute(petId, editedPet);
+
+    try {
+      const source = {
+        uri: result.assets[0].uri,
+        type: `test/${result.assets[0].uri.split(".")[1]}`,
+        name: `test.${result.assets[0].uri.split(".")[1]}`,
+      };
+  
+      const image_upl = await cadastroPet.uploadImg(source);
+      const image = image_upl.toString();
+      const tags = features.map((item) => item.name);
+      petGender();
+      const editedPet: Pet = {
+        ownerId: ownerId,
+        name: name,
+        type: type,
+        birthday: birthday,
+        gender: gender,
+        tags: tags,
+        image: image,
+      };
+      await updatePet.execute(petId, editedPet);
+    } catch (error: any) {
+      setShowMessageError(true);
+      setMessageError(error.message);
+    }
     Alert.alert("Concluido!", "As informações do seu pet foram editadas!", [
       {
         text: "Voltar a Meus Pets",
@@ -444,7 +459,7 @@ const styles = StyleSheet.create({
     borderColor: "#cacaca",
     borderWidth: 1,
     backgroundColor: inputBackground,
-    marginTop: 40,
+    marginTop: 20,
   },
 });
 
