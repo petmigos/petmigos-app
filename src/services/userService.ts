@@ -16,9 +16,9 @@ export default class UserService {
         return responseJSON;
     }
 
-    async findById(): Promise<User | null> {
+    async findById(userId: string): Promise<User | undefined> {
       const response = await fetch(
-        `http://${ip}:3333/user/${id_user}`
+        `http://${ip}:3333/user/${userId}`
       );
 
       const responseJSON = await response.json();

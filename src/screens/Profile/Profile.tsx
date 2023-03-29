@@ -1,34 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import UserService from "../../services/userService";
 import { User } from "../../entities/user";
-import { primary } from "../../styles/colors";
+import { background, erro, primary } from "../../styles/colors";
 import * as SecureStore from 'expo-secure-store';
 import { useNavigation, StackActions, useIsFocused } from "@react-navigation/native";
-import { id_user, user } from "../LoginScreen";
+import { id_user } from "../Auth/LoginScreen";
 import { FindById } from "../../use_cases/user/FindById";
-import { ip } from "../../entities/ip";
+import UserService from "../../services/userService";
+
+const findById = new FindById(new UserService())
 
 
 const Profile: React.FC = () => {
   const navigation = useNavigation();
-  const [currentUser, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>();
   const isFocused = useIsFocused();
-
-  // const findById = async (userId: string): Promise<User> => {
-  //   const response = await fetch(`http://${ip}:3333/user/${id_user}`);
-  //   const responseJSON = await response.json();
-  //   const responseStatus = response.status;
-  //   if (responseStatus !== 200) throw new Error(responseJSON.message);
-  //   return responseJSON;
-  // };
 
   useEffect(() => {
     if(isFocused){
+      async function fetch(user_id: string) {
+        const user = await findById.execute(user_id);
         setUser(user);
-        console.log(user);
+      }
+
+      fetch(id_user);
     }
-  }, []);
+  }, [isFocused]);
 
   async function handleLogout() {
     try {
@@ -49,23 +46,23 @@ const Profile: React.FC = () => {
     <View style={styles.container}>
       {user ? (
         <>
-      <Image source={{ uri: currentUser.image }} style={styles.img}/>
+      <Image source={{ uri: user.image }} style={styles.img}/>
       <Text style={styles.title}>
-        {currentUser.name}
-      </Text>
-      <Text>
-        
+        {user.name}
       </Text>
       <TouchableOpacity onPress={() => console.log("editar")} style={styles.button}>
         <Text style={styles.buttonText}>Editar Perfil</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.compras}>
-        <Text>Minhas compras</Text>
-      </TouchableOpacity>
+      
+      <View style={styles.middleScreen}>
+        <TouchableOpacity style={styles.myItemsButton}>
+          <Text style={styles.gettingMyItems}>Minhas compras</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => handleLogout()}>
-        <Text>SAIR</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.logoutButton}onPress={() => handleLogout()}>
+          <Text style={styles.gettingTextlogout}> SAIR</Text>
+        </TouchableOpacity>
+      </View>
       </>
       ):(
         <><Text>Carregando...</Text></>
@@ -113,8 +110,53 @@ const styles = StyleSheet.create({
     color: primary
   },
 
+  middleScreen: {
+    flex: 2,
+    backgroundColor: background,
+    marginHorizontal: 30,
+  },
+
   compras:{
     marginTop: 40
-  }
+  },
+
+  myItemsButton: {
+    backgroundColor: "#915E36",
+    height: 56,
+    // fontFamily: 'Ubuntu-Bold',
+    fontStyle: "normal",
+    alignItems: "center",
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 10,
+    borderRadius: 5,
+    resizeMode: "contain",
+  },
+
+  logoutButton: {
+    backgroundColor: erro,
+    height: 56,
+    // fontFamily: 'Ubuntu-Bold',
+    fontStyle: "normal",
+    alignItems: "center",
+    textAlign: "center",
+    marginBottom: 60,
+    borderRadius: 5,
+    resizeMode: "contain",
+  },
+
+  gettingMyItems: {
+    fontSize: 18,
+    fontWeight: "bold",
+    top: 15,
+    color: "#FFFFFF",
+  },
+
+  gettingTextlogout: {
+    fontSize: 18,
+    fontWeight: "bold",
+    top: 15,
+    color: "#FFFFFF",
+  },
 
 })

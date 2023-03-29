@@ -2,6 +2,7 @@ import { Address } from "./address";
 
 export interface Company{
     _id?: string;
+    image: string;
     cnpj: string;
     category: string;
     name: string;
