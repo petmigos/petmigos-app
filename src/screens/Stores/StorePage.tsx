@@ -56,7 +56,7 @@ const StorePage = ({ route }) =>{
     return(
         <ScrollView style={styles.container}>
             <View style={styles.header}>
-                <Image source={require('../../../assets/store_test.png')} style={styles.icon}/>
+                <Image source={{uri: store.image}} style={styles.icon}/>
                 <View style={styles.description}>
                     <Text style={styles.name}>{store.name}</Text>
                     <Text style={styles.category}>{store.category}</Text>

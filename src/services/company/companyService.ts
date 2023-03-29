@@ -61,7 +61,7 @@ export class CompanyService {
     try {
       const response = await fetch(`http://${ip}:3333/companies`);
       const data = await response.json();
-      return data.map(company => ({ name: company.name, _id: company._id, category: company.category }));
+      return data.map(company => ({ name: company.name, _id: company._id, category: company.category, image: company.image }));
     } catch (error) {
       console.error("ERROR: " + error);
       return [];

@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Company } from "../../../entities/company";
 
-const StoreCard: React.FC<Company> = ({ name, category }) => {
+const StoreCard: React.FC<Company> = ({ name, category, image }) => {
   return (
     <View style={styles.box}>
       <View style={styles.store}>
         <View style={styles.store_image}>
           <Image
             style={styles.store_image_view}
-            source={require("../../../../assets/store_test.png")}
+            source={{ uri: image }}
           />
         </View>
         <View style={styles.store_description}>

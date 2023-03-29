@@ -1,18 +1,38 @@
-import React, { useEffect } from "react";
-import { TouchableOpacity, Text, TextInput, View, StyleSheet, FlatList, Dimensions, Button, Alert } from "react-native";
-import { background, erro, inputBackground, primary } from "../../styles/colors";
+import React, { useEffect, useRef } from "react";
+import {
+  TouchableOpacity,
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  FlatList,
+  Dimensions,
+  Button,
+  Alert,
+} from "react-native";
+import {
+  background,
+  erro,
+  inputBackground,
+  primary,
+} from "../../styles/colors";
 import { useState } from "react";
 import {
   SetImage,
-  result
+  result,
 } from "../../components/PetStoreComponents/SetImage/SetImage";
 import { Picker } from "@react-native-picker/picker";
 import { ButtonGroup } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
 import { id_user } from "../Auth/LoginScreen";
-import { RouteProp, useIsFocused, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  RouteProp,
+  useIsFocused,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { ValidationMessage } from "../../components/ValidationMessages/ValidationMessage";
-import DateField from 'react-native-datefield';
+import DateField from "react-native-datefield";
 import { CreatePet } from "../../use_cases/pets/Create";
 import { PetService } from "../../services/petService";
 import { FindById } from "../../use_cases/pets/FindById";
@@ -25,7 +45,6 @@ import { Pet } from "../../entities/pet";
 var cadastroPet = new CreatePet(new PetService());
 const findById = new FindById(new PetService());
 
-
 const EditPets: React.FC = (props) => {
   const navigation = useNavigation();
   const [name, setName] = useState("");
@@ -37,8 +56,10 @@ const EditPets: React.FC = (props) => {
   const [type, setType] = useState("Acessorios");
   const [birthday, setBirthday] = useState(new Date());
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [gender, setGender] = useState("Male");
-  const [image, setImage] = useState<string>()
+  const genders = ["Macho", "Femêa"];
+  const [gender, setGender] = useState("");
+  const genderRef = useRef(gender);
+  const [image, setImage] = useState<string>();
   const isFocused = useIsFocused();
 
   const deletePet = new Delete(new PetService());
@@ -51,43 +72,38 @@ const EditPets: React.FC = (props) => {
         setName(pet.name);
         setType(pet.type);
         setBirthday(pet.birthday);
-        if(pet.gender == "Male"){
+        if (pet.gender == "Male") {
           setSelectedIndex(0);
         } else {
           setSelectedIndex(1);
         }
         setGender(pet.gender);
         setImage(pet.image);
-        
       }
 
       fetch();
     }
   }, [props, isFocused]);
 
-  function petGender() {
-    if (selectedIndex == 0) {
-      setGender("Male");
-    } else {
-      setGender("Female");
-    }
-  }
-
   function TypeChange(itemValue: string) {
     setType(itemValue);
   }
 
   function PetDelete() {
-    Alert.alert("Deletar", "Deseja realmente excluir esta Pet? Você perderá todos os dados referentes a ele!!", [
-      {
-        text: "Cancelar",
-        style: "cancel",
-      },
-      {
-        text: "Excluir",
-        onPress: () => DeletePetFunc(petId),
-      },
-    ]);
+    Alert.alert(
+      "Deletar",
+      "Deseja realmente excluir esta Pet? Você perderá todos os dados referentes a ele!!",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Excluir",
+          onPress: () => DeletePetFunc(petId),
+        },
+      ]
+    );
   }
 
   async function DeletePetFunc(petId: string) {
@@ -100,24 +116,30 @@ const EditPets: React.FC = (props) => {
     ]);
   }
 
-  async function EditPetFunc() {
+  const editGender = (index) => {
+    setSelectedIndex(index);
+    const currentGender = genders[index];
+    setGender(currentGender);
+    genderRef.current = currentGender;
+    console.log(genderRef.current);
+  };
 
+  async function EditPetFunc() {
     try {
       const source = {
         uri: result.assets[0].uri,
         type: `test/${result.assets[0].uri.split(".")[1]}`,
         name: `test.${result.assets[0].uri.split(".")[1]}`,
       };
-  
+
       const image_upl = await cadastroPet.uploadImg(source);
       const image = image_upl.toString();
-      petGender();
       const editedPet: Pet = {
         ownerId: ownerId,
         name: name,
         type: type,
         birthday: birthday,
-        gender: gender,
+        gender: genderRef.current,
         image: image,
       };
       await updatePet.execute(petId, editedPet);
@@ -131,10 +153,7 @@ const EditPets: React.FC = (props) => {
         onPress: () => navigation.goBack(),
       },
     ]);
-    
   }
-
-
 
   return (
     <ScrollView style={styles.container}>
@@ -174,7 +193,9 @@ const EditPets: React.FC = (props) => {
           labelMonth="Mês"
           labelYear="Ano"
           styleInput={styles.inputDate}
-          onSubmit={(value) => { setBirthday(value); }}
+          onSubmit={(value) => {
+            setBirthday(value);
+          }}
         />
 
         <Text style={styles.bodyTitle}>Gênero</Text>
@@ -184,12 +205,15 @@ const EditPets: React.FC = (props) => {
           buttons={["Macho", "Fêmea"]}
           selectedIndex={selectedIndex}
           onPress={(value) => {
-            setSelectedIndex(value);
+            editGender(value);
           }}
           containerStyle={{ marginTop: 40 }}
         />
 
-        <TouchableOpacity style={styles.editButton} onPress={() => EditPetFunc()}>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => EditPetFunc()}
+        >
           <Text style={styles.gettingTextEdit}>Atualizar Informações</Text>
         </TouchableOpacity>
         <TouchableOpacity
